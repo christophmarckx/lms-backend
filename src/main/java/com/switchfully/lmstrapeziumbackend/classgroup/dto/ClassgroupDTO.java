@@ -7,5 +7,11 @@ import lombok.Getter;
 public class ClassgroupDTO {
     private String id;
     private String name;
-    private CourseDTO courseDTO;
+    private CourseDTO course;
+
+    public ClassgroupDTO(String id, String name, CourseDTO course) {
+        this.id = id;
+        this.name = name;
+        this.course = course;
+    }
 }

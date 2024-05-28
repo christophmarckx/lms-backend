@@ -13,4 +13,12 @@ public class CreateClassgroupDTO {
     @NotNull(message = "The id of the course must be 36 characters long")
     @Size(min = 36, max = 36, message = "The id of the course must be 36 characters long")
     private String courseId;
+
+    public CreateClassgroupDTO(String name, String courseId) {
+        this.name = name;
+        this.courseId = courseId;
+    }
+
+    public CreateClassgroupDTO() {
+    }
 }

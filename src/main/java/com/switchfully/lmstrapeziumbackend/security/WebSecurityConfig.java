@@ -30,6 +30,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.POST, "/students/**").permitAll()
                         .requestMatchers("/courses/**").permitAll() //TODO Add Security
+                        .requestMatchers("/classgroups/**").permitAll() //TODO Add Security
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth ->

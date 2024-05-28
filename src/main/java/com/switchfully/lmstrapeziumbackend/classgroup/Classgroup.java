@@ -33,4 +33,8 @@ public class Classgroup {
     public String getName() {
         return name;
     }
+
+    public Course getCourse() {
+        return course;
+    }
 }
