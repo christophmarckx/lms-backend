@@ -1,7 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.security;
 
 
-import io.swagger.v3.oas.models.PathItem;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,6 +29,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.POST, "/students/**").permitAll()
+                        .requestMatchers("/courses/**").permitAll() //TODO Add Security
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth ->
