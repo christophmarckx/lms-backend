@@ -12,14 +12,14 @@ public class Module {
 
     @Id
     @GeneratedValue
-    UUID id;
+    private UUID id;
 
     @Column(name = "NAME")
-    String name;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name="PARENT_ID")
-    Module parentModule;
+    private Module parentModule;
 
     public Module() {}
 
