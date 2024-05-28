@@ -12,19 +12,19 @@ public class Progress {
 
     @Id
     @GeneratedValue
-    UUID id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "CODELAB_ID")
-    Codelab codelab;
+    private Codelab codelab;
 
     @ManyToOne
     @JoinColumn(name = "APP_USER_ID")
-    User user;
+    private User user;
 
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
-    CodelabProgress status;
+    private CodelabProgress status;
 
     public Progress() {}
 
