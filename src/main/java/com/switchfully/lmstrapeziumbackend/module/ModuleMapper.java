@@ -6,9 +6,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModuleMapper {
     public ModuleDTO toDTO(Module module) {
+        ModuleDTO parentModule = null;
+        if (module.getParentModule() != null){
+            parentModule = this.toDTO(module.getParentModule());
+        }
         return new ModuleDTO(
                 module.getId(),
                 module.getName(),
-                this.toDTO(module.getParentModule()));
+                parentModule);
     }
 }
