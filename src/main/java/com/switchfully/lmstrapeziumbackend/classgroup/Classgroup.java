@@ -21,8 +21,9 @@ public class Classgroup {
 
     public Classgroup() {}
 
-    public Classgroup(String name) {
+    public Classgroup(String name, Course course) {
         this.name = name;
+        this.course = course;
     }
 
     public UUID getId() {
