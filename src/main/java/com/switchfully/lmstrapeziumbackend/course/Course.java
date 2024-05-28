@@ -12,13 +12,13 @@ public class Course {
 
     @Id
     @GeneratedValue
-    UUID id;
+    private UUID id;
 
     @Column(name = "NAME")
-    String name;
+    private String name;
 
     @Column(name = "DESCRIPTION")
-    String description;
+    private String description;
 
     @ManyToMany
     @JoinTable(

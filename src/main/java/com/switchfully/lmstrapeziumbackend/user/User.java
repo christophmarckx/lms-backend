@@ -12,17 +12,17 @@ public class User {
 
     @Id
     @GeneratedValue
-    UUID id;
+    private UUID id;
 
     @Column(name = "EMAIL_ADDRESS")
-    String email;
+    private String email;
 
     @Column(name = "DISPLAY_NAME")
-    String displayName;
+    private String displayName;
 
     @Column(name = "ROLE")
     @Enumerated(EnumType.STRING)
-    UserRole role;
+    private UserRole role;
 
     @ManyToMany
     @JoinTable(
