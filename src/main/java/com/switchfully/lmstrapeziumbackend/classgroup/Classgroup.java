@@ -1,5 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.classgroup;
 
+import com.switchfully.lmstrapeziumbackend.course.Course;
 import jakarta.persistence.*;
 import java.util.UUID;
 
@@ -13,6 +14,10 @@ public class Classgroup {
 
     @Column(name = "NAME")
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "COURSE_ID")
+    private Course course;
 
     public Classgroup() {}
 

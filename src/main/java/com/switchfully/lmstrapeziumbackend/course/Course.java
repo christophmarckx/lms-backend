@@ -1,7 +1,9 @@
 package com.switchfully.lmstrapeziumbackend.course;
 
+import com.switchfully.lmstrapeziumbackend.module.Module;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +19,13 @@ public class Course {
 
     @Column(name = "DESCRIPTION")
     String description;
+
+    @ManyToMany
+    @JoinTable(
+            name = "COURSE_MODULE",
+            joinColumns = @JoinColumn(name = "COURSE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "MODULE_ID"))
+    private List<Module> modules;
 
     public Course() {}
 

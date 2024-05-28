@@ -15,21 +15,21 @@ public class Comment {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name="CODELAB_ID", nullable=false)
+    @JoinColumn(name="CODELAB_ID")
     private Codelab codelab;
 
     @ManyToOne
-    @JoinColumn(name="APP_USER_ID", nullable=false)
-    private User user;
+    @JoinColumn(name="APP_USER_ID")
+    private User student;
 
     @Column(name = "COMMENT")
     private String comment;
 
     public Comment() {}
 
-    public Comment(Codelab codelab, User user, String comment) {
+    public Comment(Codelab codelab, User student, String comment) {
         this.codelab = codelab;
-        this.user = user;
+        this.student = student;
         this.comment = comment;
     }
 
@@ -41,8 +41,8 @@ public class Comment {
         return codelab;
     }
 
-    public User getUser() {
-        return user;
+    public User getStudent() {
+        return student;
     }
 
     public String getComment() {
