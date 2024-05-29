@@ -31,6 +31,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.POST, "/students/**").permitAll()
                         .requestMatchers("/modules/**").permitAll()
                         .requestMatchers("/courses/**").permitAll() //TODO Add Security
+                        .requestMatchers("/classgroups/**").permitAll() //TODO Add Security
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth ->
