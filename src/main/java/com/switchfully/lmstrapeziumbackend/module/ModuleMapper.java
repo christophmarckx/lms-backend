@@ -4,6 +4,8 @@ import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class ModuleMapper {
     public ModuleDTO toDTO(Module module) {
@@ -20,7 +22,7 @@ public class ModuleMapper {
     public Module toModule(CreateModuleDTO createModuleDTO, Module parentModule) {
 
         return new Module(
-                createModuleDTO.getName(),
+                createModuleDTO.name(),
                 parentModule
         );
     }

@@ -29,11 +29,10 @@ public class ModuleService {
     }
 
     public ModuleDTO createModule(CreateModuleDTO createModuleDTO) {
-        Module parent;
-        if (createModuleDTO.getParentModuleId() == null){
-            parent = null;
-        } else {
-            parent = moduleRepository.findById(createModuleDTO.getParentModuleId()).orElseThrow(() -> new ModuleDoesNotExistException(createModuleDTO.getParentModuleId()));
+        Module parent = null;
+        if (createModuleDTO.parentModuleId() != null){
+            parent = moduleRepository.findById(createModuleDTO.parentModuleId())
+                .orElseThrow(() -> new ModuleDoesNotExistException(createModuleDTO.parentModuleId()));
         }
 
         return moduleMapper.toDTO(moduleRepository.save(moduleMapper.toModule(createModuleDTO, parent)));
