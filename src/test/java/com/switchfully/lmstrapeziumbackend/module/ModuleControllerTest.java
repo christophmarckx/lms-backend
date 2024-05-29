@@ -1,7 +1,11 @@
 package com.switchfully.lmstrapeziumbackend.module;
 
+import com.switchfully.lmstrapeziumbackend.TestConstants;
+import com.switchfully.lmstrapeziumbackend.course.Course;
+import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
 import io.restassured.RestAssured;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -21,6 +25,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
@@ -91,6 +96,28 @@ class ModuleControllerTest {
         assertThat(dbModule).usingRecursiveComparison()
             .ignoringFieldsMatchingRegexes(".*id")
             .isEqualTo(myModule);
+    }
+
+    @Test
+    @DisplayName("Getting courses relating to a module given module is in db will return list of courses")
+    void givenAmoduleIsInTheDatabaseWhenProvidingAModuleIdThenAListOfCoursesIsReturned() {
+
+        UUID moduleId = UUID.fromString("e0e8b090-df45-11ec-9d64-0242ac120002");
+        //When
+        ModuleWithCoursesDTO moduleWithCoursesDTOActual = RestAssured
+                .given()
+                .port(localPort)
+                .when()
+                .get("/modules/" + moduleId)
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(ModuleWithCoursesDTO.class);
+        //Then
+
+        List<Course> coursesToCheck = entityManager.createQuery("select distinct c from Course c  join c.modules m where m.id = :id", Course.class).setParameter("id", moduleId).getResultList();
+        Assertions.assertThat(moduleWithCoursesDTOActual).extracting("courses").usingRecursiveComparison().isEqualTo(coursesToCheck);
     }
 
 }

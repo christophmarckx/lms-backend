@@ -1,6 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.module;
 
 import com.switchfully.lmstrapeziumbackend.course.Course;
+import com.switchfully.lmstrapeziumbackend.course.CourseService;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -21,6 +22,10 @@ public class Module {
     @JoinColumn(name="PARENT_ID")
     private Module parentModule;
 
+    @ManyToMany(mappedBy = "modules")
+    List<Course> courses;
+
+
     public Module() {}
 
     public Module(String name, Module parentModule) {
@@ -38,5 +43,9 @@ public class Module {
 
     public Module getParentModule() {
         return parentModule;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
     }
 }
