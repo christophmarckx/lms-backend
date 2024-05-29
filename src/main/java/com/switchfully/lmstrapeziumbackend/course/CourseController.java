@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "courses")
@@ -44,6 +45,13 @@ public class CourseController {
     public CourseDTO updateCourse(@PathVariable String courseId, @Valid @RequestBody UpdateCourseDTO updateCourseDTO) {
         this.logger.info("PUT /courses: Updating a course");
         return courseService.updateCourse(courseId, updateCourseDTO);
+    }
+
+    @GetMapping(produces = "application/json", path = "{courseId}")
+    @ResponseStatus(HttpStatus.OK)
+    public CourseDTO getAllCoursesByCourseId(@PathVariable String courseId) {
+        this.logger.info("GET /courses: Getting one course by id");
+        return CourseMapper.toDTO(courseService.getCourseById(UUID.fromString(courseId)));
     }
 
 
