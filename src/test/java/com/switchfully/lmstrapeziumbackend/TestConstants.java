@@ -5,7 +5,9 @@ import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
+import com.switchfully.lmstrapeziumbackend.module.Module;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 
 import java.util.HashMap;
 import java.util.Map;
