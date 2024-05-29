@@ -2,9 +2,11 @@ package com.switchfully.lmstrapeziumbackend.course;
 
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.exception.CourseNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,5 +36,12 @@ public class CourseService {
 
     public List<CourseDTO> getAllCourses() {
         return CourseMapper.toDTO(courseRepository.findAll());
+    }
+
+    @Transactional
+    public CourseDTO updateCourse(String courseId, UpdateCourseDTO updateCourseDTO) {
+        Course courseFound = getCourseById(UUID.fromString(courseId));
+        courseFound.updateCourseName(updateCourseDTO.getName());
+        return CourseMapper.toDTO(courseFound);
     }
 }
