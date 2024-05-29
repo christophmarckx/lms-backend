@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "courses")
 @CrossOrigin(originPatterns = "http://localhost:4200") //Edit if deployed
@@ -27,4 +29,13 @@ public class CourseController {
         this.logger.info("POST /courses: Creating a course");
         return this.courseService.createCourse(createCourseDTO);
     }
+
+    @GetMapping(produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CourseDTO> getAllCourses() {
+        this.logger.info("GET /courses: Getting all courses");
+        return courseService.getAllCourses();
+
+    }
+
 }

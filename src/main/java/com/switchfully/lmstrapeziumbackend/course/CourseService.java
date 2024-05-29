@@ -6,6 +6,7 @@ import com.switchfully.lmstrapeziumbackend.exception.CourseNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,5 +30,9 @@ public class CourseService {
             throw new CourseNotFoundException();
         }
         return courseOptional.get();
+    }
+
+    public List<CourseDTO> getAllCourses() {
+        return CourseMapper.toDTO(courseRepository.findAll());
     }
 }

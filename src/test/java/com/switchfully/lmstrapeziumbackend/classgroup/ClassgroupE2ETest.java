@@ -35,7 +35,7 @@ public class ClassgroupE2ETest {
     private CourseService courseService;
 
     @Test
-    @Sql(scripts = {"/addData.sql"})
+    @Sql(scripts = {"/data.sql"})
     void givenAValidCreateClassgroupDTO_thenWillReturnAClassgroupDTO() {
         //When
         ClassgroupDTO classgroupCreated = RestAssured

@@ -1,7 +1,8 @@
 -- Inserting data into course table
 INSERT INTO course (id, name, description) VALUES
     ('e0e8b080-df45-11ec-9d64-0242ac120002', 'Computer Science 101', 'Introduction to Computer Science'),
-    ('e0e8b081-df45-11ec-9d64-0242ac120002', 'Advanced Mathematics', 'Advanced topics in Mathematics');
+    ('e0e8b081-df45-11ec-9d64-0242ac120002', 'Advanced Mathematics', 'Advanced topics in Mathematics'),
+    ('f953c154-36f2-4b79-8992-b6f5d4dd24a9', 'Java@Fin', 'The Java@Fin course');
 
 -- Inserting data into classgroup table
 INSERT INTO classgroup (id, name, course_id) VALUES
