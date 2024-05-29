@@ -67,6 +67,10 @@ public class CourseE2ETest {
                 .extract()
                 .as(CourseDTO.class);
         //Then
-        Assertions.assertThat(courseCreated).isEqualTo(TestConstants.COURSE_DTO_1);
+        Assertions
+                .assertThat(courseCreated)
+                .usingRecursiveComparison()
+                .ignoringFieldsMatchingRegexes(".*id")
+                .isEqualTo(TestConstants.COURSE_DTO_1);
     }
 }

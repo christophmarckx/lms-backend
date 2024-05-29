@@ -16,17 +16,4 @@ public class CourseDTO {
         this.name = name;
         this.description = description;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CourseDTO courseDTO = (CourseDTO) o;
-        return Objects.equals(name, courseDTO.name) && Objects.equals(description, courseDTO.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, description);
-    }
 }
