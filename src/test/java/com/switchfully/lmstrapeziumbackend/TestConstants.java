@@ -31,4 +31,13 @@ public class TestConstants {
     public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("Java-2024-02", COURSE_DTO_1.getId());
     public static final Classgroup CLASSGROUP_1 = new Classgroup(CREATE_CLASSGROUP_DTO_1.getName(), COURSE_1);
     public static final ClassgroupDTO CLASSGROUP_DTO_1 = new ClassgroupDTO("ID", CLASSGROUP_1.getName(), COURSE_DTO_1);
+    public static Map<String, Object> getExpectedMapForFullyInvalidCreateClassgroupDTO() {
+        Map<String, Object> mapExpected = new HashMap<>();
+        Map<String, String> errorsMap = new HashMap<>();
+        errorsMap.put("name", "The name of the classgroup must be between 2 and 255 characters");
+        errorsMap.put("courseId", "The id of the course must be 36 characters long");
+        mapExpected.put("message", "Following validation error(s) occurred on /classgroups");
+        mapExpected.put("errors", errorsMap);
+        return mapExpected;
+    }
 }
