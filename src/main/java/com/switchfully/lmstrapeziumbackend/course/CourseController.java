@@ -49,8 +49,8 @@ public class CourseController {
 
     @GetMapping(produces = "application/json", path = "{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public CourseDTO getAllCoursesByCourseId(@PathVariable String courseId) {
-        this.logger.info("GET /courses: Getting one course by id");
+    public CourseDTO getCourseById(@PathVariable String courseId) {
+        this.logger.info("GET /courses: Getting a course by id");
         return CourseMapper.toDTO(courseService.getCourseById(UUID.fromString(courseId)));
     }
 
