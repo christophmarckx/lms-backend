@@ -1,9 +1,9 @@
 package com.switchfully.lmstrapeziumbackend.module;
 
+import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,4 +21,10 @@ public class ModuleController {
     List<ModuleDTO> getAllModules() {
         return moduleService.getAllModules();
     }
+
+    @PostMapping
+    public ModuleDTO addModule(@RequestBody @Valid CreateModuleDTO createModuleDTO) {
+        return this.moduleService.createModule(createModuleDTO);
+    }
+
 }

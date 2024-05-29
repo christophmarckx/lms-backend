@@ -1,5 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.module;
 
+import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 import io.restassured.RestAssured;
 import jakarta.persistence.EntityManager;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import static io.restassured.http.ContentType.JSON;
 
 import java.util.List;
 import java.util.UUID;
@@ -53,5 +56,31 @@ class ModuleControllerTest {
                 .getList(".", ModuleDTO.class);
 
         Assertions.assertThat(actualModuleDTOList).containsExactlyInAnyOrder(moduleDTO1, moduleDTO2, moduleDTO3);
+    }
+
+    @Test
+    @DisplayName("Given connected user, creating a module will return the module DTO")
+    void givenConnectedUser_whenCreatingModule_returnModuleDTO(){
+        CreateModuleDTO createModuleDTO = new CreateModuleDTO("Gym", null);
+
+        ModuleDTO actualModuleDTO = RestAssured
+                .given()
+                .baseUri(URI)
+                .port(localPort)
+                .accept(JSON)
+                .contentType(JSON)
+                .body(createModuleDTO)
+                .when()
+                .post("/modules")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(ModuleDTO.class);
+
+        Assertions.assertThat(actualModuleDTO)
+                .usingRecursiveComparison()
+                .ignoringFieldsMatchingRegexes(".*id")
+                .isEqualTo(new ModuleDTO(UUID.randomUUID(), "Gym", null));
     }
 }
