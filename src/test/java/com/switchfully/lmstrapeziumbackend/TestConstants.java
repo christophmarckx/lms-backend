@@ -5,10 +5,13 @@ import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
+import com.switchfully.lmstrapeziumbackend.module.Module;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class TestConstants {
 
@@ -16,7 +19,9 @@ public class TestConstants {
 
     public static final CreateCourseDTO CREATE_COURSE_DTO_1 = new CreateCourseDTO("Java@Fin", "The Java@Fin course");
     public static final Course COURSE_1 = new Course(CREATE_COURSE_DTO_1.getName(), CREATE_COURSE_DTO_1.getDescription());
+
     public static final CourseDTO COURSE_DTO_1 = new CourseDTO("f953c154-36f2-4b79-8992-b6f5d4dd24a9", COURSE_1.getName(), COURSE_1.getDescription());
+
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateCourseDTO() {
         Map<String, Object> mapExpected = new HashMap<>();
         Map<String, String> errorsMap = new HashMap<>();
