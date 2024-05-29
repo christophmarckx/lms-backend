@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -50,17 +51,6 @@ class ModuleControllerTest {
                 .extract()
                 .jsonPath()
                 .getList(".", ModuleDTO.class);
-
-//        List<Module> moduleListExpected = entityManager.createQuery("select m from Module m", Module.class).getResultList();
-//        Module module1 = moduleListExpected.get(0);
-//        Module module2 = moduleListExpected.get(1);
-//        Module module3 = moduleListExpected.get(2);
-//
-//        Assertions.assertThat(actualModuleDTOList).extracting("id", "name")
-//                .contains(tuple(module1.getId(), module1.getName()),
-//                        tuple(module2.getId(), module2.getName()),
-//                                tuple(module3.getId(), module3.getName()
-//                                ));
 
         Assertions.assertThat(actualModuleDTOList).containsExactlyInAnyOrder(moduleDTO1, moduleDTO2, moduleDTO3);
     }
