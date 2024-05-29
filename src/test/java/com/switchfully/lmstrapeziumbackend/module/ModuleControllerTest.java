@@ -18,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.transaction.annotation.Transactional;
+
 import static io.restassured.http.ContentType.JSON;
 
 import java.util.List;
@@ -62,6 +64,7 @@ class ModuleControllerTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("Given connected user, creating a module will return the module DTO")
     void givenConnectedUser_whenCreatingModule_returnModuleDTO(){
         String domain = "Gym";
@@ -87,12 +90,13 @@ class ModuleControllerTest {
                 .setParameter("name", domain)
                 .getSingleResult();
 
-
         assertThat(actualModuleDTO)
                 .usingRecursiveComparison()
                 .ignoringFieldsMatchingRegexes(".*id")
                 .isEqualTo(new ModuleDTO(UUID.randomUUID(), domain, null));
 
+        System.out.println(dbModule);
+        System.out.println("my " + myModule);
         assertThat(dbModule).usingRecursiveComparison()
             .ignoringFieldsMatchingRegexes(".*id")
             .isEqualTo(myModule);

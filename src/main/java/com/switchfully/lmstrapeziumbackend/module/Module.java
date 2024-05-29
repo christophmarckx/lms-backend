@@ -4,6 +4,7 @@ import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +32,7 @@ public class Module {
     public Module(String name, Module parentModule) {
         this.name = name;
         this.parentModule = parentModule;
+        this.courses = new ArrayList<>();
     }
 
     public UUID getId() {
@@ -47,5 +49,15 @@ public class Module {
 
     public List<Course> getCourses() {
         return courses;
+    }
+
+    @Override
+    public String toString() {
+        return "Module{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentModule=" + parentModule +
+                ", courses=" + courses +
+                '}';
     }
 }
