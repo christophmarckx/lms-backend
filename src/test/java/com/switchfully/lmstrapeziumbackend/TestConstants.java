@@ -9,6 +9,7 @@ import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class TestConstants {
 
@@ -16,7 +17,7 @@ public class TestConstants {
 
     public static final CreateCourseDTO CREATE_COURSE_DTO_1 = new CreateCourseDTO("Java@Fin", "The Java@Fin course");
     public static final Course COURSE_1 = new Course(CREATE_COURSE_DTO_1.getName(), CREATE_COURSE_DTO_1.getDescription());
-    public static final CourseDTO COURSE_DTO_1 = new CourseDTO("f953c154-36f2-4b79-8992-b6f5d4dd24a9", COURSE_1.getName(), COURSE_1.getDescription());
+    public static final CourseDTO COURSE_DTO_1 = new CourseDTO(UUID.fromString("f953c154-36f2-4b79-8992-b6f5d4dd24a9"), COURSE_1.getName(), COURSE_1.getDescription());
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateCourseDTO() {
         Map<String, Object> mapExpected = new HashMap<>();
         Map<String, String> errorsMap = new HashMap<>();
@@ -28,7 +29,7 @@ public class TestConstants {
 
     //****************** CLASSGROUPS ******************//
 
-    public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("Java-2024-02", COURSE_DTO_1.getId());
+    public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("Java-2024-02", COURSE_DTO_1.getId().toString());
     public static final Classgroup CLASSGROUP_1 = new Classgroup(CREATE_CLASSGROUP_DTO_1.getName(), COURSE_1);
     public static final ClassgroupDTO CLASSGROUP_DTO_1 = new ClassgroupDTO("ID", CLASSGROUP_1.getName(), COURSE_DTO_1);
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateClassgroupDTO() {

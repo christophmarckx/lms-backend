@@ -11,7 +11,7 @@ public class CourseMapper {
     }
 
     public static CourseDTO toDTO(Course course) {
-        return new CourseDTO(course.getId().toString(), course.getName(), course.getDescription());
+        return new CourseDTO(course.getId(), course.getName(), course.getDescription());
     }
 
     public static List<CourseDTO> toDTO(List<Course> courses) {
