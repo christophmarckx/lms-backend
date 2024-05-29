@@ -95,8 +95,6 @@ class ModuleControllerTest {
                 .ignoringFieldsMatchingRegexes(".*id")
                 .isEqualTo(new ModuleDTO(UUID.randomUUID(), domain, null));
 
-        System.out.println(dbModule);
-        System.out.println("my " + myModule);
         assertThat(dbModule).usingRecursiveComparison()
             .ignoringFieldsMatchingRegexes(".*id")
             .isEqualTo(myModule);

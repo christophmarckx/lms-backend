@@ -26,7 +26,6 @@ public class Module {
     @ManyToMany(mappedBy = "modules")
     List<Course> courses;
 
-
     public Module() {}
 
     public Module(String name, Module parentModule) {
@@ -49,15 +48,5 @@ public class Module {
 
     public List<Course> getCourses() {
         return courses;
-    }
-
-    @Override
-    public String toString() {
-        return "Module{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", parentModule=" + parentModule +
-                ", courses=" + courses +
-                '}';
     }
 }
