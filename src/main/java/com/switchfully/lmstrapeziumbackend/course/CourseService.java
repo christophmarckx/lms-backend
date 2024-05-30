@@ -3,6 +3,9 @@ package com.switchfully.lmstrapeziumbackend.course;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.exception.CourseNotFoundException;
+import com.switchfully.lmstrapeziumbackend.module.ModuleRepository;
+import com.switchfully.lmstrapeziumbackend.module.Module;
+import com.switchfully.lmstrapeziumbackend.module.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +16,12 @@ import java.util.UUID;
 @Service
 public class CourseService {
     private final CourseRepository courseRepository;
+    private final ModuleService moduleService;
 
-    @Autowired
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository,
+                         ModuleService moduleService) {
         this.courseRepository = courseRepository;
+        this.moduleService = moduleService;
     }
 
     public CourseDTO createCourse(CreateCourseDTO createCourseDTO) {
@@ -33,6 +38,6 @@ public class CourseService {
     }
 
     public List<CourseDTO> getAllCourses() {
-        return CourseMapper.toDTO(courseRepository.findAll());
+            return CourseMapper.toDTO(courseRepository.findAll());
     }
 }

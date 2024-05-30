@@ -73,4 +73,5 @@ public class CourseE2ETest {
                 .ignoringFieldsMatchingRegexes(".*id")
                 .isEqualTo(TestConstants.COURSE_DTO_1);
     }
+
 }
