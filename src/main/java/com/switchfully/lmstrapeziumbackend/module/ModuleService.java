@@ -7,10 +7,8 @@ import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import com.switchfully.lmstrapeziumbackend.module.Module;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,9 +36,12 @@ public class ModuleService {
         return ModuleMapper.toDTO(moduleRepository.save(ModuleMapper.toModule(createModuleDTO, parent)));
     }
 
-    public ModuleWithCoursesDTO getModuleById(UUID id) {
-        return ModuleMapper.toModuleWithCoursesDTO(moduleRepository.findById(id)
-                .orElseThrow(() -> new ModuleDoesNotExistException(id)));
+    public ModuleWithCoursesDTO getModuleWithCoursesById(UUID id) {
+        return ModuleMapper.toModuleWithCoursesDTO(getModuleById(id));
     }
 
+    public Module getModuleById(UUID id) {
+        return moduleRepository.findById(id)
+                .orElseThrow(() -> new ModuleDoesNotExistException(id));
+    }
 }
