@@ -1,8 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
-import com.switchfully.lmstrapeziumbackend.exception.StudentNotFoundException;
+import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
-import com.switchfully.lmstrapeziumbackend.user.dto.AuthenticatedUserDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class StudentService {
     public StudentDTO getStudentById(UUID studentId) {
         Optional<User> userOptional = userRepository.findById(studentId);
         if (userOptional.isEmpty()) {
-            throw new StudentNotFoundException();
+            throw new UserNotFoundException();
         }
 
         return this.studentMapper.toDTO(userOptional.get());

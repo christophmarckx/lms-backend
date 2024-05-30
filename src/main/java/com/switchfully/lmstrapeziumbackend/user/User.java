@@ -1,6 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
 import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
+import com.switchfully.lmstrapeziumbackend.exception.UserAlreadyExistException;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class User {
 
     public void addClassgroup(Classgroup classgroup) {
         if (classgroups.contains(classgroup)) {
-            throw new RuntimeException("IMPLEMENT CUSTOM EXCEPTION");
+            throw new UserAlreadyExistException(this.email);
         }
         classgroups.add(classgroup);
     }

@@ -1,5 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
+import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
 import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
 import com.switchfully.lmstrapeziumbackend.user.dto.AuthenticatedUserDTO;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,10 @@ public class UserService {
 
     public AuthenticatedUserDTO getAuthenticatedUser() {
         UUID authenticatedUserId = this.authenticationService.getAuthenticatedUserId()
-                .orElseThrow(() -> new RuntimeException("IMPLEMENT CUSTOM EXCEPTION"));
+                .orElseThrow(UserNotFoundException::new);
 
         return this.userMapper.toDTO(
                 this.userRepository.findById(authenticatedUserId)
-                        .orElseThrow(() -> new RuntimeException("IMPLEMENT CUSTOM EXCEPTION"))
-        );
+                        .orElseThrow(UserNotFoundException::new));
     }
 }
