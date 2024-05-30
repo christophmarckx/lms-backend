@@ -2,10 +2,12 @@ package com.switchfully.lmstrapeziumbackend.module;
 
 import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/modules")
@@ -20,6 +22,11 @@ public class ModuleController {
     @GetMapping
     List<ModuleDTO> getAllModules() {
         return moduleService.getAllModules();
+    }
+
+    @GetMapping("/{id}")
+    ModuleWithCoursesDTO getModuleById(@PathVariable UUID id) {
+        return moduleService.getModuleById(id);
     }
 
     @PostMapping

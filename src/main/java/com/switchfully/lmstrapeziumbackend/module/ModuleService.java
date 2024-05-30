@@ -4,27 +4,28 @@ package com.switchfully.lmstrapeziumbackend.module;
 import com.switchfully.lmstrapeziumbackend.exception.ModuleDoesNotExistException;
 import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import com.switchfully.lmstrapeziumbackend.module.Module;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
 public class ModuleService {
     private ModuleRepository moduleRepository;
-    private ModuleMapper moduleMapper;
 
-    public ModuleService(ModuleRepository moduleRepository, ModuleMapper moduleMapper) {
+    public ModuleService(ModuleRepository moduleRepository) {
         this.moduleRepository = moduleRepository;
-        this.moduleMapper = moduleMapper;
     }
 
     public List<ModuleDTO> getAllModules() {
         return moduleRepository.findAll()
                 .stream()
-                .map(moduleToConvert -> moduleMapper.toDTO(moduleToConvert))
+                .map(ModuleMapper::toDTO)
                 .toList();
     }
 
@@ -34,7 +35,12 @@ public class ModuleService {
             parent = moduleRepository.findById(createModuleDTO.parentModuleId())
                 .orElseThrow(() -> new ModuleDoesNotExistException(createModuleDTO.parentModuleId()));
         }
-
-        return moduleMapper.toDTO(moduleRepository.save(moduleMapper.toModule(createModuleDTO, parent)));
+        return ModuleMapper.toDTO(moduleRepository.save(ModuleMapper.toModule(createModuleDTO, parent)));
     }
+
+    public ModuleWithCoursesDTO getModuleById(UUID id) {
+        return ModuleMapper.toModuleWithCoursesDTO(moduleRepository.findById(id)
+                .orElseThrow(() -> new ModuleDoesNotExistException(id)));
+    }
+
 }

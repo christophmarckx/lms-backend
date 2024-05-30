@@ -122,6 +122,4 @@ public class CourseE2ETest {
                         .getExpectedMapForFullyInvalidUpdateCourseDTO());
 
     }
-
-
 }
