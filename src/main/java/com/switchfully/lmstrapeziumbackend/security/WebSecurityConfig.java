@@ -17,7 +17,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableMethodSecurity
-@Profile("production")
 public class WebSecurityConfig implements WebMvcConfigurer {
 
     @Override
@@ -30,7 +29,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        //.requestMatchers(HttpMethod.POST, "/students/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/students/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("COACH", "STUDENT")
                         .anyRequest().denyAll()
                 )
