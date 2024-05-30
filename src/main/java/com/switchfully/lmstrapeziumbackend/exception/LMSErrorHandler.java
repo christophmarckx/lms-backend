@@ -42,8 +42,14 @@ public class LMSErrorHandler extends ResponseEntityExceptionHandler {
         return requestUri;
     }
 
-    @ExceptionHandler({UserAlreadyExistException.class, KeycloakException.class})
+    @ExceptionHandler({UserAlreadyExistException.class})
     public ResponseEntity<String> userAlreadyExistException(UserAlreadyExistException exception, HttpServletResponse response) throws IOException {
+        this.logger.error(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception.getMessage());
+    }
+
+    @ExceptionHandler({StudentNotFoundException.class})
+    public ResponseEntity<String> studentNotFoundException(StudentNotFoundException exception, HttpServletResponse response) throws IOException {
         this.logger.error(exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception.getMessage());
     }
