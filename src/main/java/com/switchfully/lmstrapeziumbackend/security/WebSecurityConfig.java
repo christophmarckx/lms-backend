@@ -30,13 +30,11 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.POST, "/students/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/students/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/students").hasAuthority("STUDENT")
                         .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("COACH", "STUDENT")
                         .requestMatchers("/modules/**").permitAll() //TODO Add Security
                         .requestMatchers("/courses/**").permitAll() //TODO Add Security
-                        .requestMatchers("/classgroups/**").permitAll()
-                        //TODO Add Security
-                        //.anyRequest().authenticated()
+                        .requestMatchers("/classgroups/**").permitAll() //TODO Add Security
                         .anyRequest().denyAll()
                 )
                 .oauth2ResourceServer(oauth ->

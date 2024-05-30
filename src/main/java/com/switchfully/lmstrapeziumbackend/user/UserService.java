@@ -3,6 +3,7 @@ package com.switchfully.lmstrapeziumbackend.user;
 import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
 import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
 import com.switchfully.lmstrapeziumbackend.user.dto.AuthenticatedUserDTO;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -20,8 +21,8 @@ public class UserService {
         this.authenticationService = authenticationService;
     }
 
-    public AuthenticatedUserDTO getAuthenticatedUser() {
-        UUID authenticatedUserId = this.authenticationService.getAuthenticatedUserId()
+    public AuthenticatedUserDTO getAuthenticatedUser(Authentication authentication) {
+        UUID authenticatedUserId = this.authenticationService.getAuthenticatedUserId(authentication)
                 .orElseThrow(UserNotFoundException::new);
 
         return this.userMapper.toDTO(
