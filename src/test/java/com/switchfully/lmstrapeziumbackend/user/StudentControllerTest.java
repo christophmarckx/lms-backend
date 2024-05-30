@@ -24,7 +24,6 @@ import java.util.UUID;
 @AutoConfigureTestDatabase
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-//@ActiveProfiles("test") //TODO Check if can be removed or if it is needed ?
 class StudentControllerTest {
     public static final String CREATE_STUDENT_EMAIL = "email@email.email";
     public static final String CREATE_STUDENT_DISPLAY_NAME = "created_student";
