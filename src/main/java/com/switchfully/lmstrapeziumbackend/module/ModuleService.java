@@ -35,7 +35,6 @@ public class ModuleService {
             parent = moduleRepository.findById(createModuleDTO.parentModuleId())
                 .orElseThrow(() -> new ModuleDoesNotExistException(createModuleDTO.parentModuleId()));
         }
-
         return ModuleMapper.toDTO(moduleRepository.save(ModuleMapper.toModule(createModuleDTO, parent)));
     }
 

@@ -3,6 +3,7 @@ package com.switchfully.lmstrapeziumbackend.user;
 import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +12,6 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue
     private UUID id;
 
     @Column(name = "EMAIL_ADDRESS")
@@ -29,11 +29,12 @@ public class User {
             name = "CLASSGROUP_APP_USER",
             joinColumns = @JoinColumn(name = "APP_USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "CLASSGROUP_ID"))
-    private List<Classgroup> classgroups;
+    private List<Classgroup> classgroups = new ArrayList<>();
 
     public User() {}
 
-    public User(String email, String displayName, UserRole role) {
+    public User(UUID id, String email, String displayName, UserRole role) {
+        this.id = id;
         this.email = email;
         this.displayName = displayName;
         this.role = role;
@@ -53,6 +54,10 @@ public class User {
 
     public UserRole getRole() {
         return role;
+    }
+
+    public List<Classgroup> getClassgroups() {
+        return classgroups;
     }
 
     public void addClassgroup(Classgroup classgroup) {

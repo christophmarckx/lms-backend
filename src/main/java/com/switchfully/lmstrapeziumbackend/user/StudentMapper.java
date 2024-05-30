@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class StudentMapper {
@@ -18,7 +19,7 @@ public class StudentMapper {
         return students.stream().map(this::toDTO).toList();
     }
 
-    public User toEntity(CreateStudentDTO createStudentDTO) {
-        return new User(createStudentDTO.email(), createStudentDTO.displayName(), UserRole.STUDENT);
+    public User toEntity(UUID userIdFromKeycloak, CreateStudentDTO createStudentDTO) {
+        return new User(userIdFromKeycloak, createStudentDTO.email(), createStudentDTO.displayName(), UserRole.STUDENT);
     }
 }
