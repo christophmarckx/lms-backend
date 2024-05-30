@@ -17,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
 
@@ -43,15 +42,12 @@ class StudentControllerTest {
     public static UUID userId = null;
 
     @Test
-    void testIt() {
-        System.out.println("test");
-    }
-
-    @Test
     public void givenCreateStudentDTO_whenCreateStudent_thenReturnStudentDTO() {
         CreateStudentDTO createStudentDTO = new CreateStudentDTO(CREATE_STUDENT_EMAIL, CREATE_STUDENT_PASSWORD, CREATE_STUDENT_DISPLAY_NAME);
         StudentDTO studentDTO = new StudentDTO(UUID.randomUUID(), CREATE_STUDENT_EMAIL, CREATE_STUDENT_DISPLAY_NAME);
         User student = new User(UUID.randomUUID(), CREATE_STUDENT_EMAIL, CREATE_STUDENT_DISPLAY_NAME, UserRole.STUDENT);
+
+
 
         StudentDTO returnedStudentDTO = RestAssured
                 .given()

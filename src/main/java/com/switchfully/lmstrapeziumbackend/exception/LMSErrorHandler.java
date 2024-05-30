@@ -53,5 +53,4 @@ public class LMSErrorHandler extends ResponseEntityExceptionHandler {
         this.logger.error(exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception.getMessage());
     }
-
 }

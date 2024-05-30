@@ -1,5 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.security;
 
+import com.switchfully.lmstrapeziumbackend.exception.KeycloakException;
+import com.switchfully.lmstrapeziumbackend.exception.UserAlreadyExistException;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import jakarta.ws.rs.core.Response;
 import org.keycloak.OAuth2Constants;
@@ -21,6 +23,7 @@ import java.util.UUID;
 @Service
 public class KeycloakService {
     public static final String ROLE_FOR_ANONYMOUS_USER_REGISTRATION = "STUDENT";
+    public static final String NO_LOCATION_HEADER_MESSAGE = "No location on header after user creation on keycloak";
 
     @Value("${keycloak.auth-server-url}")
     private String keycloakServerUrl;
@@ -71,7 +74,10 @@ public class KeycloakService {
         Response response = keycloak.realm(keycloakRealm).users().create(user);
 
         if (response.getStatus() != 201) {
-            throw new RuntimeException("IMPLEMENT CUSTOM EXCEPTION");
+            if (response.getStatus() == 409) {
+                throw new UserAlreadyExistException(createStudentDTO.email());
+            }
+            throw new KeycloakException("" + response.getStatus());
         }
 
         UUID userId = getUserId(response);
@@ -81,7 +87,7 @@ public class KeycloakService {
         }
         catch(Exception ex) {
             this.deleteUserFromKeycloak(userId);
-            throw new RuntimeException("IMPLEMENT CUSTOM EXCEPTION");
+            throw new KeycloakException("" + response.getStatus());
         }
         return userId;
     }
@@ -89,7 +95,7 @@ public class KeycloakService {
     private UUID getUserId(Response response) {
         String location = response.getHeaderString("Location");
         if (location == null) {
-            throw new RuntimeException("IMPLEMENT CUSTOM EXCEPTION");
+            throw new KeycloakException(NO_LOCATION_HEADER_MESSAGE);
         }
         return UUID.fromString(location.replaceAll(".*/([^/]+)$", "$1"));
     }
