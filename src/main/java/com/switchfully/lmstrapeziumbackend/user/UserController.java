@@ -14,7 +14,7 @@ public class UserController {
     }
 
     @GetMapping
-    public AuthenticatedUserDTO getAuthenticatedUser(@RequestParam(required = false) String email) {
-        return this.userService.getAuthenticatedUser(email);
+    public AuthenticatedUserDTO getAuthenticatedUser() {
+        return this.userService.getAuthenticatedUser();
     }
 }
