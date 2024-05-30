@@ -7,6 +7,7 @@ import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,4 +52,11 @@ public class TestConstants {
         mapExpected.put("errors", errorsMap);
         return mapExpected;
     }
+
+    //****************** STUDENTS ******************//
+
+    public static final UUID STUDENT_ID = UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002");
+    public static final StudentDTO STUDENT_DTO = new StudentDTO(UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002"), "john.doe@example.com","John Doe");
+
+
 }

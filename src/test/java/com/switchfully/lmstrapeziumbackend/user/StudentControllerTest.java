@@ -1,5 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
+import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
@@ -81,6 +82,27 @@ class StudentControllerTest {
                 .usingRecursiveComparison()
                 .ignoringFieldsMatchingRegexes(".*id")
                 .isEqualTo(student);
+    }
+
+    @Test
+    void givenAExistingId_whenGetAStudentById_thenReturnAStudentDTO() {
+        StudentDTO studentDTO =
+                RestAssured
+                        .given()
+                        .contentType(ContentType.JSON)
+                        .when()
+                        .port(localPort)
+                        .get("/students/{studentId}", TestConstants.STUDENT_ID)
+                        .then()
+                        .assertThat()
+                        .statusCode(HttpStatus.OK.value())
+                        .extract()
+                        .as(StudentDTO.class);
+
+
+        Assertions.assertThat(studentDTO)
+                .usingRecursiveComparison()
+                .isEqualTo(TestConstants.STUDENT_DTO);
     }
 
     @AfterAll
