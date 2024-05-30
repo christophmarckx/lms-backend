@@ -39,6 +39,10 @@ public class CourseService {
         return courseOptional.get();
     }
 
+    public CourseDTO getCourseDTOById(UUID courseId) {
+        return CourseMapper.toDTO(this.getCourseById(courseId));
+    }
+
     public List<CourseDTO> getAllCourses() {
             return CourseMapper.toDTO(courseRepository.findAll());
     }

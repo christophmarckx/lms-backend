@@ -51,7 +51,7 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     public CourseDTO getCourseById(@PathVariable String courseId) {
         this.logger.info("GET /courses: Getting a course by id");
-        return CourseMapper.toDTO(courseService.getCourseById(UUID.fromString(courseId)));
+        return courseService.getCourseDTOById(UUID.fromString(courseId));
     }
 
 
