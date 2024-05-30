@@ -3,6 +3,7 @@ package com.switchfully.lmstrapeziumbackend.course;
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
@@ -74,4 +75,51 @@ public class CourseE2ETest {
                 .isEqualTo(TestConstants.COURSE_DTO_1);
     }
 
+    @Test
+    @DisplayName("Updating the name of a course should work")
+    void givenAValidUpdateCourseDTO_thenShouldReturnACourseDTO() {
+        //When
+        CourseDTO courseUpdated = RestAssured
+                .given()
+                .port(port)
+                .accept(JSON)
+                .contentType(JSON)
+                .body(TestConstants.UPDATED_COURSE_1)
+                .when()
+                .put("/courses/" + TestConstants.COURSE_DTO_1.getId())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(CourseDTO.class);
+        //Then
+        Assertions.assertThat(courseUpdated.getName()).isEqualTo(TestConstants.UPDATED_COURSE_1.getName());
+    }
+
+    @Test
+    @DisplayName("Trying to update a course name with invalid data should not work")
+    void givenAFullyInvalidUpdateCourseDTO_thenWillReturnAListOfErrors(){
+        //Given
+        UpdateCourseDTO invalidUpdateCourseDTO = new UpdateCourseDTO("B");
+        //When
+        Response response = RestAssured
+                .given()
+                .port(port)
+                .accept(JSON)
+                .contentType(JSON)
+                .body(invalidUpdateCourseDTO)
+                .when()
+                .put("/courses/" + TestConstants.COURSE_DTO_1.getId())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .extract()
+                .response();
+        Map<String, Object> mapReturned = response.as(Map.class);
+        //Then
+        Assertions.assertThat(mapReturned)
+                .containsExactlyInAnyOrderEntriesOf(TestConstants
+                        .getExpectedMapForFullyInvalidUpdateCourseDTO());
+
+    }
 }

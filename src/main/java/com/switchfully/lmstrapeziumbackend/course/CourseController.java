@@ -2,6 +2,7 @@ package com.switchfully.lmstrapeziumbackend.course;
 
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,5 +39,20 @@ public class CourseController {
         return courseService.getAllCourses();
 
     }
+
+    @PutMapping(consumes = "application/json", produces = "application/json", path = "{courseId}")
+    @ResponseStatus(HttpStatus.OK)
+    public CourseDTO updateCourse(@PathVariable String courseId, @Valid @RequestBody UpdateCourseDTO updateCourseDTO) {
+        this.logger.info("PUT /courses: Updating a course");
+        return courseService.updateCourse(courseId, updateCourseDTO);
+    }
+
+    @GetMapping(produces = "application/json", path = "{courseId}")
+    @ResponseStatus(HttpStatus.OK)
+    public CourseDTO getCourseById(@PathVariable String courseId) {
+        this.logger.info("GET /courses: Getting a course by id");
+        return CourseMapper.toDTO(courseService.getCourseById(UUID.fromString(courseId)));
+    }
+
 
 }

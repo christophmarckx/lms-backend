@@ -45,4 +45,8 @@ public class Course {
     public String getDescription() {
         return description;
     }
+
+    public void updateCourseName(String newName) {
+        this.name = newName;
+    }
 }
