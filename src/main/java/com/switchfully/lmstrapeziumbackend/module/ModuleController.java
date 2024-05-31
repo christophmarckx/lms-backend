@@ -26,7 +26,7 @@ public class ModuleController {
 
     @GetMapping("/{id}")
     ModuleWithCoursesDTO getModuleById(@PathVariable UUID id) {
-        return moduleService.getModuleById(id);
+        return moduleService.getModuleWithCoursesById(id);
     }
 
     @PostMapping

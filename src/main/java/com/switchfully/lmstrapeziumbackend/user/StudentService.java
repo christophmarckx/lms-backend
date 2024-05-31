@@ -28,7 +28,7 @@ public class StudentService {
 
     public StudentDTO createStudent(CreateStudentDTO createStudentDTO) {
         UUID userKeycloakId = this.keycloakService.createUser(createStudentDTO);
-        return this.studentMapper.toDTO(this.userRepository.save(this.studentMapper.toEntity(userKeycloakId, createStudentDTO)));
+        return this.studentMapper.toDTO(this.userRepository.save(this.studentMapper.toUser(userKeycloakId, createStudentDTO)));
     }
 
     public StudentDTO getStudentByAuthentication(Authentication authentication) {

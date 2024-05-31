@@ -54,6 +54,7 @@ CREATE TABLE codelab
 (
     id        UUID PRIMARY KEY,
     name      VARCHAR(255) NOT NULL,
+    description      text,
     module_id UUID  NOT NULL,
     FOREIGN KEY (module_id) REFERENCES module (id)
 );

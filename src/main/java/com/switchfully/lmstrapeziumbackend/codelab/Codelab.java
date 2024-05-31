@@ -16,14 +16,18 @@ public class Codelab {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "DESCRIPTION")
+    private String description;
+
     @ManyToOne
     @JoinColumn(name="MODULE_ID")
     private Module module;
 
     public Codelab() {}
 
-    public Codelab(String name, Module module) {
+    public Codelab(String name, String description, Module module) {
         this.name = name;
+        this.description = description;
         this.module = module;
     }
 
@@ -37,5 +41,9 @@ public class Codelab {
 
     public Module getModule() {
         return module;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
