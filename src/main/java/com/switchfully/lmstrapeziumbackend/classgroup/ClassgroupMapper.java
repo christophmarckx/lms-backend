@@ -5,6 +5,7 @@ import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupWithMembersD
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.CourseMapper;
+import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 
 import java.util.List;
@@ -18,12 +19,13 @@ public class ClassgroupMapper {
         return new ClassgroupDTO(classgroup.getId().toString(), classgroup.getName(), CourseMapper.toDTO(classgroup.getCourse()));
     }
 
-    public static ClassgroupWithMembersDTO toDTO(Classgroup classgroup, List<StudentDTO> students) {
+    public static ClassgroupWithMembersDTO toDTO(Classgroup classgroup, List<StudentDTO> students, List<CoachDTO> coaches) {
         return new ClassgroupWithMembersDTO(
                 classgroup.getId().toString(),
                 classgroup.getName(),
                 CourseMapper.toDTO(classgroup.getCourse()),
-                students
+                students,
+                coaches
         );
 
     }

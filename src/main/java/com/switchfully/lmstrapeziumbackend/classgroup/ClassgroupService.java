@@ -6,6 +6,8 @@ import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
 import com.switchfully.lmstrapeziumbackend.exception.ClassgroupNotFoundException;
+import com.switchfully.lmstrapeziumbackend.user.coach.CoachService;
+import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
 import com.switchfully.lmstrapeziumbackend.user.student.StudentService;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,14 @@ public class ClassgroupService {
     private final ClassgroupRepository classgroupRepository;
     private final CourseService courseService;
     private final StudentService studentService;
+    private final CoachService coachService;
 
     @Autowired
-    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, StudentService studentService) {
+    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, StudentService studentService, CoachService coachService) {
         this.classgroupRepository = classgroupRepository;
         this.courseService = courseService;
         this.studentService = studentService;
+        this.coachService = coachService;
     }
 
     public ClassgroupDTO createClassgroup(CreateClassgroupDTO createClassgroupDTO) {
@@ -44,8 +48,8 @@ public class ClassgroupService {
                 .orElseThrow(() -> new ClassgroupNotFoundException(classgroupId));
 
         List<StudentDTO> students = this.studentService.getStudentFollowingClass(classgroupId);
-
-        return ClassgroupMapper.toDTO(classgroup, students);
+        List<CoachDTO> coaches = this.coachService.getCoachesFollowingClass(classgroupId);
+        return ClassgroupMapper.toDTO(classgroup, students, coaches);
     }
 
 }
