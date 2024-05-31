@@ -55,6 +55,8 @@ public class TestConstants {
 
     //****************** STUDENTS ******************//
 
+    public static final UUID TESTING_STUDENT_ID = UUID.fromString("d992d902-4953-4b9a-9a88-493d446c8ee0");
+    public static final StudentDTO TESTING_STUDENT_DTO = new StudentDTO(TESTING_STUDENT_ID, "testing@student.com", "Super Testing Student");
     public static final UUID STUDENT_ID = UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002");
     public static final StudentDTO STUDENT_DTO = new StudentDTO(UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002"), "john.doe@example.com","John Doe");
 

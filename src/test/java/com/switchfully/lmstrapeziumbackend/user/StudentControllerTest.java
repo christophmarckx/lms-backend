@@ -4,6 +4,7 @@ import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
+import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import jakarta.persistence.EntityManager;
@@ -38,6 +39,8 @@ class StudentControllerTest {
     EntityManager entityManager;
     @Autowired
     KeycloakService keycloakService;
+    @Autowired
+    KeycloakTestingUtility keycloakTestingUtility;
 
     public static UUID userId = null;
 
@@ -46,8 +49,6 @@ class StudentControllerTest {
         CreateStudentDTO createStudentDTO = new CreateStudentDTO(CREATE_STUDENT_EMAIL, CREATE_STUDENT_PASSWORD, CREATE_STUDENT_DISPLAY_NAME);
         StudentDTO studentDTO = new StudentDTO(UUID.randomUUID(), CREATE_STUDENT_EMAIL, CREATE_STUDENT_DISPLAY_NAME);
         User student = new User(UUID.randomUUID(), CREATE_STUDENT_EMAIL, CREATE_STUDENT_DISPLAY_NAME, UserRole.STUDENT);
-
-
 
         StudentDTO returnedStudentDTO = RestAssured
                 .given()
@@ -82,13 +83,16 @@ class StudentControllerTest {
 
     @Test
     void givenAExistingId_whenGetAStudentById_thenReturnAStudentDTO() {
+        String token = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
+
         StudentDTO studentDTO =
                 RestAssured
                         .given()
                         .contentType(ContentType.JSON)
                         .when()
                         .port(localPort)
-                        .get("/students/{studentId}", TestConstants.STUDENT_ID)
+                        .header("Authorization", "Bearer " + token)
+                        .get("/students")
                         .then()
                         .assertThat()
                         .statusCode(HttpStatus.OK.value())
@@ -98,7 +102,7 @@ class StudentControllerTest {
 
         Assertions.assertThat(studentDTO)
                 .usingRecursiveComparison()
-                .isEqualTo(TestConstants.STUDENT_DTO);
+                .isEqualTo(TestConstants.TESTING_STUDENT_DTO);
     }
 
     @AfterAll

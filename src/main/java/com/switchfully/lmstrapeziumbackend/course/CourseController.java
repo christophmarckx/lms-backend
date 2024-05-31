@@ -42,16 +42,16 @@ public class CourseController {
 
     @PutMapping(consumes = "application/json", produces = "application/json", path = "{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public CourseDTO updateCourse(@PathVariable String courseId, @Valid @RequestBody UpdateCourseDTO updateCourseDTO) {
+    public CourseDTO updateCourse(@PathVariable UUID courseId, @Valid @RequestBody UpdateCourseDTO updateCourseDTO) {
         this.logger.info("PUT /courses: Updating a course");
         return courseService.updateCourse(courseId, updateCourseDTO);
     }
 
     @GetMapping(produces = "application/json", path = "{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public CourseDTO getCourseById(@PathVariable String courseId) {
+    public CourseDTO getCourseById(@PathVariable UUID courseId) {
         this.logger.info("GET /courses: Getting a course by id");
-        return courseService.getCourseDTOById(UUID.fromString(courseId));
+        return courseService.getCourseDTOById(courseId);
     }
 
 
