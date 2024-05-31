@@ -1,6 +1,5 @@
-package com.switchfully.lmstrapeziumbackend.user;
+package com.switchfully.lmstrapeziumbackend.user.student;
 
-import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import jakarta.validation.Valid;
