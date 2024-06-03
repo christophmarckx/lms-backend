@@ -10,6 +10,6 @@ public record CreateCodelabDTO(
         String name,
         String description,
         @NotNull(message = "Parent module is required for Codelab creation.")
-        UUID parentModule
+        UUID parentModuleId
 ) {
 }
