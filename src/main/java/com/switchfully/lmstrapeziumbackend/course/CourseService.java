@@ -27,7 +27,8 @@ public class CourseService {
     }
 
     public CourseDTO createCourse(CreateCourseDTO createCourseDTO) {
-        Course courseCreated = courseRepository.save(CourseMapper.toCourse(createCourseDTO));
+        List<Module> modules = moduleService.getModulesByIds(createCourseDTO.moduleIds());
+        Course courseCreated = courseRepository.save(CourseMapper.toCourse(createCourseDTO, modules));
         return CourseMapper.toDTO(courseCreated);
     }
 
@@ -50,7 +51,7 @@ public class CourseService {
     @Transactional
     public CourseDTO updateCourse(UUID courseId, UpdateCourseDTO updateCourseDTO) {
         Course courseFound = getCourseById(courseId);
-        courseFound.updateCourseName(updateCourseDTO.getName());
+        courseFound.updateCourseName(updateCourseDTO.name());
         return CourseMapper.toDTO(courseFound);
     }
 }

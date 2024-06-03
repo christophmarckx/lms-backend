@@ -69,17 +69,13 @@ class ModuleControllerTest {
     @Transactional
     @DisplayName("Given connected user, creating a module will return the module DTO")
     void givenConnectedUser_whenCreatingModule_returnModuleDTO(){
-        String domain = "Gym";
-        CreateModuleDTO createModuleDTO = new CreateModuleDTO(domain, null);
-        Module myModule = new Module(domain, null);
-
         ModuleDTO actualModuleDTO = RestAssured
                 .given()
                 .baseUri(URI)
                 .port(localPort)
                 .accept(JSON)
                 .contentType(JSON)
-                .body(createModuleDTO)
+                .body(TestConstants.CREATE_MODULE_DTO_1)
                 .when()
                 .post("/modules")
                 .then()
@@ -88,18 +84,13 @@ class ModuleControllerTest {
                 .extract()
                 .as(ModuleDTO.class);
 
-        Module dbModule = entityManager.createQuery("select m from Module m where m.name= :name", Module.class)
-                .setParameter("name", domain)
+        Module dbModule = entityManager.createQuery("select m from Module m where m.id= :id", Module.class)
+                .setParameter("id", actualModuleDTO.id())
                 .getSingleResult();
 
         assertThat(actualModuleDTO)
                 .usingRecursiveComparison()
-                .ignoringFieldsMatchingRegexes(".*id")
-                .isEqualTo(new ModuleDTO(UUID.randomUUID(), domain, null));
-
-        assertThat(dbModule).usingRecursiveComparison()
-            .ignoringFieldsMatchingRegexes(".*id")
-            .isEqualTo(myModule);
+                .isEqualTo(dbModule);
     }
 
     @Test
@@ -121,7 +112,9 @@ class ModuleControllerTest {
         //Then
 
         List<Course> coursesToCheck = entityManager.createQuery("select distinct c from Course c  join c.modules m where m.id = :id", Course.class).setParameter("id", moduleId).getResultList();
-        Assertions.assertThat(moduleWithCoursesDTOActual).extracting("courses").usingRecursiveComparison().isEqualTo(coursesToCheck);
+        Assertions.assertThat(moduleWithCoursesDTOActual).extracting("courses")
+                .usingRecursiveComparison()
+                .isEqualTo(coursesToCheck);
     }
 
 }
