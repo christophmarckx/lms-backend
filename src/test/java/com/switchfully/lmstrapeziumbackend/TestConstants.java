@@ -77,7 +77,7 @@ public class TestConstants {
         Map<String, Object> mapExpected = new HashMap<>();
         Map<String, String> errorsMap = new HashMap<>();
         errorsMap.put("name", "Name is required for Codelab creation.");
-        errorsMap.put("parentModule", "Parent module is required for Codelab creation.");
+        errorsMap.put("parentModuleId", "Parent module is required for Codelab creation.");
         mapExpected.put("message", "Following validation error(s) occurred on /codelabs");
         mapExpected.put("errors", errorsMap);
         return mapExpected;
