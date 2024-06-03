@@ -15,6 +15,6 @@ public class ClassgroupMapper {
     }
 
     public static ClassgroupDTO toDTO(Classgroup classgroup) {
-        return new ClassgroupDTO(classgroup.getId().toString(), classgroup.getName(), CourseMapper.toDTO(classgroup.getCourse()));
+        return new ClassgroupDTO(classgroup.getId().toString(), classgroup.getName(), CourseMapper.toCourseSummaryDTO(classgroup.getCourse()));
     }
 }

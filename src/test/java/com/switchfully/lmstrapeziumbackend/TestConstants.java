@@ -6,6 +6,7 @@ import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.CourseSummaryDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.module.Module;
@@ -37,8 +38,9 @@ public class TestConstants {
     //****************** COURSES ******************//
 
     public static final CreateCourseDTO CREATE_COURSE_DTO_1 = new CreateCourseDTO("Java@Fin", "The Java@Fin course", List.of(UUID.fromString("e0e8b090-df45-11ec-9d64-0242ac120002"), UUID.fromString("e0e8b091-df45-11ec-9d64-0242ac120002")));
-    public static final Course COURSE_1 = new Course(CREATE_COURSE_DTO_1.name(), CREATE_COURSE_DTO_1.description(), new ArrayList<>());
+    public static final Course COURSE_1 = new Course(CREATE_COURSE_DTO_1.name(), CREATE_COURSE_DTO_1.description(), List.of(MODULE_1, MODULE_2));
     public static final CourseDTO COURSE_DTO_1 = new CourseDTO(UUID.fromString("f953c154-36f2-4b79-8992-b6f5d4dd24a9"), COURSE_1.getName(), COURSE_1.getDescription(), List.of(MODULE_DTO_1, MODULE_DTO_2));
+    public static final CourseSummaryDTO COURSE_SUMMARY_DTO_1 = new CourseSummaryDTO(UUID.fromString("f953c154-36f2-4b79-8992-b6f5d4dd24a9"), COURSE_1.getName(), COURSE_1.getDescription());
     public static final UpdateCourseDTO UPDATED_COURSE_1 = new UpdateCourseDTO("NEW UPDATED NAME", "", new ArrayList<>());
 
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateCourseDTO() {
@@ -67,7 +69,7 @@ public class TestConstants {
 
     public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("Java-2024-02", COURSE_DTO_1.id().toString(), List.of(TESTING_COACH.getId()));
     public static final Classgroup CLASSGROUP_1 = new Classgroup(CREATE_CLASSGROUP_DTO_1.getName(), COURSE_1, List.of(TESTING_COACH));
-    public static final ClassgroupDTO CLASSGROUP_DTO_1 = new ClassgroupDTO("ID", CLASSGROUP_1.getName(), COURSE_DTO_1);
+    public static final ClassgroupDTO CLASSGROUP_DTO_1 = new ClassgroupDTO("ID", CLASSGROUP_1.getName(), COURSE_SUMMARY_DTO_1);
 
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateClassgroupDTO() {
         Map<String, Object> mapExpected = new HashMap<>();
