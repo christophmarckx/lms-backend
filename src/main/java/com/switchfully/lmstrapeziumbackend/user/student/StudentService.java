@@ -41,11 +41,12 @@ public class StudentService {
                 .toList();
     }
 
-    public StudentDTO getStudentByAuthentication(Authentication authentication) {
-        UUID studentId = this.authenticationService.getAuthenticatedUserId(authentication)
+    public StudentDTO getStudentByAuthentication(Authentication authentication/*, UUID studentId*/) {
+
+        UUID authenticatedUserId = this.authenticationService.getAuthenticatedUserId(authentication)
                 .orElseThrow(UserNotFoundException::new);
 
-        Optional<User> userOptional = userRepository.findById(studentId);
+        Optional<User> userOptional = userRepository.findById(authenticatedUserId);
         if (userOptional.isEmpty()) {
             throw new UserNotFoundException();
         }

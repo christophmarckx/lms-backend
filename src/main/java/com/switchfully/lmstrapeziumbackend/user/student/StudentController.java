@@ -30,8 +30,9 @@ public class StudentController {
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public StudentDTO getStudentById(@PathVariable UUID studentId, Authentication authentication) {
+    public StudentDTO getStudentById(/*@PathVariable UUID studentId, */Authentication authentication) {
+        System.out.println("procced getStudentById");
         this.logger.info("GET /students: Get student by bearer token");
-        return studentService.getStudentByAuthentication(authentication);
+        return studentService.getStudentByAuthentication(authentication/*, studentId*/);
     }
 }
