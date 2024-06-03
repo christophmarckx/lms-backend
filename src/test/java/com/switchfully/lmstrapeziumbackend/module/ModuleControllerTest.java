@@ -119,7 +119,9 @@ class ModuleControllerTest {
         //Then
 
         List<Course> coursesToCheck = entityManager.createQuery("select distinct c from Course c  join c.modules m where m.id = :id", Course.class).setParameter("id", moduleId).getResultList();
-        Assertions.assertThat(moduleWithCoursesDTOActual).extracting("courses").usingRecursiveComparison().isEqualTo(coursesToCheck);
+        Assertions.assertThat(moduleWithCoursesDTOActual).extracting("courses")
+                .usingRecursiveComparison()
+                .isEqualTo(coursesToCheck);
     }
 
 }

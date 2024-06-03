@@ -10,6 +10,7 @@ import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -18,10 +19,10 @@ public class TestConstants {
 
     //****************** COURSES ******************//
 
-    public static final CreateCourseDTO CREATE_COURSE_DTO_1 = new CreateCourseDTO("Java@Fin", "The Java@Fin course");
-    public static final Course COURSE_1 = new Course(CREATE_COURSE_DTO_1.getName(), CREATE_COURSE_DTO_1.getDescription());
-    public static final CourseDTO COURSE_DTO_1 = new CourseDTO(UUID.fromString("f953c154-36f2-4b79-8992-b6f5d4dd24a9"), COURSE_1.getName(), COURSE_1.getDescription());
-    public static final UpdateCourseDTO UPDATED_COURSE_1 = new UpdateCourseDTO("NEW UPDATED NAME");
+    public static final CreateCourseDTO CREATE_COURSE_DTO_1 = new CreateCourseDTO("Java@Fin", "The Java@Fin course", new ArrayList<>());
+    public static final Course COURSE_1 = new Course(CREATE_COURSE_DTO_1.name(), CREATE_COURSE_DTO_1.description());
+    public static final CourseDTO COURSE_DTO_1 = new CourseDTO(UUID.fromString("f953c154-36f2-4b79-8992-b6f5d4dd24a9"), COURSE_1.getName(), COURSE_1.getDescription(), new ArrayList<>());
+    public static final UpdateCourseDTO UPDATED_COURSE_1 = new UpdateCourseDTO("NEW UPDATED NAME", "", new ArrayList<>());
 
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateCourseDTO() {
         Map<String, Object> mapExpected = new HashMap<>();
@@ -36,14 +37,14 @@ public class TestConstants {
         Map<String, Object> mapExpected = new HashMap<>();
         Map<String, String> errorsMap = new HashMap<>();
         errorsMap.put("name", "Name must be between 2 and 255 characters");
-        mapExpected.put("message", "Following validation error(s) occurred on /courses/" + COURSE_DTO_1.getId());
+        mapExpected.put("message", "Following validation error(s) occurred on /courses/" + COURSE_DTO_1.id());
         mapExpected.put("errors", errorsMap);
         return mapExpected;
     }
 
     //****************** CLASSGROUPS ******************//
 
-    public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("Java-2024-02", COURSE_DTO_1.getId().toString());
+    public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("Java-2024-02", COURSE_DTO_1.id().toString());
     public static final Classgroup CLASSGROUP_1 = new Classgroup(CREATE_CLASSGROUP_DTO_1.getName(), COURSE_1);
     public static final ClassgroupDTO CLASSGROUP_DTO_1 = new ClassgroupDTO("ID", CLASSGROUP_1.getName(), COURSE_DTO_1);
 

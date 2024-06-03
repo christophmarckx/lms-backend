@@ -1,20 +1,12 @@
 package com.switchfully.lmstrapeziumbackend.course.dto;
 
-import lombok.Getter;
+import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 
-import java.util.Objects;
+import java.util.List;
 import java.util.UUID;
 
-@Getter
-public class CourseDTO {
-    private UUID id;
-    private String name;
-    private String description;
-    //TODO Add ModuleDTO
-
-    public CourseDTO(UUID id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
-}
+public record CourseDTO(    UUID id,
+                            String name,
+                            String description,
+                            List<ModuleDTO> moduleDTOs
+) {}

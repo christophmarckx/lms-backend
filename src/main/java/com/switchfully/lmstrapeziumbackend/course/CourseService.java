@@ -50,7 +50,7 @@ public class CourseService {
     @Transactional
     public CourseDTO updateCourse(UUID courseId, UpdateCourseDTO updateCourseDTO) {
         Course courseFound = getCourseById(courseId);
-        courseFound.updateCourseName(updateCourseDTO.getName());
+        courseFound.updateCourseName(updateCourseDTO.name());
         return CourseMapper.toDTO(courseFound);
     }
 }

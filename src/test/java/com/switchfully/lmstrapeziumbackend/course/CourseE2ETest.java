@@ -15,6 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import static io.restassured.http.ContentType.JSON;
@@ -30,7 +31,7 @@ public class CourseE2ETest {
     @DisplayName("Trying to create a Course with invalid data should not work")
     void givenAFullyInvalidCreateCourseDTO_thenWillReturnAListOfErrors() {
         //Given
-        CreateCourseDTO invalidCreateCourseDTO = new CreateCourseDTO("A", "");
+        CreateCourseDTO invalidCreateCourseDTO = new CreateCourseDTO("A", "", new ArrayList<>());
         //When
         Response response = RestAssured
                 .given()
@@ -86,21 +87,21 @@ public class CourseE2ETest {
                 .contentType(JSON)
                 .body(TestConstants.UPDATED_COURSE_1)
                 .when()
-                .put("/courses/" + TestConstants.COURSE_DTO_1.getId())
+                .put("/courses/" + TestConstants.COURSE_DTO_1.id())
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .extract()
                 .as(CourseDTO.class);
         //Then
-        Assertions.assertThat(courseUpdated.getName()).isEqualTo(TestConstants.UPDATED_COURSE_1.getName());
+        Assertions.assertThat(courseUpdated.name()).isEqualTo(TestConstants.UPDATED_COURSE_1.name());
     }
 
     @Test
     @DisplayName("Trying to update a course name with invalid data should not work")
     void givenAFullyInvalidUpdateCourseDTO_thenWillReturnAListOfErrors(){
         //Given
-        UpdateCourseDTO invalidUpdateCourseDTO = new UpdateCourseDTO("B");
+        UpdateCourseDTO invalidUpdateCourseDTO = new UpdateCourseDTO("B", "", new ArrayList<>());
         //When
         Response response = RestAssured
                 .given()
@@ -109,7 +110,7 @@ public class CourseE2ETest {
                 .contentType(JSON)
                 .body(invalidUpdateCourseDTO)
                 .when()
-                .put("/courses/" + TestConstants.COURSE_DTO_1.getId())
+                .put("/courses/" + TestConstants.COURSE_DTO_1.id())
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())

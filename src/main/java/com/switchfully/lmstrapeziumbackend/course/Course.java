@@ -3,6 +3,7 @@ package com.switchfully.lmstrapeziumbackend.course;
 import com.switchfully.lmstrapeziumbackend.module.Module;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class Course {
             name = "COURSE_MODULE",
             joinColumns = @JoinColumn(name = "COURSE_ID"),
             inverseJoinColumns = @JoinColumn(name = "MODULE_ID"))
-    private List<Module> modules;
+    private List<Module> modules = new ArrayList<>();
 
     public Course() {}
 
@@ -44,6 +45,10 @@ public class Course {
 
     public String getDescription() {
         return description;
+    }
+
+    public List<Module> getModules() {
+        return modules;
     }
 
     public void updateCourseName(String newName) {
