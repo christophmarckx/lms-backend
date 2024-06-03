@@ -25,7 +25,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "CLASSGROUP_APP_USER",
             joinColumns = @JoinColumn(name = "APP_USER_ID"),

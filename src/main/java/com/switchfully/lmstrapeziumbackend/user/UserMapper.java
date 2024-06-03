@@ -9,4 +9,5 @@ public class UserMapper {
     public AuthenticatedUserDTO toDTO(User user) {
         return new AuthenticatedUserDTO(user.getId(), user.getEmail(), user.getDisplayName(), user.getRole());
     }
+
 }

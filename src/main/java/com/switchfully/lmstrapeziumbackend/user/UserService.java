@@ -1,5 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
+import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
 import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
 import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
 import com.switchfully.lmstrapeziumbackend.user.dto.AuthenticatedUserDTO;
@@ -28,5 +29,15 @@ public class UserService {
         return this.userMapper.toDTO(
                 this.userRepository.findById(authenticatedUserId)
                         .orElseThrow(UserNotFoundException::new));
+    }
+
+    public User getUserById(UUID coachId) {
+        return this.userRepository.findById(coachId)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    public void addClassGroupToUser(Classgroup classgroup, User user){
+        user.addClassgroup(classgroup);
+        this.userRepository.save(user);
     }
 }

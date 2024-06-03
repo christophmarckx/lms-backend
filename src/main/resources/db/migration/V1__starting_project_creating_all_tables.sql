@@ -1,21 +1,22 @@
 drop schema if exists lms cascade;
 create schema lms;
-CREATE TABLE course
+
+CREATE TABLE lms.course
 (
     id          UUID PRIMARY KEY,
     name        VARCHAR(255) NOT NULL,
     description text
 );
 
-CREATE TABLE classgroup
+CREATE TABLE lms.classgroup
 (
     id        UUID PRIMARY KEY,
     name      VARCHAR(255) NOT NULL,
     course_id UUID  NOT NULL,
-    FOREIGN KEY (course_id) REFERENCES course (id)
+    FOREIGN KEY (course_id) REFERENCES lms.course (id)
 );
 
-CREATE TABLE app_user
+CREATE TABLE lms.app_user
 (
     id            UUID PRIMARY KEY,
     email_address VARCHAR(255) NOT NULL UNIQUE,
@@ -23,58 +24,58 @@ CREATE TABLE app_user
     role          VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE classgroup_app_user
+CREATE TABLE lms.classgroup_app_user
 (
     id            UUID PRIMARY KEY,
     classgroup_id UUID NOT NULL,
     app_user_id       UUID NOT NULL,
-    FOREIGN KEY (classgroup_id) REFERENCES classgroup (id),
-    FOREIGN KEY (app_user_id) REFERENCES app_user (id)
+    FOREIGN KEY (classgroup_id) REFERENCES lms.classgroup (id),
+    FOREIGN KEY (app_user_id) REFERENCES lms.app_user (id)
 );
 
 
-CREATE TABLE module
+CREATE TABLE lms.module
 (
     id        UUID PRIMARY KEY,
     name      VARCHAR(255) NOT NULL,
     parent_id UUID,
-    FOREIGN KEY (parent_id) REFERENCES module (id)
+    FOREIGN KEY (parent_id) REFERENCES lms.module (id)
 );
 
-CREATE TABLE course_module
+CREATE TABLE lms.course_module
 (
     id        UUID PRIMARY KEY,
     course_id UUID NOT NULL,
     module_id UUID NOT NULL,
-    FOREIGN KEY (course_id) REFERENCES course (id),
-    FOREIGN KEY (module_id) REFERENCES module (id)
+    FOREIGN KEY (course_id) REFERENCES lms.course (id),
+    FOREIGN KEY (module_id) REFERENCES lms.module (id)
 );
 
-CREATE TABLE codelab
+CREATE TABLE lms.codelab
 (
     id        UUID PRIMARY KEY,
     name      VARCHAR(255) NOT NULL,
     description      text,
     module_id UUID  NOT NULL,
-    FOREIGN KEY (module_id) REFERENCES module (id)
+    FOREIGN KEY (module_id) REFERENCES lms.module (id)
 );
 
-CREATE TABLE comment
+CREATE TABLE lms.comment
 (
     id         UUID PRIMARY KEY,
     codelab_id UUID NOT NULL,
     app_user_id    UUID NOT NULL,
     comment    text,
-    FOREIGN KEY (codelab_id) REFERENCES codelab (id),
-    FOREIGN KEY (app_user_id) REFERENCES app_user (id)
+    FOREIGN KEY (codelab_id) REFERENCES lms.codelab (id),
+    FOREIGN KEY (app_user_id) REFERENCES lms.app_user (id)
 );
 
-CREATE TABLE progress
+CREATE TABLE lms.progress
 (
     id         UUID PRIMARY KEY,
     codelab_id UUID NOT NULL,
     app_user_id    UUID NOT NULL,
     status     VARCHAR(50),
-    FOREIGN KEY (codelab_id) REFERENCES codelab (id),
-    FOREIGN KEY (app_user_id) REFERENCES app_user (id)
+    FOREIGN KEY (codelab_id) REFERENCES lms.codelab (id),
+    FOREIGN KEY (app_user_id) REFERENCES lms.app_user (id)
 );
