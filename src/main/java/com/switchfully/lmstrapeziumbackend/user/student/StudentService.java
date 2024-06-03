@@ -36,7 +36,7 @@ public class StudentService {
 
     public List<StudentDTO> getStudentFollowingClass(Classgroup classgroup){
         return this.userRepository
-                .findAllByClassgroups(classgroup)
+                .findAllByClassgroupsAndRole(classgroup, UserRole.STUDENT)
                 .stream().map(StudentMapper::toDTO)
                 .toList();
     }

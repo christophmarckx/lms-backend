@@ -1,4 +1,5 @@
 package com.switchfully.lmstrapeziumbackend.user.coach;
+import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
 import com.switchfully.lmstrapeziumbackend.user.UserRepository;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
@@ -16,12 +17,10 @@ public class CoachService {
         this.userRepository = userRepository;
     }
 
-    public List<CoachDTO> getCoachesFollowingClass(UUID classId) {
-//        return this.userRepository
-//                .findAllByClassgroups(classId)
-//                .stream().map(CoachMapper::toDTO)
-//                .toList();
-        return new ArrayList<CoachDTO>();
-
+    public List<CoachDTO> getCoachesFollowingClass(Classgroup classgroup) {
+        return this.userRepository
+                .findAllByClassgroupsAndRole(classgroup, UserRole.COACH)
+                .stream().map(CoachMapper::toDTO)
+                .toList();
     }
 }

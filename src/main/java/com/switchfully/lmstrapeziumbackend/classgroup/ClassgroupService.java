@@ -45,7 +45,7 @@ public class ClassgroupService {
         Classgroup classgroup = this.getById(classgroupId);
 
         List<StudentDTO> students = this.studentService.getStudentFollowingClass(classgroup);
-        List<CoachDTO> coaches = this.coachService.getCoachesFollowingClass(classgroupId);
+        List<CoachDTO> coaches = this.coachService.getCoachesFollowingClass(classgroup);
         return ClassgroupMapper.toDTO(classgroup, students, coaches);
     }
 
