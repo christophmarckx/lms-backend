@@ -4,6 +4,7 @@ import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.user.User;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class Classgroup {
     private Course course;
 
     @ManyToMany(mappedBy = "classgroups")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
 
     public Classgroup() {}

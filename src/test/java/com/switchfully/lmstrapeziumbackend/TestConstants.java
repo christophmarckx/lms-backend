@@ -46,12 +46,12 @@ public class TestConstants {
 
     //****************** COACHS ******************//
 
-    public static final User TESTING_COACH = new User(UUID.fromString("edc88e86-3185-4354-8b21-9ae9b4057b09"), "test_coach@coach.com", "test_coach", UserRole.COACH);
+    public static final User TESTING_COACH = new User(UUID.fromString("e0e8b087-df45-11ec-9d64-0242ac120002"), "admin@example.com", "Admin User", UserRole.COACH);
 
     //****************** CLASSGROUPS ******************//
 
     public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("Java-2024-02", COURSE_DTO_1.getId().toString(), List.of(TESTING_COACH.getId()));
-    public static final Classgroup CLASSGROUP_1 = new Classgroup(CREATE_CLASSGROUP_DTO_1.getName(), COURSE_1);
+    public static final Classgroup CLASSGROUP_1 = new Classgroup(CREATE_CLASSGROUP_DTO_1.getName(), COURSE_1, List.of(TESTING_COACH));
     public static final ClassgroupDTO CLASSGROUP_DTO_1 = new ClassgroupDTO("ID", CLASSGROUP_1.getName(), COURSE_DTO_1);
 
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateClassgroupDTO() {
