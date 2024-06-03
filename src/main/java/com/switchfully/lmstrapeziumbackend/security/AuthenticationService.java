@@ -10,8 +10,7 @@ import java.util.UUID;
 @Service
 public class AuthenticationService {
 
-    public Optional<UUID> getAuthenticatedUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public Optional<UUID> getAuthenticatedUserId(Authentication authentication) {
         UUID authenticatedUserId;
 
         try {

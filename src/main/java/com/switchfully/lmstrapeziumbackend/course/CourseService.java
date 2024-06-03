@@ -39,13 +39,17 @@ public class CourseService {
         return courseOptional.get();
     }
 
+    public CourseDTO getCourseDTOById(UUID courseId) {
+        return CourseMapper.toDTO(this.getCourseById(courseId));
+    }
+
     public List<CourseDTO> getAllCourses() {
             return CourseMapper.toDTO(courseRepository.findAll());
     }
 
     @Transactional
-    public CourseDTO updateCourse(String courseId, UpdateCourseDTO updateCourseDTO) {
-        Course courseFound = getCourseById(UUID.fromString(courseId));
+    public CourseDTO updateCourse(UUID courseId, UpdateCourseDTO updateCourseDTO) {
+        Course courseFound = getCourseById(courseId);
         courseFound.updateCourseName(updateCourseDTO.getName());
         return CourseMapper.toDTO(courseFound);
     }

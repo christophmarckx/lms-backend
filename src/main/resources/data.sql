@@ -12,6 +12,8 @@ INSERT INTO classgroup (id, name, course_id) VALUES
 
 -- Inserting data into app_user table
 INSERT INTO app_user (id, email_address, display_name, role) VALUES
+     ('d992d902-4953-4b9a-9a88-493d446c8ee0', 'testing@student.com', 'Super Testing Student', 'STUDENT'),
+     ('5422bc6a-6d34-40ac-a419-8a291e195e5f', 'testing@coach.com', 'Super Testing Coach', 'COACH'),
      ('e0e8b085-df45-11ec-9d64-0242ac120002', 'john.doe@example.com', 'John Doe', 'STUDENT'),
      ('e0e8b086-df45-11ec-9d64-0242ac120002', 'jane.smith@example.com', 'Jane Smith', 'STUDENT'),
      ('e0e8b087-df45-11ec-9d64-0242ac120002', 'admin@example.com', 'Admin User', 'COACH');
@@ -39,10 +41,10 @@ INSERT INTO course_module (id, course_id, module_id) VALUES
      ('e0e8b095-df45-11ec-9d64-0242ac120002', 'e0e8b080-df45-11ec-9d64-0242ac120002', 'e0e8b092-df45-11ec-9d64-0242ac120002');
 
 -- Inserting data into codelab table
-INSERT INTO codelab (id, name, module_id) VALUES
-      ('e0e8b096-df45-11ec-9d64-0242ac120002', 'Hello World Lab', 'e0e8b090-df45-11ec-9d64-0242ac120002'),
-      ('e0e8b097-df45-11ec-9d64-0242ac120002', 'Sorting Algorithms Lab', 'e0e8b091-df45-11ec-9d64-0242ac120002'),
-      ('e0e8b098-df45-11ec-9d64-0242ac120002', 'Binary Trees Lab', 'e0e8b092-df45-11ec-9d64-0242ac120002');
+INSERT INTO codelab (id, name, description, module_id) VALUES
+      ('e0e8b096-df45-11ec-9d64-0242ac120002', 'Hello World Lab', 'First Hello World Lab', 'e0e8b090-df45-11ec-9d64-0242ac120002'),
+      ('e0e8b097-df45-11ec-9d64-0242ac120002', 'Sorting Algorithms Lab', 'Lab about complex algorithm for sorting (Like bubble sort, the best)', 'e0e8b091-df45-11ec-9d64-0242ac120002'),
+      ('e0e8b098-df45-11ec-9d64-0242ac120002', 'Binary Trees Lab', 'You love tree ? You love binary ? You will love Binary Tree !', 'e0e8b092-df45-11ec-9d64-0242ac120002');
 
 -- Inserting data into comment table
 INSERT INTO comment (id, codelab_id, app_user_id, comment) VALUES

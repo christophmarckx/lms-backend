@@ -15,7 +15,7 @@ public class UserController {
     }
 
     @GetMapping
-    public AuthenticatedUserDTO getAuthenticatedUser() {
-        return this.userService.getAuthenticatedUser();
+    public AuthenticatedUserDTO getAuthenticatedUser(Authentication authentication) {
+        return this.userService.getAuthenticatedUser(authentication);
     }
 }

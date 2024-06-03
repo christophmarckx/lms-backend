@@ -1,5 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.exception;
 
-public class CourseNotFoundException extends RuntimeException {
-    public CourseNotFoundException() { super("No course with the provided id exists"); }
+import org.springframework.http.HttpStatus;
+
+public class CourseNotFoundException extends LMSException {
+    public CourseNotFoundException() { super("No course with the provided id exists", HttpStatus.NOT_FOUND.value()); }
 }

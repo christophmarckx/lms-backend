@@ -13,7 +13,6 @@ public class CourseMapper {
     public static CourseDTO toDTO(Course course) {
         return new CourseDTO(course.getId(), course.getName(), course.getDescription());
     }
-
     public static List<CourseDTO> toDTO(List<Course> courses) {
         return courses.stream().map(CourseMapper::toDTO).toList();
     }

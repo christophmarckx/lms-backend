@@ -21,7 +21,7 @@ public class StudentMapper {
         return students.stream().map(StudentMapper::toDTO).toList();
     }
 
-    public static User toEntity(UUID userIdFromKeycloak, CreateStudentDTO createStudentDTO) {
+    public static User toUser(UUID userIdFromKeycloak, CreateStudentDTO createStudentDTO) {
         return new User(userIdFromKeycloak, createStudentDTO.email(), createStudentDTO.displayName(), UserRole.STUDENT);
     }
 }

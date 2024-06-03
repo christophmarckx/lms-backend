@@ -1,8 +1,10 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
+import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
+import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import jakarta.persistence.EntityManager;
@@ -16,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
 
@@ -38,13 +39,10 @@ class StudentControllerTest {
     EntityManager entityManager;
     @Autowired
     KeycloakService keycloakService;
+    @Autowired
+    KeycloakTestingUtility keycloakTestingUtility;
 
     public static UUID userId = null;
-
-    @Test
-    void testIt() {
-        System.out.println("test");
-    }
 
     @Test
     public void givenCreateStudentDTO_whenCreateStudent_thenReturnStudentDTO() {
@@ -81,6 +79,30 @@ class StudentControllerTest {
                 .usingRecursiveComparison()
                 .ignoringFieldsMatchingRegexes(".*id")
                 .isEqualTo(student);
+    }
+
+    @Test
+    void givenAExistingId_whenGetAStudentById_thenReturnAStudentDTO() {
+        String token = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
+
+        StudentDTO studentDTO =
+                RestAssured
+                        .given()
+                        .contentType(ContentType.JSON)
+                        .when()
+                        .port(localPort)
+                        .header("Authorization", "Bearer " + token)
+                        .get("/students")
+                        .then()
+                        .assertThat()
+                        .statusCode(HttpStatus.OK.value())
+                        .extract()
+                        .as(StudentDTO.class);
+
+
+        Assertions.assertThat(studentDTO)
+                .usingRecursiveComparison()
+                .isEqualTo(TestConstants.TESTING_STUDENT_DTO);
     }
 
     @AfterAll
