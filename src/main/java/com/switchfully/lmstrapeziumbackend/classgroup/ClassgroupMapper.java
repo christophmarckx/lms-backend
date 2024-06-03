@@ -4,10 +4,14 @@ import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.CourseMapper;
+import com.switchfully.lmstrapeziumbackend.user.User;
+import com.switchfully.lmstrapeziumbackend.user.UserMapper;
+
+import java.util.List;
 
 public class ClassgroupMapper {
-    public static Classgroup toClassgroup(String name, Course course) {
-        return new Classgroup(name, course);
+    public static Classgroup toClassgroup(String name, Course course, List<User> coachs) {
+        return new Classgroup(name, course, coachs);
     }
 
     public static ClassgroupDTO toDTO(Classgroup classgroup) {

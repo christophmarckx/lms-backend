@@ -8,10 +8,13 @@ import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.user.User;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,10 +45,14 @@ public class TestConstants {
         return mapExpected;
     }
 
+    //****************** COACHS ******************//
+
+    public static final User TESTING_COACH = new User(UUID.fromString("e0e8b087-df45-11ec-9d64-0242ac120002"), "admin@example.com", "Admin User", UserRole.COACH);
+
     //****************** CLASSGROUPS ******************//
 
-    public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("Java-2024-02", COURSE_DTO_1.id().toString());
-    public static final Classgroup CLASSGROUP_1 = new Classgroup(CREATE_CLASSGROUP_DTO_1.getName(), COURSE_1);
+    public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("Java-2024-02", COURSE_DTO_1.id().toString(), List.of(TESTING_COACH.getId()));
+    public static final Classgroup CLASSGROUP_1 = new Classgroup(CREATE_CLASSGROUP_DTO_1.getName(), COURSE_1, List.of(TESTING_COACH));
     public static final ClassgroupDTO CLASSGROUP_DTO_1 = new ClassgroupDTO("ID", CLASSGROUP_1.getName(), COURSE_DTO_1);
 
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateClassgroupDTO() {
@@ -53,6 +60,7 @@ public class TestConstants {
         Map<String, String> errorsMap = new HashMap<>();
         errorsMap.put("name", "The name of the classgroup must be between 2 and 255 characters");
         errorsMap.put("courseId", "The id of the course must be 36 characters long");
+        errorsMap.put("coachs", "Provide at least one coach to create the Classgroup");
         mapExpected.put("message", "Following validation error(s) occurred on /classgroups");
         mapExpected.put("errors", errorsMap);
         return mapExpected;
@@ -90,4 +98,6 @@ public class TestConstants {
     public static final StudentDTO TESTING_STUDENT_DTO = new StudentDTO(TESTING_STUDENT_ID, "testing@student.com", "Super Testing Student");
     public static final UUID STUDENT_ID = UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002");
     public static final StudentDTO STUDENT_DTO = new StudentDTO(UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002"), "john.doe@example.com","John Doe");
+
+
 }
