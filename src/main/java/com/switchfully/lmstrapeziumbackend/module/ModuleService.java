@@ -8,6 +8,7 @@ import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +39,13 @@ public class ModuleService {
 
     public ModuleWithCoursesDTO getModuleWithCoursesById(UUID id) {
         return ModuleMapper.toModuleWithCoursesDTO(getModuleById(id));
+    }
+
+    public List<Module> getModulesByIds(List<UUID> ids) {
+        if (ids == null) {
+            return new ArrayList<>();
+        }
+        return ids.stream().map(this::getModuleById).toList();
     }
 
     public Module getModuleById(UUID id) {

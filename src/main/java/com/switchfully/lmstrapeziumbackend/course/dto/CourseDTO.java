@@ -8,5 +8,5 @@ import java.util.UUID;
 public record CourseDTO(    UUID id,
                             String name,
                             String description,
-                            List<ModuleDTO> moduleDTOs
+                            List<ModuleDTO> modules
 ) {}

@@ -3,13 +3,14 @@ package com.switchfully.lmstrapeziumbackend.course;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseSummaryDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.module.Module;
 import com.switchfully.lmstrapeziumbackend.module.ModuleMapper;
 
 import java.util.List;
 
 public class CourseMapper {
-    public static Course toCourse(CreateCourseDTO createCourseDTO) {
-        return new Course(createCourseDTO.name(), createCourseDTO.description());
+    public static Course toCourse(CreateCourseDTO createCourseDTO, List<Module> modules) {
+        return new Course(createCourseDTO.name(), createCourseDTO.description(), modules);
     }
 
     public static CourseDTO toDTO(Course course) {

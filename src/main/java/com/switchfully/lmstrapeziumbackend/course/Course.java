@@ -30,9 +30,10 @@ public class Course {
 
     public Course() {}
 
-    public Course(String name, String description) {
+    public Course(String name, String description, List<Module> modules) {
         this.name = name;
         this.description = description;
+        this.modules = modules;
     }
 
     public UUID getId() {

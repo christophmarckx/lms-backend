@@ -74,7 +74,7 @@ public class CourseE2ETest {
         Assertions
                 .assertThat(courseCreated)
                 .usingRecursiveComparison()
-                .ignoringFieldsMatchingRegexes(".*id")
+                .ignoringFields("id")
                 .isEqualTo(TestConstants.COURSE_DTO_1);
     }
 

@@ -30,10 +30,10 @@ INSERT INTO lms.module (id, name, parent_id) VALUES
      ('e0e8b092-df45-11ec-9d64-0242ac120002', 'Data Structures', 'e0e8b090-df45-11ec-9d64-0242ac120002');
 
 -- Inserting data into course_module table
-INSERT INTO lms.course_module (id, course_id, module_id) VALUES
-     ('e0e8b093-df45-11ec-9d64-0242ac120002', 'e0e8b080-df45-11ec-9d64-0242ac120002', 'e0e8b090-df45-11ec-9d64-0242ac120002'),
-     ('e0e8b094-df45-11ec-9d64-0242ac120002', 'e0e8b080-df45-11ec-9d64-0242ac120002', 'e0e8b091-df45-11ec-9d64-0242ac120002'),
-     ('e0e8b095-df45-11ec-9d64-0242ac120002', 'e0e8b080-df45-11ec-9d64-0242ac120002', 'e0e8b092-df45-11ec-9d64-0242ac120002');
+INSERT INTO lms.course_module (course_id, module_id) VALUES
+     ('e0e8b080-df45-11ec-9d64-0242ac120002', 'e0e8b090-df45-11ec-9d64-0242ac120002'),
+     ('e0e8b080-df45-11ec-9d64-0242ac120002', 'e0e8b091-df45-11ec-9d64-0242ac120002'),
+     ('e0e8b080-df45-11ec-9d64-0242ac120002', 'e0e8b092-df45-11ec-9d64-0242ac120002');
 
 -- Inserting data into codelab table
 INSERT INTO lms.codelab (id, name, description, module_id) VALUES
