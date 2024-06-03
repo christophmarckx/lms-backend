@@ -37,6 +37,6 @@ public class ClassgroupController {
     @ResponseStatus(HttpStatus.OK)
     public ClassgroupWithMembersDTO getClassgroup(@PathVariable UUID classgroupId) {
         this.logger.info("GET /classgroups Getting a classgroup by id");
-        return this.classgroupService.getById(classgroupId);
+        return this.classgroupService.getClassgroupWithMembersDTOById(classgroupId);
     }
 }

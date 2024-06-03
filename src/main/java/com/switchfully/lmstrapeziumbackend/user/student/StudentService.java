@@ -1,9 +1,10 @@
 package com.switchfully.lmstrapeziumbackend.user.student;
 
+import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
+import com.switchfully.lmstrapeziumbackend.classgroup.ClassgroupService;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.UserRepository;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
-import com.switchfully.lmstrapeziumbackend.user.coach.CoachMapper;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import java.util.UUID;
 
 @Service
 public class StudentService {
-
     private final UserRepository userRepository;
     private final KeycloakService keycloakService;
 
@@ -27,9 +27,9 @@ public class StudentService {
         return StudentMapper.toDTO(this.userRepository.save(StudentMapper.toEntity(userKeycloakId, createStudentDTO)));
     }
 
-    public List<StudentDTO> getStudentFollowingClass(UUID classId){
+    public List<StudentDTO> getStudentFollowingClass(Classgroup classgroup){
         return this.userRepository
-                .findAllByClassgroupsAndByUserRole(classId, UserRole.STUDENT)
+                .findAllByClassgroups(classgroup)
                 .stream().map(StudentMapper::toDTO)
                 .toList();
     }

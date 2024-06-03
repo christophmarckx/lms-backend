@@ -23,7 +23,6 @@ public class ClassgroupService {
     private final StudentService studentService;
     private final CoachService coachService;
 
-    @Autowired
     public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, StudentService studentService, CoachService coachService) {
         this.classgroupRepository = classgroupRepository;
         this.courseService = courseService;
@@ -42,14 +41,18 @@ public class ClassgroupService {
         return ClassgroupMapper.toDTO(classgroupCreated);
     }
 
-    public ClassgroupWithMembersDTO getById(UUID classgroupId) {
-        Classgroup classgroup = this.classgroupRepository
-                .findById(classgroupId)
-                .orElseThrow(() -> new ClassgroupNotFoundException(classgroupId));
+    public ClassgroupWithMembersDTO getClassgroupWithMembersDTOById(UUID classgroupId) {
+        Classgroup classgroup = this.getById(classgroupId);
 
-        List<StudentDTO> students = this.studentService.getStudentFollowingClass(classgroupId);
+        List<StudentDTO> students = this.studentService.getStudentFollowingClass(classgroup);
         List<CoachDTO> coaches = this.coachService.getCoachesFollowingClass(classgroupId);
         return ClassgroupMapper.toDTO(classgroup, students, coaches);
+    }
+
+    public Classgroup getById(UUID classgroupId){
+        return this.classgroupRepository
+                .findById(classgroupId)
+                .orElseThrow(() -> new ClassgroupNotFoundException(classgroupId));
     }
 
 }
