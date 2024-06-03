@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
+import java.util.List;
+import java.util.UUID;
+
 @Getter
 public class CreateClassgroupDTO {
     @NotNull(message = "The name of the classgroup must be between 2 and 255 characters")
@@ -14,9 +17,14 @@ public class CreateClassgroupDTO {
     @Size(min = 36, max = 36, message = "The id of the course must be 36 characters long")
     private String courseId;
 
-    public CreateClassgroupDTO(String name, String courseId) {
+    @NotNull(message="Provide at least one coach to create the Classgroup")
+    @Size(min= 1, message="Provide at least one coach to create the Classgroup")
+    private List<UUID> coachs;
+
+    public CreateClassgroupDTO(String name, String courseId ,List<UUID> coachs) {
         this.name = name;
         this.courseId = courseId;
+        this.coachs= coachs;
     }
 
     public CreateClassgroupDTO() {

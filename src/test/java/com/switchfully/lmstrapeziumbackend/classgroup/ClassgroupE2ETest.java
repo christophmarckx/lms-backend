@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.List;
 import java.util.Map;
 
 import static io.restassured.http.ContentType.JSON;
@@ -61,7 +62,7 @@ public class ClassgroupE2ETest {
     @DisplayName("Trying to create a Course with invalid data should not work")
     void givenAFullyInvalidCreateCourseDTO_thenWillReturnAListOfErrors() {
         //Given
-        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("A", "");
+        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("A", "", List.of());
         //When
         Response response = RestAssured
                 .given()
