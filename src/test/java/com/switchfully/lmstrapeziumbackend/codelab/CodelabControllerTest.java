@@ -56,12 +56,7 @@ class CodelabControllerTest {
 
         assertThat(actualCreatedCodelab)
                 .usingRecursiveComparison()
-                .ignoringFields("moduleDTO")
                 .isEqualTo(expected);
-
-        assertThat(actualCreatedCodelab).extracting("moduleDTO")
-                .usingRecursiveComparison()
-                .isEqualTo(expected.getModule());
     }
 
     @Test
