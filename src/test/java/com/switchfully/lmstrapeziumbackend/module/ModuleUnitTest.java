@@ -24,7 +24,7 @@ public class ModuleUnitTest {
     ModuleService moduleService;
 
     @Test
-    @DisplayName("Given create a moduleDTO with a parent when parent is not in DB then error is thrown")
+    @DisplayName("Given create a module with a parent when parent is not in DB then error is thrown")
     void givenCreateModuleDTO_whenParentNotInDB_thenErrorThrown(){
         CreateModuleDTO moduleToTest = new CreateModuleDTO("Chimie", UUID.randomUUID());
         Mockito.when(moduleRepo.findById(moduleToTest.parentModuleId())).thenReturn(Optional.empty());

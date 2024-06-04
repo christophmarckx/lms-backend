@@ -8,6 +8,6 @@ public record CodelabDTO(
         UUID id,
         String name,
         String description,
-        ModuleDTO moduleDTO
+        ModuleDTO module
 ) {
 }
