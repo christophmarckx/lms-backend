@@ -10,22 +10,34 @@ import com.switchfully.lmstrapeziumbackend.user.coach.CoachService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
 import com.switchfully.lmstrapeziumbackend.user.student.StudentService;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
+import com.switchfully.lmstrapeziumbackend.user.User;
+import com.switchfully.lmstrapeziumbackend.user.UserRepository;
+import com.switchfully.lmstrapeziumbackend.user.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ClassgroupService {
     private final ClassgroupRepository classgroupRepository;
     private final CourseService courseService;
+    private final UserService userService;
+    private final UserRepository userRepository;
     private final StudentService studentService;
     private final CoachService coachService;
 
-    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, StudentService studentService, CoachService coachService) {
+    @Autowired
+    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, UserService userService,
+                             UserRepository userRepository, CoachService coachService, StudentService studentService) {
         this.classgroupRepository = classgroupRepository;
         this.courseService = courseService;
+        this.userService = userService;
+        this.userRepository = userRepository;
         this.studentService = studentService;
         this.coachService = coachService;
     }
@@ -34,10 +46,18 @@ public class ClassgroupService {
 
         Course courseToAddToClass = courseService.getCourseById(UUID.fromString(createClassgroupDTO.getCourseId()));
 
+        List<User> coachs =  createClassgroupDTO.getCoachs().stream()
+                .map(userService::getUserById).collect(Collectors.toList());
+
         Classgroup classgroupCreated = classgroupRepository.save(ClassgroupMapper.toClassgroup(
                 createClassgroupDTO.getName(),
-                courseToAddToClass
+                courseToAddToClass,
+                coachs
         ));
+        for (User coach: coachs){
+            userService.addClassGroupToUser(classgroupCreated,coach);
+        }
+
         return ClassgroupMapper.toDTO(classgroupCreated);
     }
 

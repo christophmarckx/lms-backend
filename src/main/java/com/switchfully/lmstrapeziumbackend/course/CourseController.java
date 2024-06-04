@@ -53,6 +53,4 @@ public class CourseController {
         this.logger.info("GET /courses: Getting a course by id");
         return courseService.getCourseDTOById(courseId);
     }
-
-
 }

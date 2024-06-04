@@ -24,13 +24,15 @@ public class Classgroup {
     private Course course;
 
     @ManyToMany(mappedBy = "classgroups")
-    List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
+
 
     public Classgroup() {}
 
-    public Classgroup(String name, Course course) {
+    public Classgroup(String name, Course course, List<User> users) {
         this.name = name;
         this.course = course;
+        this.users = users;
     }
 
     public UUID getId() {

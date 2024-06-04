@@ -28,6 +28,11 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll() //Swagger-ui
                         .requestMatchers(HttpMethod.POST, "/students/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/students/**").hasAuthority("STUDENT")
                         .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("COACH", "STUDENT")

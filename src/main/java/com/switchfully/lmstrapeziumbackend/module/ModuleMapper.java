@@ -6,6 +6,8 @@ import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -21,6 +23,10 @@ public class ModuleMapper {
                 parentModule);
     }
 
+    public static List<ModuleDTO> toDTO(Collection<Module> modules) {
+        return modules.stream().map(ModuleMapper::toDTO).toList();
+    }
+
     public static Module toModule(CreateModuleDTO createModuleDTO, Module parentModule) {
 
         return new Module(
@@ -30,6 +36,10 @@ public class ModuleMapper {
     }
 
     public static ModuleWithCoursesDTO toModuleWithCoursesDTO(Module module) {
-        return new ModuleWithCoursesDTO(module.getId(), module.getName(), CourseMapper.toDTO(module.getCourses()));
+        return new ModuleWithCoursesDTO(
+                module.getId(),
+                module.getName(),
+                CourseMapper.toCourseSummaryDTO(module.getCourses())
+        );
     }
 }

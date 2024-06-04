@@ -19,7 +19,7 @@ public class CodelabService {
     }
 
     public CodelabDTO createCodelab(CreateCodelabDTO codelabDTO) {
-        Module codelabParentModule = moduleService.getModuleById(codelabDTO.parentModule());
+        Module codelabParentModule = moduleService.getModuleById(codelabDTO.parentModuleId());
         Codelab codelabToSave = CodelabMapper.toCodelab(codelabDTO, codelabParentModule);
         Codelab savedCodelab = codelabRepository.save(codelabToSave);
         return CodelabMapper.toDTO(savedCodelab);
