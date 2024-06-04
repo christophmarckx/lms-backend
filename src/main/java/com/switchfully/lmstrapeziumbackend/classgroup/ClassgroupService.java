@@ -43,7 +43,6 @@ public class ClassgroupService {
 
     public ClassgroupWithMembersDTO getClassgroupWithMembersDTOById(UUID classgroupId) {
         Classgroup classgroup = this.getById(classgroupId);
-
         List<StudentDTO> students = this.studentService.getStudentFollowingClass(classgroup);
         List<CoachDTO> coaches = this.coachService.getCoachesFollowingClass(classgroup);
         return ClassgroupMapper.toDTO(classgroup, students, coaches);
