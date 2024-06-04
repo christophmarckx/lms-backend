@@ -24,26 +24,22 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ClassgroupService {
     private final ClassgroupRepository classgroupRepository;
     private final CourseService courseService;
     private final UserService userService;
-    private final UserRepository userRepository;
     private final StudentService studentService;
     private final CoachService coachService;
 
-    @Autowired
-    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, UserService userService,
-                             UserRepository userRepository, CoachService coachService, StudentService studentService) {
+    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, UserService userService, CoachService coachService, StudentService studentService) {
         this.classgroupRepository = classgroupRepository;
         this.courseService = courseService;
         this.userService = userService;
-        this.userRepository = userRepository;
         this.studentService = studentService;
         this.coachService = coachService;
     }
 
-    @Transactional
     public ClassgroupDTO createClassgroup(CreateClassgroupDTO createClassgroupDTO) {
 
         Course courseToAddToClass = courseService.getCourseById(UUID.fromString(createClassgroupDTO.getCourseId()));
@@ -56,12 +52,7 @@ public class ClassgroupService {
                 courseToAddToClass,
                 coaches
         ));
-        List<User> users = new ArrayList<>();
 
-        for (User coach : coaches) {
-            users.add(userService.addClassGroupToUser(classgroupCreated, coach));
-        }
-        users.forEach(user -> userService.saveUser(user));
         return ClassgroupMapper.toDTO(classgroupCreated);
     }
 

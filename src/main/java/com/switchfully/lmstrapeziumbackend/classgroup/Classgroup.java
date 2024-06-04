@@ -23,7 +23,11 @@ public class Classgroup {
     @JoinColumn(name = "COURSE_ID")
     private Course course;
 
-    @ManyToMany(mappedBy = "classgroups")
+    @ManyToMany
+    @JoinTable(
+            name = "CLASSGROUP_APP_USER",
+            joinColumns = @JoinColumn(name = "CLASSGROUP_ID"),
+            inverseJoinColumns = @JoinColumn(name = "APP_USER_ID"))
     private List<User> users = new ArrayList<>();
 
 
