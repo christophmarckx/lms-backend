@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -38,5 +39,14 @@ public class ClassgroupController {
     public ClassgroupWithMembersDTO getClassgroup(@PathVariable UUID classgroupId) {
         this.logger.info("GET /classgroups Getting a classgroup by id");
         return this.classgroupService.getClassgroupWithMembersDTOById(classgroupId);
+    }
+
+    @GetMapping(produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ClassgroupDTO> getAllClassgroups(@RequestParam UUID userId){
+        if (userId != null){
+            return this.classgroupService.getAllClassgroupsDTO();
+        }
+        return this.classgroupService.getClassgroupsForUserId(userId);
     }
 }

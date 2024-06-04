@@ -46,7 +46,7 @@ public class ClassgroupService {
 
         Course courseToAddToClass = courseService.getCourseById(UUID.fromString(createClassgroupDTO.getCourseId()));
 
-        List<User> coachs =  createClassgroupDTO.getCoachs().stream()
+        List<User> coachs = createClassgroupDTO.getCoachs().stream()
                 .map(userService::getUserById).collect(Collectors.toList());
 
         Classgroup classgroupCreated = classgroupRepository.save(ClassgroupMapper.toClassgroup(
@@ -54,8 +54,8 @@ public class ClassgroupService {
                 courseToAddToClass,
                 coachs
         ));
-        for (User coach: coachs){
-            userService.addClassGroupToUser(classgroupCreated,coach);
+        for (User coach : coachs) {
+            userService.addClassGroupToUser(classgroupCreated, coach);
         }
 
         return ClassgroupMapper.toDTO(classgroupCreated);
@@ -68,10 +68,31 @@ public class ClassgroupService {
         return ClassgroupMapper.toDTO(classgroup, students, coaches);
     }
 
-    public Classgroup getById(UUID classgroupId){
+    public Classgroup getById(UUID classgroupId) {
         return this.classgroupRepository
                 .findById(classgroupId)
                 .orElseThrow(() -> new ClassgroupNotFoundException(classgroupId));
     }
 
+
+    private List<Classgroup> getAllClassgroups() {
+        return this.classgroupRepository.findAll();
+    }
+
+    public List<ClassgroupDTO> getAllClassgroupsDTO() {
+        return getAllClassgroups()
+                .stream()
+                .map(ClassgroupMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ClassgroupDTO> getClassgroupsForUserId(UUID userId) {
+        User myUser = this.userService.getUserById(userId);
+        List<Classgroup> classgroups = getAllClassgroups();
+
+        return classgroups.stream()
+                .filter(classgroup -> classgroup.getUsers().contains(myUser))
+                .map(ClassgroupMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 }
