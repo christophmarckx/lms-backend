@@ -36,8 +36,12 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
     }
 
-    public void addClassGroupToUser(Classgroup classgroup, User user){
+    public User addClassGroupToUser(Classgroup classgroup, User user) {
         user.addClassgroup(classgroup);
+        return user;
+    }
+
+    public void saveUser(User user){
         this.userRepository.save(user);
     }
 }

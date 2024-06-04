@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -42,22 +43,25 @@ public class ClassgroupService {
         this.coachService = coachService;
     }
 
+    @Transactional
     public ClassgroupDTO createClassgroup(CreateClassgroupDTO createClassgroupDTO) {
 
         Course courseToAddToClass = courseService.getCourseById(UUID.fromString(createClassgroupDTO.getCourseId()));
 
-        List<User> coachs = createClassgroupDTO.getCoachs().stream()
+        List<User> coaches = createClassgroupDTO.getCoaches().stream()
                 .map(userService::getUserById).collect(Collectors.toList());
 
         Classgroup classgroupCreated = classgroupRepository.save(ClassgroupMapper.toClassgroup(
                 createClassgroupDTO.getName(),
                 courseToAddToClass,
-                coachs
+                coaches
         ));
-        for (User coach : coachs) {
-            userService.addClassGroupToUser(classgroupCreated, coach);
-        }
+        List<User> users = new ArrayList<>();
 
+        for (User coach : coaches) {
+            users.add(userService.addClassGroupToUser(classgroupCreated, coach));
+        }
+        users.forEach(user -> userService.saveUser(user));
         return ClassgroupMapper.toDTO(classgroupCreated);
     }
 
