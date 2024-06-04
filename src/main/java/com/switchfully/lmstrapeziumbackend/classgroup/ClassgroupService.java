@@ -44,6 +44,7 @@ public class ClassgroupService {
 
         Course courseToAddToClass = courseService.getCourseById(UUID.fromString(createClassgroupDTO.getCourseId()));
 
+        // TODO : Check if it is a COACH (if you pass an ID of a user it must be bocked with an exception)
         List<User> coaches = createClassgroupDTO.getCoaches().stream()
                 .map(userService::getUserById).collect(Collectors.toList());
 
