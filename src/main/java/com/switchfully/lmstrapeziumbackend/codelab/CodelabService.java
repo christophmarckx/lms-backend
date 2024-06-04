@@ -7,6 +7,9 @@ import com.switchfully.lmstrapeziumbackend.module.ModuleService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @Transactional
 public class CodelabService {
@@ -23,5 +26,9 @@ public class CodelabService {
         Codelab codelabToSave = CodelabMapper.toCodelab(codelabDTO, codelabParentModule);
         Codelab savedCodelab = codelabRepository.save(codelabToSave);
         return CodelabMapper.toDTO(savedCodelab);
+    }
+
+    public List<Codelab> getCodelabsByModuleId(UUID moduleId) {
+        return codelabRepository.findCodelabsByModuleId(moduleId);
     }
 }
