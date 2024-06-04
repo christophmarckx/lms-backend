@@ -6,7 +6,6 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import java.util.Map;
 
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
@@ -45,7 +43,7 @@ class CodelabControllerTest {
                 .port(port)
                 .accept(JSON)
                 .contentType(JSON)
-                .body(TestConstants.CREATE_CODELAB_DTO_1_CORRECT_DATA)
+                .body(TestConstants.CREATE_CODELAB_DTO_CORRECT_DATA)
                 .when()
                 .post(URI)
                 .then()
