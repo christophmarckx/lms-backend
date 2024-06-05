@@ -32,6 +32,6 @@ public class CourseMapper {
     }
 
     public static CourseWithModulesDTO toCourseWithModulesDTO(Course course, List<ModuleWithCodelabsDTO> moduleWithCodelabsDTOs) {
-        return new CourseWithModulesDTO(course.getId(),course.getName(), moduleWithCodelabsDTOs);
+        return new CourseWithModulesDTO(course.getId(), course.getName(), course.getDescription(), moduleWithCodelabsDTOs);
     }
 }
