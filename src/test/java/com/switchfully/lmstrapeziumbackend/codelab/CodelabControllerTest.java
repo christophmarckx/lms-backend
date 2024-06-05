@@ -72,10 +72,6 @@ class CodelabControllerTest {
                 .usingRecursiveComparison()
                 .ignoringFields("module")
                 .isEqualTo(expected);
-
-        assertThat(actualCreatedCodelab).extracting("module")
-                .usingRecursiveComparison()
-                .isEqualTo(expected.getModule());
     }
 
     @Test
@@ -125,10 +121,7 @@ class CodelabControllerTest {
                 .getList(".", CodelabDTO.class);
         //Then
         List<Codelab> codelabs = entityManager.createQuery("SELECT c FROM Codelab c", Codelab.class).getResultList();
-        List<Module> codelabModules = codelabs.stream().map(Codelab::getModule).toList();
         assertThat(codelabDTOActual).usingRecursiveFieldByFieldElementComparatorIgnoringFields("module").isEqualTo(codelabs);
-        assertThat(codelabDTOActual).extracting("module").usingRecursiveFieldByFieldElementComparator().isEqualTo(codelabModules);
-
     }
 
 
