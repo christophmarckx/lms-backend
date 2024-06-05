@@ -4,6 +4,8 @@ import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
+import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
@@ -33,13 +35,19 @@ public class ClassgroupE2ETest {
     @Autowired
     private CourseService courseService;
 
+    @Autowired
+    KeycloakTestingUtility  keycloakTestingUtility;
+
     @Test
     @DisplayName("Given a valid CreateClassgroupDTO, it should create the Classgroup and return a ClassgroupDTO")
     void givenAValidCreateClassgroupDTO_thenWillReturnAClassgroupDTO() {
+        //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
         //When
         ClassgroupDTO classgroupCreated = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(TestConstants.CREATE_CLASSGROUP_DTO_1)
@@ -62,11 +70,13 @@ public class ClassgroupE2ETest {
     @DisplayName("Trying to create a Course with invalid data should not work")
     void givenAFullyInvalidCreateCourseDTO_thenWillReturnAListOfErrors() {
         //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
         CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("A", null, List.of());
         //When
         Response response = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(invalidCreateClassgroupDTO)
@@ -86,11 +96,13 @@ public class ClassgroupE2ETest {
     @DisplayName("Trying to create a Course with valid data but a student instead of a coach, then should not work")
     void givenACreateCourseDTOContainingANonCoachId_thenWillReturnAnError() {
         //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
         CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("Best Classgroup", TestConstants.COURSE_DTO_1.id(), List.of(TestConstants.TESTING_STUDENT_ID));
         //When
         String response = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(invalidCreateClassgroupDTO)

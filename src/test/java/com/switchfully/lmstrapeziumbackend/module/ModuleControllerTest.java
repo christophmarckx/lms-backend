@@ -4,6 +4,8 @@ import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
+import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -40,13 +42,19 @@ class ModuleControllerTest {
     @Autowired
     ModuleMapper moduleMapper;
 
+    @Autowired
+    KeycloakTestingUtility keycloakTestingUtility;
+
     @Test
     @DisplayName("Given connected user, getting all the modules will return a list of module DTO")
     void givenConnectedUser_whenGettingAllModules_thenReturnListOfModuleDTO() {
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+
         List<ModuleDTO> actualModuleDTOList = RestAssured
                 .given()
                 .baseUri(URI)
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .when()
                 .get("/modules")
                 .then()
@@ -63,10 +71,13 @@ class ModuleControllerTest {
     @Transactional
     @DisplayName("Given connected user, creating a module will return the module DTO")
     void givenConnectedUser_whenCreatingModule_returnModuleDTO() {
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+
         ModuleDTO actualModuleDTO = RestAssured
                 .given()
                 .baseUri(URI)
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(TestConstants.CREATE_MODULE_DTO_1)
@@ -90,12 +101,14 @@ class ModuleControllerTest {
     @Test
     @DisplayName("Getting courses relating to a module given module is in db will return list of courses")
     void givenAmoduleIsInTheDatabaseWhenProvidingAModuleIdThenAListOfCoursesIsReturned() {
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
 
         UUID moduleId = UUID.fromString("e0e8b090-df45-11ec-9d64-0242ac120002");
         //When
         ModuleWithCoursesDTO moduleWithCoursesDTOActual = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .when()
                 .get("/modules/" + moduleId)
                 .then()
