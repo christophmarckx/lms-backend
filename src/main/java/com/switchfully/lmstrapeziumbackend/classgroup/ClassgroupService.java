@@ -46,7 +46,14 @@ public class ClassgroupService {
 
         Course courseToAddToClass = courseService.getCourseById(UUID.fromString(createClassgroupDTO.getCourseId()));
 
-        List<User> coaches = checkIfUsersAreCoaches(createClassgroupDTO.getCoaches());
+        List<UUID> coachIds = new ArrayList<>();
+        createClassgroupDTO.getCoaches().stream().forEach(userId -> {
+            if (!coachIds.contains(userId)) {
+                coachIds.add(userId);
+            }
+        });
+
+        List<User> coaches = checkIfUsersAreCoaches(coachIds);
 
         Classgroup classgroupCreated = classgroupRepository.save(ClassgroupMapper.toClassgroup(
                 createClassgroupDTO.getName(),

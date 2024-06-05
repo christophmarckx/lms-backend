@@ -18,7 +18,6 @@ public class CreateClassgroupDTO {
     private String courseId;
 
     @NotNull(message="Provide at least one coach to create the Classgroup")
-//    @Size(min= 1, message="Provide at least one coach to create the Classgroup")
     private List<UUID> coaches;
 
     public CreateClassgroupDTO(String name, String courseId ,List<UUID> coaches) {
