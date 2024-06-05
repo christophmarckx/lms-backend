@@ -29,6 +29,10 @@ public class CodelabService {
         return CodelabMapper.toDTO(savedCodelab);
     }
 
+    public List<Codelab> getCodelabsByModuleId(UUID moduleId) {
+        return codelabRepository.findCodelabsByModuleId(moduleId);
+    }
+  
     public List<CodelabDTO> getAllCodelabs() {
         return CodelabMapper.toDTO(codelabRepository.findAll());
     }

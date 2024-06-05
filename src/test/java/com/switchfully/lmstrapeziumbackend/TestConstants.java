@@ -3,15 +3,14 @@ package com.switchfully.lmstrapeziumbackend;
 import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseSummaryDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.*;
 import com.switchfully.lmstrapeziumbackend.module.Module;
 import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCodelabsDTO;
 import com.switchfully.lmstrapeziumbackend.user.User;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
@@ -42,6 +41,17 @@ public class TestConstants {
     public static final CourseDTO COURSE_DTO_1 = new CourseDTO(UUID.fromString("f953c154-36f2-4b79-8992-b6f5d4dd24a9"), COURSE_1.getName(), COURSE_1.getDescription(), List.of(MODULE_DTO_1, MODULE_DTO_2));
     public static final CourseSummaryDTO COURSE_SUMMARY_DTO_1 = new CourseSummaryDTO(UUID.fromString("f953c154-36f2-4b79-8992-b6f5d4dd24a9"), COURSE_1.getName(), COURSE_1.getDescription());
     public static final UpdateCourseDTO UPDATED_COURSE_1 = new UpdateCourseDTO("NEW UPDATED NAME", "", new ArrayList<>());
+
+    //****************** COURSES ******************//
+    public static final CodelabDTO CODELAB_DTO_1 = new CodelabDTO(UUID.fromString("e0e8b096-df45-11ec-9d64-0242ac120002"), "Hello World Lab", "First Hello World Lab");
+    public static final CodelabDTO CODELAB_DTO_2 = new CodelabDTO(UUID.fromString("e0e8b097-df45-11ec-9d64-0242ac120002"), "Sorting Algorithms Lab", "Lab about complex algorithm for sorting (Like bubble sort, the best)");
+    public static final CodelabDTO CODELAB_DTO_3 = new CodelabDTO(UUID.fromString("e0e8b098-df45-11ec-9d64-0242ac120002"), "Binary Trees Lab", "You love tree ? You love binary ? You will love Binary Tree !");
+
+    public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_1 = new ModuleWithCodelabsDTO(MODULE_DTO_1.id(), MODULE_DTO_1.name(), List.of(CODELAB_DTO_1));
+    public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_2 = new ModuleWithCodelabsDTO(MODULE_DTO_2.id(), MODULE_DTO_2.name(), List.of(CODELAB_DTO_2));
+    public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_3 = new ModuleWithCodelabsDTO(MODULE_DTO_3.id(), MODULE_DTO_3.name(), List.of(CODELAB_DTO_3));
+
+    public static final CourseWithModulesDTO COURSE_WITH_MODULES_DTO_1 = new CourseWithModulesDTO(COURSE_DTO_1.id(), COURSE_DTO_1.name(), List.of(MODULE_WITH_CODELABS_DTO_1, MODULE_WITH_CODELABS_DTO_2, MODULE_WITH_CODELABS_DTO_3));
 
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateCourseDTO() {
         Map<String, Object> mapExpected = new HashMap<>();
@@ -86,7 +96,7 @@ public class TestConstants {
     public static final String CODELAB_NAME = "Loops in Java";
     public static final String CODELAB_DESCRIPTION = "Loops go zoom go zoom go zoom";
     public static final UUID CODELAB_PARENT_MODULE_ID = UUID.fromString("e0e8b090-df45-11ec-9d64-0242ac120002");
-    public static final CreateCodelabDTO CREATE_CODELAB_DTO_1_CORRECT_DATA = new CreateCodelabDTO(
+    public static final CreateCodelabDTO CREATE_CODELAB_DTO_CORRECT_DATA = new CreateCodelabDTO(
             CODELAB_NAME,
             CODELAB_DESCRIPTION,
             CODELAB_PARENT_MODULE_ID
