@@ -5,9 +5,10 @@ import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public record ClassgroupWithMembersDTO(
-        String id,
+        UUID id,
         String name,
         CourseDTO course,
         List<StudentDTO> students,

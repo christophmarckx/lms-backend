@@ -17,12 +17,12 @@ public class ClassgroupMapper {
     }
 
     public static ClassgroupDTO toDTO(Classgroup classgroup) {
-        return new ClassgroupDTO(classgroup.getId().toString(), classgroup.getName(), CourseMapper.toCourseSummaryDTO(classgroup.getCourse()));
+        return new ClassgroupDTO(classgroup.getId(), classgroup.getName(), CourseMapper.toCourseSummaryDTO(classgroup.getCourse()));
     }
 
     public static ClassgroupWithMembersDTO toDTO(Classgroup classgroup, List<StudentDTO> students, List<CoachDTO> coaches) {
         return new ClassgroupWithMembersDTO(
-                classgroup.getId().toString(),
+                classgroup.getId(),
                 classgroup.getName(),
                 CourseMapper.toDTO(classgroup.getCourse()),
                 students,

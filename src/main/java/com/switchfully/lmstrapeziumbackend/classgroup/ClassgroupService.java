@@ -40,7 +40,7 @@ public class ClassgroupService {
     }
 
     public ClassgroupDTO createClassgroup(CreateClassgroupDTO createClassgroupDTO) {
-        Course courseToAddToClass = courseService.getCourseById(UUID.fromString(createClassgroupDTO.courseId()));
+        Course courseToAddToClass = courseService.getCourseById(createClassgroupDTO.courseId());
 
         List<UUID> coachIds = new ArrayList<>();
         createClassgroupDTO.coaches().forEach(userId -> {

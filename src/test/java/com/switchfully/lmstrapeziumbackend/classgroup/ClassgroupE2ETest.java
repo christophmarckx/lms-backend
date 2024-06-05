@@ -19,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static io.restassured.http.ContentType.JSON;
 
@@ -61,7 +62,7 @@ public class ClassgroupE2ETest {
     @DisplayName("Trying to create a Course with invalid data should not work")
     void givenAFullyInvalidCreateCourseDTO_thenWillReturnAListOfErrors() {
         //Given
-        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("A", "", List.of());
+        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("A", null, List.of());
         //When
         Response response = RestAssured
                 .given()
@@ -85,7 +86,7 @@ public class ClassgroupE2ETest {
     @DisplayName("Trying to create a Course with valid data but a student instead of a coach, then should not work")
     void givenACreateCourseDTOContainingANonCoachId_thenWillReturnAnError() {
         //Given
-        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("Best Classgroup", TestConstants.COURSE_DTO_1.id().toString(), List.of(TestConstants.TESTING_STUDENT_ID));
+        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("Best Classgroup", TestConstants.COURSE_DTO_1.id(), List.of(TestConstants.TESTING_STUDENT_ID));
         //When
         String response = RestAssured
                 .given()
