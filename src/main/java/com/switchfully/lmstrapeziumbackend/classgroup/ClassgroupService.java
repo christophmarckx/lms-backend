@@ -6,6 +6,8 @@ import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
 import com.switchfully.lmstrapeziumbackend.exception.ClassgroupNotFoundException;
+import com.switchfully.lmstrapeziumbackend.exception.IllegalUserRoleException;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.user.coach.CoachService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
 import com.switchfully.lmstrapeziumbackend.user.student.StudentService;
@@ -18,25 +20,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ClassgroupService {
     private final ClassgroupRepository classgroupRepository;
     private final CourseService courseService;
     private final UserService userService;
-    private final UserRepository userRepository;
     private final StudentService studentService;
     private final CoachService coachService;
 
-    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, UserService userService,
-                             UserRepository userRepository, CoachService coachService, StudentService studentService) {
+    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, UserService userService, CoachService coachService, StudentService studentService) {
         this.classgroupRepository = classgroupRepository;
         this.courseService = courseService;
         this.userService = userService;
-        this.userRepository = userRepository;
         this.studentService = studentService;
         this.coachService = coachService;
     }
@@ -45,19 +46,32 @@ public class ClassgroupService {
 
         Course courseToAddToClass = courseService.getCourseById(UUID.fromString(createClassgroupDTO.getCourseId()));
 
-        List<User> coachs = createClassgroupDTO.getCoachs().stream()
-                .map(userService::getUserById).collect(Collectors.toList());
+        List<UUID> coachIds = new ArrayList<>();
+        createClassgroupDTO.getCoaches().forEach(userId -> {
+            if (!coachIds.contains(userId)) {
+                coachIds.add(userId);
+            }
+        });
+
+        List<User> coaches = checkIfUsersAreCoaches(coachIds);
 
         Classgroup classgroupCreated = classgroupRepository.save(ClassgroupMapper.toClassgroup(
                 createClassgroupDTO.getName(),
                 courseToAddToClass,
-                coachs
+                coaches
         ));
-        for (User coach : coachs) {
-            userService.addClassGroupToUser(classgroupCreated, coach);
-        }
 
         return ClassgroupMapper.toDTO(classgroupCreated);
+    }
+
+    private List<User> checkIfUsersAreCoaches(List<UUID> userIds) {
+        List<User> users = userIds.stream().map(userService::getUserById).collect(Collectors.toList());
+        users.forEach(userToCheck -> {
+            if (userToCheck.getRole() != UserRole.COACH) {
+                throw new IllegalUserRoleException();
+            }
+        });
+        return users;
     }
 
     public ClassgroupWithMembersDTO getClassgroupWithMembersDTOById(UUID classgroupId) {

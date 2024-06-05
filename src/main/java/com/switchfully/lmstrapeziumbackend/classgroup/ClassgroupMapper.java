@@ -13,8 +13,8 @@ import com.switchfully.lmstrapeziumbackend.user.UserMapper;
 
 
 public class ClassgroupMapper {
-    public static Classgroup toClassgroup(String name, Course course, List<User> coachs) {
-        return new Classgroup(name, course, coachs);
+    public static Classgroup toClassgroup(String name, Course course, List<User> coaches) {
+        return new Classgroup(name, course, coaches);
     }
 
     public static ClassgroupDTO toDTO(Classgroup classgroup) {

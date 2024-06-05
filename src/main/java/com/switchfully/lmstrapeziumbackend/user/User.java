@@ -25,11 +25,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "CLASSGROUP_APP_USER",
-            joinColumns = @JoinColumn(name = "APP_USER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "CLASSGROUP_ID"))
+    @ManyToMany(mappedBy = "users")
     private List<Classgroup> classgroups = new ArrayList<>();
 
     public User() {}
