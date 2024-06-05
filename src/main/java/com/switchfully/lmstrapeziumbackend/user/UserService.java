@@ -5,10 +5,12 @@ import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
 import com.switchfully.lmstrapeziumbackend.user.dto.AuthenticatedUserDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
