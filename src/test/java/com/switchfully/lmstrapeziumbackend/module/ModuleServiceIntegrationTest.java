@@ -24,7 +24,6 @@ public class ModuleServiceIntegrationTest {
     @Autowired
     ModuleService moduleService;
 
-
     @Test
     @DisplayName("Creating a module without a parent module given correct data will return a module DTO")
     void createModule_whenNoParentModule_thenModuleWellCreated () {

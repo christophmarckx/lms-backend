@@ -17,7 +17,6 @@ import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class ModuleUnitTest {
-
     @Mock
     ModuleRepository moduleRepo;
     @InjectMocks

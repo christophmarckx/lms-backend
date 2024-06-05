@@ -128,7 +128,7 @@ public class CourseE2ETest {
     }
 
     @Test
-    @DisplayName("get course by id (with modules and codelabs)")
+    @DisplayName("Get course by id (with modules and codelabs)")
     void givenCourseId_thenShouldReturnACourseWithModulesDTO() {
         //When
         CourseWithModulesDTO courseWithModulesDTO = RestAssured

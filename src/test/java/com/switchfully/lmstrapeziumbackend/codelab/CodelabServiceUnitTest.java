@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class CodelabServiceUnitTest {
-
     @Mock
     CodelabRepository codelabRepository;
 
@@ -32,5 +31,4 @@ public class CodelabServiceUnitTest {
         Assertions.assertThatThrownBy(() -> codelabService.getById(id)).isInstanceOf(CodelabNotFoundException.class)
                 .hasMessage("Codelab with id '" + id + "' does not exist");
     }
-
 }

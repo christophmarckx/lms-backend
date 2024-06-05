@@ -2,8 +2,6 @@ package com.switchfully.lmstrapeziumbackend.module;
 
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.course.Course;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
-import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
 import io.restassured.RestAssured;
@@ -17,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +24,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
@@ -37,7 +32,7 @@ class ModuleControllerTest {
     private static final String URI = "http://localhost";
 
     @LocalServerPort
-    int localPort;
+    int port;
 
     @PersistenceContext
     @Autowired
@@ -52,7 +47,7 @@ class ModuleControllerTest {
         List<ModuleDTO> actualModuleDTOList = RestAssured
                 .given()
                 .baseUri(URI)
-                .port(localPort)
+                .port(port)
                 .when()
                 .get("/modules")
                 .then()
@@ -72,7 +67,7 @@ class ModuleControllerTest {
         ModuleDTO actualModuleDTO = RestAssured
                 .given()
                 .baseUri(URI)
-                .port(localPort)
+                .port(port)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(TestConstants.CREATE_MODULE_DTO_1)
@@ -101,7 +96,7 @@ class ModuleControllerTest {
         //When
         ModuleWithCoursesDTO moduleWithCoursesDTOActual = RestAssured
                 .given()
-                .port(localPort)
+                .port(port)
                 .when()
                 .get("/modules/" + moduleId)
                 .then()
@@ -116,5 +111,4 @@ class ModuleControllerTest {
                 .usingRecursiveComparison()
                 .isEqualTo(coursesToCheck);
     }
-
 }

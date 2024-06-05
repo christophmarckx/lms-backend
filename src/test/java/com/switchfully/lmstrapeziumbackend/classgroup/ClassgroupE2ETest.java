@@ -38,6 +38,7 @@ public class ClassgroupE2ETest {
     private CourseService courseService;
 
     @Test
+    @DisplayName("Given a valid CreateClassgroupDTO, it should create the Classgroup and return a ClassgroupDTO")
     void givenAValidCreateClassgroupDTO_thenWillReturnAClassgroupDTO() {
         //When
         ClassgroupDTO classgroupCreated = RestAssured
@@ -84,7 +85,7 @@ public class ClassgroupE2ETest {
         Assertions.assertThat(mapReturned).containsExactlyInAnyOrderEntriesOf(TestConstants.getExpectedMapForFullyInvalidCreateClassgroupDTO());
     }
     @Test
-    @DisplayName("Trying to create a Course with invalid data should not work")
+    @DisplayName("Trying to create a Course with valid data but a student instead of a coach, then should not work")
     void givenACreateCourseDTOContainingANonCoachId_thenWillReturnAnError() {
         //Given
         CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("Best Classgroup", TestConstants.COURSE_DTO_1.id().toString(), List.of(TestConstants.TESTING_STUDENT_ID));

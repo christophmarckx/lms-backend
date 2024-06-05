@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class KeycloakTestingUtility {
-
     @Value("${keycloak.auth-server-url}")
     private String keycloakServerUrl;
 
