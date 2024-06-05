@@ -26,7 +26,8 @@ public class Progress {
     @Enumerated(EnumType.STRING)
     private CodelabProgress status;
 
-    public Progress() {}
+    public Progress() {
+    }
 
     public Progress(Codelab codelab, User user, CodelabProgress status) {
         this.codelab = codelab;

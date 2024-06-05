@@ -8,13 +8,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class ModuleMapper {
     public static ModuleDTO toDTO(Module module) {
         ModuleDTO parentModule = null;
-        if (module.getParentModule() != null){
+        if (module.getParentModule() != null) {
             parentModule = ModuleMapper.toDTO(module.getParentModule());
         }
         return new ModuleDTO(

@@ -38,7 +38,6 @@ public class CourseController {
     public List<CourseDTO> getAllCourses() {
         this.logger.info("GET /courses: Getting all courses");
         return courseService.getAllCourses();
-
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json", path = "{courseId}")
@@ -56,6 +55,7 @@ public class CourseController {
     }
 
     @GetMapping("{courseId}/codelabs")
+    @ResponseStatus(HttpStatus.OK)
     public CourseWithModulesDTO getCourseWithModulesById(@PathVariable UUID courseId) {
         this.logger.info("GET /courses: Getting a course with modules by id");
         return courseService.getCourseWithModulesById(courseId);

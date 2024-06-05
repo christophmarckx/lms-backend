@@ -15,17 +15,18 @@ public class Comment {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name="CODELAB_ID")
+    @JoinColumn(name = "CODELAB_ID")
     private Codelab codelab;
 
     @ManyToOne
-    @JoinColumn(name="APP_USER_ID")
+    @JoinColumn(name = "APP_USER_ID")
     private User student;
 
     @Column(name = "COMMENT")
     private String comment;
 
-    public Comment() {}
+    public Comment() {
+    }
 
     public Comment(Codelab codelab, User student, String comment) {
         this.codelab = codelab;

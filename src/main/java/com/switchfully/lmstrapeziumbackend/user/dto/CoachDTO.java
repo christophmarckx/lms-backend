@@ -2,7 +2,7 @@ package com.switchfully.lmstrapeziumbackend.user.dto;
 
 import java.util.UUID;
 
-public record CoachDTO (
+public record CoachDTO(
         UUID id,
         String email,
         String displayName

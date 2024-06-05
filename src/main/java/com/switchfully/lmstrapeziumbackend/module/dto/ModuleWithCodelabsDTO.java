@@ -1,11 +1,13 @@
 package com.switchfully.lmstrapeziumbackend.module.dto;
-import java.util.List;
-import java.util.UUID;
+
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
 
-public record ModuleWithCodelabsDTO (   UUID id,
-                                        String name,
-                                        List<ModuleWithCodelabsDTO> modules,
-                                        List<CodelabDTO> codelabs
-){
+import java.util.List;
+import java.util.UUID;
+
+public record ModuleWithCodelabsDTO(UUID id,
+                                    String name,
+                                    List<ModuleWithCodelabsDTO> modules,
+                                    List<CodelabDTO> codelabs
+) {
 }

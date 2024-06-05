@@ -23,11 +23,12 @@ public class CodelabServiceUnitTest {
 
     @Test
     @DisplayName("Given create a codelabDTO with a parent when parent is not in DB then error is thrown")
-    void givenCodelabId_whenNotInDb_thenErrorThrown(){
+    void givenCodelabId_whenNotInDb_thenErrorThrown() {
+        //Given
         UUID id = UUID.randomUUID();
-
+        //When
         Mockito.when(codelabRepository.findById(id)).thenReturn(Optional.empty());
-
+        //Then
         Assertions.assertThatThrownBy(() -> codelabService.getById(id)).isInstanceOf(CodelabNotFoundException.class)
                 .hasMessage("Codelab with id '" + id + "' does not exist");
     }

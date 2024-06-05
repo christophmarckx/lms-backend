@@ -1,7 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.security;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,8 +14,7 @@ public class AuthenticationService {
 
         try {
             authenticatedUserId = UUID.fromString(authentication.getName());
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             return Optional.empty();
         }
 

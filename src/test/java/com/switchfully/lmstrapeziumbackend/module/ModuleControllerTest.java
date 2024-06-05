@@ -18,11 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import static io.restassured.http.ContentType.JSON;
-
 import java.util.List;
 import java.util.UUID;
 
+import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -63,7 +62,7 @@ class ModuleControllerTest {
     @Test
     @Transactional
     @DisplayName("Given connected user, creating a module will return the module DTO")
-    void givenConnectedUser_whenCreatingModule_returnModuleDTO(){
+    void givenConnectedUser_whenCreatingModule_returnModuleDTO() {
         ModuleDTO actualModuleDTO = RestAssured
                 .given()
                 .baseUri(URI)
@@ -75,7 +74,7 @@ class ModuleControllerTest {
                 .post("/modules")
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.OK.value())
+                .statusCode(HttpStatus.CREATED.value())
                 .extract()
                 .as(ModuleDTO.class);
 

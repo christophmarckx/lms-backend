@@ -15,7 +15,7 @@ public class CodelabController {
     private final CodelabService codelabService;
 
     public CodelabController(CodelabService codelabService) {
-       this.codelabService = codelabService;
+        this.codelabService = codelabService;
     }
 
     @PostMapping
@@ -25,12 +25,14 @@ public class CodelabController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<CodelabDTO> getAll() {
         return codelabService.getAllCodelabs();
     }
 
     @GetMapping("/{id}")
-    public CodelabDTO getById(@PathVariable UUID id){
+    @ResponseStatus(HttpStatus.OK)
+    public CodelabDTO getById(@PathVariable UUID id) {
         return codelabService.getById(id);
     }
 }

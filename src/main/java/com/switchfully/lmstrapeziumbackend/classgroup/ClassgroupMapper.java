@@ -2,14 +2,13 @@ package com.switchfully.lmstrapeziumbackend.classgroup;
 
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupWithMembersDTO;
-import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.CourseMapper;
+import com.switchfully.lmstrapeziumbackend.user.User;
 import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
+
 import java.util.List;
-import com.switchfully.lmstrapeziumbackend.user.User;
-import com.switchfully.lmstrapeziumbackend.user.UserMapper;
 
 
 public class ClassgroupMapper {

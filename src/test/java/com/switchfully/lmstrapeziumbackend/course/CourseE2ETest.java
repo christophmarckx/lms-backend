@@ -102,7 +102,7 @@ public class CourseE2ETest {
 
     @Test
     @DisplayName("Trying to update a course name with invalid data should not work")
-    void givenAFullyInvalidUpdateCourseDTO_thenWillReturnAListOfErrors(){
+    void givenAFullyInvalidUpdateCourseDTO_thenWillReturnAListOfErrors() {
         //Given
         UpdateCourseDTO invalidUpdateCourseDTO = new UpdateCourseDTO("B", "", new ArrayList<>());
         //When

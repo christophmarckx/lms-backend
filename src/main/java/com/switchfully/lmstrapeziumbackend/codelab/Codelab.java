@@ -8,7 +8,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "CODELAB")
 public class Codelab {
-
     @Id
     @GeneratedValue
     private UUID id;
@@ -20,10 +19,11 @@ public class Codelab {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name="MODULE_ID")
+    @JoinColumn(name = "MODULE_ID")
     private Module module;
 
-    public Codelab() {}
+    public Codelab() {
+    }
 
     public Codelab(String name, String description, Module module) {
         this.name = name;

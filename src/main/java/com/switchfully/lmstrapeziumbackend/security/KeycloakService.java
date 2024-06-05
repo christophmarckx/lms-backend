@@ -84,8 +84,7 @@ public class KeycloakService {
 
         try {
             assignRoleToUser(keycloak, userId);
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             this.deleteUserFromKeycloak(userId);
             throw new KeycloakException("" + response.getStatus());
         }

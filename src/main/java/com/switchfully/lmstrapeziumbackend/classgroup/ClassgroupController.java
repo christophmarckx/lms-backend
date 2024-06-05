@@ -43,8 +43,8 @@ public class ClassgroupController {
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public List<ClassgroupDTO> getAllClassgroups(@RequestParam(required = false) UUID userId){
-        if (userId == null){
+    public List<ClassgroupDTO> getAllClassgroups(@RequestParam(required = false) UUID userId) {
+        if (userId == null) {
             return this.classgroupService.getAllClassgroupsDTO();
         }
         return this.classgroupService.getClassgroupsForUserId(userId);

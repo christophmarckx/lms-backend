@@ -1,7 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.course;
 
 import com.switchfully.lmstrapeziumbackend.codelab.Codelab;
-import com.switchfully.lmstrapeziumbackend.codelab.CodelabMapper;
 import com.switchfully.lmstrapeziumbackend.codelab.CodelabService;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseWithModulesDTO;
@@ -53,7 +52,7 @@ public class CourseService {
     }
 
     public List<CourseDTO> getAllCourses() {
-            return CourseMapper.toDTO(courseRepository.findAll());
+        return CourseMapper.toDTO(courseRepository.findAll());
     }
 
     public CourseDTO updateCourse(UUID courseId, UpdateCourseDTO updateCourseDTO) {
@@ -78,16 +77,15 @@ public class CourseService {
     private Optional<ModuleWithCodelabsDTO> getModuleWithCodelabsDTOFromModuleInsideACourse(Module module, Course course) {
         List<ModuleWithCodelabsDTO> childModuleWithCodelabsDTOs = new ArrayList<>();
 
-        for (Module childModule: module.getChildModules()) {
+        for (Module childModule : module.getChildModules()) {
             getModuleWithCodelabsDTOFromModuleInsideACourse(childModule, course)
                     .ifPresent(moduleWithCodelabsDTO -> {
                         if (moduleWithCodelabsDTO.id() == null) {
                             childModuleWithCodelabsDTOs.addAll(moduleWithCodelabsDTO.modules());
-                        }
-                        else {
+                        } else {
                             childModuleWithCodelabsDTOs.add(moduleWithCodelabsDTO);
                         }
-            });
+                    });
         }
         return constructActualModuleWithCodelabsDTO(module, course, childModuleWithCodelabsDTOs);
     }

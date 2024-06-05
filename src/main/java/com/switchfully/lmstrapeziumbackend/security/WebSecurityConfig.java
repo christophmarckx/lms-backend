@@ -2,7 +2,6 @@ package com.switchfully.lmstrapeziumbackend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,9 +37,9 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("COACH", "STUDENT")
                         .requestMatchers(HttpMethod.GET, "/coaches").permitAll() //TODO Add Security
                         .requestMatchers("/modules/**").permitAll() //TODO Add Security
-                        .requestMatchers(HttpMethod.GET,"/codelabs/**").hasAnyAuthority("COACH", "STUDENT")
-                        .requestMatchers(HttpMethod.POST,"/codelabs/**").hasAuthority("COACH")
-                        .requestMatchers(HttpMethod.PUT,"/codelabs/**").hasAuthority("COACH")
+                        .requestMatchers(HttpMethod.GET, "/codelabs/**").hasAnyAuthority("COACH", "STUDENT")
+                        .requestMatchers(HttpMethod.POST, "/codelabs/**").hasAuthority("COACH")
+                        .requestMatchers(HttpMethod.PUT, "/codelabs/**").hasAuthority("COACH")
                         .requestMatchers("/courses/**").permitAll() //TODO Add Security
                         .requestMatchers("/classgroups/**").permitAll() //TODO Add Security
                         .anyRequest().denyAll()

@@ -3,10 +3,7 @@ package com.switchfully.lmstrapeziumbackend.classgroup;
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
-import com.switchfully.lmstrapeziumbackend.course.CourseMapper;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
@@ -19,13 +16,11 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.Map;
 
 import static io.restassured.http.ContentType.JSON;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -61,6 +56,7 @@ public class ClassgroupE2ETest {
                 .ignoringFieldsMatchingRegexes(".*id")
                 .isEqualTo(TestConstants.CLASSGROUP_DTO_1);
     }
+
     @Test
     @DisplayName("Trying to create a Course with invalid data should not work")
     void givenAFullyInvalidCreateCourseDTO_thenWillReturnAListOfErrors() {
@@ -84,6 +80,7 @@ public class ClassgroupE2ETest {
         //Then
         Assertions.assertThat(mapReturned).containsExactlyInAnyOrderEntriesOf(TestConstants.getExpectedMapForFullyInvalidCreateClassgroupDTO());
     }
+
     @Test
     @DisplayName("Trying to create a Course with valid data but a student instead of a coach, then should not work")
     void givenACreateCourseDTOContainingANonCoachId_thenWillReturnAnError() {
