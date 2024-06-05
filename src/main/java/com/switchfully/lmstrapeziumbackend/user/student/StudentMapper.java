@@ -1,5 +1,7 @@
-package com.switchfully.lmstrapeziumbackend.user;
+package com.switchfully.lmstrapeziumbackend.user.student;
 
+import com.switchfully.lmstrapeziumbackend.user.User;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import org.springframework.stereotype.Component;
@@ -11,15 +13,15 @@ import java.util.UUID;
 @Component
 public class StudentMapper {
 
-    public StudentDTO toDTO(User student) {
+    public static StudentDTO toDTO(User student) {
         return new StudentDTO(student.getId(), student.getEmail(), student.getDisplayName());
     }
 
-    public List<StudentDTO> toDTO(Collection<User> students) {
-        return students.stream().map(this::toDTO).toList();
+    public static List<StudentDTO> toDTO(Collection<User> students) {
+        return students.stream().map(StudentMapper::toDTO).toList();
     }
 
-    public User toUser(UUID userIdFromKeycloak, CreateStudentDTO createStudentDTO) {
+    public static User toUser(UUID userIdFromKeycloak, CreateStudentDTO createStudentDTO) {
         return new User(userIdFromKeycloak, createStudentDTO.email(), createStudentDTO.displayName(), UserRole.STUDENT);
     }
 }

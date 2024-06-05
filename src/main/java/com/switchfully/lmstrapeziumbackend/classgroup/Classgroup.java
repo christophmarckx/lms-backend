@@ -47,5 +47,7 @@ public class Classgroup {
         return course;
     }
 
-    public List<User> getUsers(){return users;}
+    public List<User> getUsers() {
+        return users;
+    }
 }
