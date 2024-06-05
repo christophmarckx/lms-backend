@@ -23,6 +23,9 @@ public class Module {
     @JoinColumn(name="PARENT_ID")
     private Module parentModule;
 
+    @OneToMany(mappedBy = "parentModule")
+    private List<Module> childModules = new ArrayList<>();
+
     @ManyToMany(mappedBy = "modules")
     List<Course> courses;
 
@@ -32,6 +35,10 @@ public class Module {
         this.name = name;
         this.parentModule = parentModule;
         this.courses = new ArrayList<>();
+    }
+
+    public Module(List<Module> childModules) {
+        this.childModules = childModules;
     }
 
     public UUID getId() {
@@ -48,5 +55,9 @@ public class Module {
 
     public List<Course> getCourses() {
         return courses;
+    }
+
+    public List<Module> getChildModules() {
+        return childModules;
     }
 }

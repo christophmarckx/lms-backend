@@ -2,6 +2,7 @@ package com.switchfully.lmstrapeziumbackend.module;
 
 import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.ModuleHierarchyDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,11 @@ public class ModuleController {
     @GetMapping
     List<ModuleDTO> getAllModules() {
         return moduleService.getAllModules();
+    }
+
+    @GetMapping("hierarchy")
+    List<ModuleHierarchyDTO> getAllModulesWithHierarchy() {
+        return moduleService.getAllModulesWithHierarchy();
     }
 
     @GetMapping("/{id}")

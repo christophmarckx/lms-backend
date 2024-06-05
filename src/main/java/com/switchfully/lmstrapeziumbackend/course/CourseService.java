@@ -8,11 +8,10 @@ import com.switchfully.lmstrapeziumbackend.course.dto.CourseWithModulesDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.exception.CourseNotFoundException;
-import com.switchfully.lmstrapeziumbackend.module.ModuleRepository;
 import com.switchfully.lmstrapeziumbackend.module.Module;
+import com.switchfully.lmstrapeziumbackend.module.ModuleMapper;
 import com.switchfully.lmstrapeziumbackend.module.ModuleService;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCodelabsDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CourseService {
     private final CourseRepository courseRepository;
     private final ModuleService moduleService;
@@ -56,7 +56,6 @@ public class CourseService {
             return CourseMapper.toDTO(courseRepository.findAll());
     }
 
-    @Transactional
     public CourseDTO updateCourse(UUID courseId, UpdateCourseDTO updateCourseDTO) {
         Course courseFound = getCourseById(courseId);
         courseFound.updateCourseName(updateCourseDTO.name());
@@ -65,11 +64,42 @@ public class CourseService {
 
     public CourseWithModulesDTO getCourseWithModulesById(UUID courseId) {
         Course course = this.getCourseById(courseId);
+        List<Module> rootModules = this.moduleService.getAllRootModules();
+        Module modulesContainer = new Module(rootModules);
+
         List<ModuleWithCodelabsDTO> moduleWithCodelabsDTOs = new ArrayList<>();
-        course.getModules().forEach(module -> {
+
+        getModuleWithCodelabsDTOFromModuleInsideACourse(modulesContainer, course)
+                .ifPresent(moduleWithCodelabsDTO -> moduleWithCodelabsDTOs.addAll(moduleWithCodelabsDTO.modules()));
+
+        return CourseMapper.toCourseWithModulesDTO(course, moduleWithCodelabsDTOs);
+    }
+
+    private Optional<ModuleWithCodelabsDTO> getModuleWithCodelabsDTOFromModuleInsideACourse(Module module, Course course) {
+        List<ModuleWithCodelabsDTO> childModuleWithCodelabsDTOs = new ArrayList<>();
+
+        for (Module childModule: module.getChildModules()) {
+            getModuleWithCodelabsDTOFromModuleInsideACourse(childModule, course)
+                    .ifPresent(moduleWithCodelabsDTO -> {
+                        if (moduleWithCodelabsDTO.id() == null) {
+                            childModuleWithCodelabsDTOs.addAll(moduleWithCodelabsDTO.modules());
+                        }
+                        else {
+                            childModuleWithCodelabsDTOs.add(moduleWithCodelabsDTO);
+                        }
+            });
+        }
+        return constructActualModuleWithCodelabsDTO(module, course, childModuleWithCodelabsDTOs);
+    }
+
+    private Optional<ModuleWithCodelabsDTO> constructActualModuleWithCodelabsDTO(Module module, Course course, List<ModuleWithCodelabsDTO> childModuleWithCodelabsDTOs) {
+        if (course.getModules().contains(module)) {
             List<Codelab> codelabs = this.codelabService.getCodelabsByModuleId(module.getId());
-            moduleWithCodelabsDTOs.add(new ModuleWithCodelabsDTO(module.getId(), module.getName(), CodelabMapper.toDTO(codelabs)));
-        });
-        return new CourseWithModulesDTO(course.getId(),course.getName(), moduleWithCodelabsDTOs);
+            return Optional.of(ModuleMapper.toModuleWithCodelabsDTO(module, childModuleWithCodelabsDTOs, codelabs));
+        }
+        if (!childModuleWithCodelabsDTOs.isEmpty()) {
+            return Optional.of(new ModuleWithCodelabsDTO(null, null, childModuleWithCodelabsDTOs, null));
+        }
+        return Optional.empty();
     }
 }
