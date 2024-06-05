@@ -31,7 +31,6 @@ public class ClassgroupService {
     private final StudentService studentService;
     private final CoachService coachService;
 
-    @Autowired
     public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, UserService userService,
                              UserRepository userRepository, CoachService coachService, StudentService studentService) {
         this.classgroupRepository = classgroupRepository;
