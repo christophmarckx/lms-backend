@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ClassgroupController {
     private final Logger logger = LoggerFactory.getLogger(ClassgroupController.class);
     private final ClassgroupService classgroupService;
-    //TODO Add security service
+    
 
     @Autowired
     public ClassgroupController(ClassgroupService classgroupService) {
@@ -29,7 +29,6 @@ public class ClassgroupController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public ClassgroupDTO createClassgroup(@Valid @RequestBody CreateClassgroupDTO createClassgroupDTO) {
-        //TODO Add security check
         this.logger.info("POST /classgroups: Creating a classgroup");
         return this.classgroupService.createClassgroup(createClassgroupDTO);
     }
