@@ -1,9 +1,9 @@
 package com.switchfully.lmstrapeziumbackend.module;
 
+import com.switchfully.lmstrapeziumbackend.codelab.Codelab;
+import com.switchfully.lmstrapeziumbackend.codelab.CodelabMapper;
 import com.switchfully.lmstrapeziumbackend.course.CourseMapper;
-import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
-import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
-import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -41,5 +41,13 @@ public class ModuleMapper {
                 module.getName(),
                 CourseMapper.toCourseSummaryDTO(module.getCourses())
         );
+    }
+
+    public static ModuleWithCodelabsDTO toModuleWithCodelabsDTO(Module module, List<ModuleWithCodelabsDTO> moduleWithCodelabsDTOs, List<Codelab> codelabs) {
+        return new ModuleWithCodelabsDTO(module.getId(), module.getName(), moduleWithCodelabsDTOs, CodelabMapper.toDTO(codelabs));
+    }
+
+    public static ModuleHierarchyDTO toModuleHierarchyDTO(Module module, List<ModuleHierarchyDTO> childModuleHierarchyDTOs) {
+        return new ModuleHierarchyDTO(module.getId(), module.getName(), childModuleHierarchyDTOs);
     }
 }

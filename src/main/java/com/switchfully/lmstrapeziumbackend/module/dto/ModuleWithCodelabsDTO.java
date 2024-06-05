@@ -5,6 +5,7 @@ import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
 
 public record ModuleWithCodelabsDTO (   UUID id,
                                         String name,
+                                        List<ModuleWithCodelabsDTO> modules,
                                         List<CodelabDTO> codelabs
 ){
 }

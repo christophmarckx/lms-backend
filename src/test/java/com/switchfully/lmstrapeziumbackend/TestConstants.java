@@ -47,11 +47,10 @@ public class TestConstants {
     public static final CodelabDTO CODELAB_DTO_2 = new CodelabDTO(UUID.fromString("e0e8b097-df45-11ec-9d64-0242ac120002"), "Sorting Algorithms Lab", "Lab about complex algorithm for sorting (Like bubble sort, the best)");
     public static final CodelabDTO CODELAB_DTO_3 = new CodelabDTO(UUID.fromString("e0e8b098-df45-11ec-9d64-0242ac120002"), "Binary Trees Lab", "You love tree ? You love binary ? You will love Binary Tree !");
 
-    public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_1 = new ModuleWithCodelabsDTO(MODULE_DTO_1.id(), MODULE_DTO_1.name(), List.of(CODELAB_DTO_1));
-    public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_2 = new ModuleWithCodelabsDTO(MODULE_DTO_2.id(), MODULE_DTO_2.name(), List.of(CODELAB_DTO_2));
-    public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_3 = new ModuleWithCodelabsDTO(MODULE_DTO_3.id(), MODULE_DTO_3.name(), List.of(CODELAB_DTO_3));
-
-    public static final CourseWithModulesDTO COURSE_WITH_MODULES_DTO_1 = new CourseWithModulesDTO(COURSE_DTO_1.id(), COURSE_DTO_1.name(), List.of(MODULE_WITH_CODELABS_DTO_1, MODULE_WITH_CODELABS_DTO_2, MODULE_WITH_CODELABS_DTO_3));
+    public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_2 = new ModuleWithCodelabsDTO(MODULE_DTO_2.id(), MODULE_DTO_2.name(), List.of(), List.of(CODELAB_DTO_2));
+    public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_3 = new ModuleWithCodelabsDTO(MODULE_DTO_3.id(), MODULE_DTO_3.name(), List.of(), List.of(CODELAB_DTO_3));
+    public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_1 = new ModuleWithCodelabsDTO(MODULE_DTO_1.id(), MODULE_DTO_1.name(), List.of(MODULE_WITH_CODELABS_DTO_2, MODULE_WITH_CODELABS_DTO_3), List.of(CODELAB_DTO_1));
+    public static final CourseWithModulesDTO COURSE_WITH_MODULES_DTO_1 = new CourseWithModulesDTO(COURSE_DTO_1.id(), COURSE_DTO_1.name(), List.of(MODULE_WITH_CODELABS_DTO_1));
 
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateCourseDTO() {
         Map<String, Object> mapExpected = new HashMap<>();

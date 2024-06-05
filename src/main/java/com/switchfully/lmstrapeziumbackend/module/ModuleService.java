@@ -2,14 +2,13 @@ package com.switchfully.lmstrapeziumbackend.module;
 
 
 import com.switchfully.lmstrapeziumbackend.exception.ModuleDoesNotExistException;
-import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
-import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
-import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,6 +25,32 @@ public class ModuleService {
                 .stream()
                 .map(ModuleMapper::toDTO)
                 .toList();
+    }
+
+    public List<ModuleHierarchyDTO> getAllModulesWithHierarchy() {
+        List<Module> rootModules = this.getAllRootModules();
+        Module modulesContainer = new Module(rootModules);
+
+        List<ModuleHierarchyDTO> moduleHierarchyDTOs = new ArrayList<>();
+
+        getModuleHierarchyDTOFromModule(modulesContainer)
+                .ifPresent(moduleHierarchyDTO -> moduleHierarchyDTOs.addAll(moduleHierarchyDTO.modules()));
+
+        return moduleHierarchyDTOs;
+    }
+
+    private Optional<ModuleHierarchyDTO> getModuleHierarchyDTOFromModule(Module module) {
+        List<ModuleHierarchyDTO> childModuleHierarchyDTOs = new ArrayList<>();
+
+        for (Module childModule: module.getChildModules()) {
+            getModuleHierarchyDTOFromModule(childModule)
+                    .ifPresent(childModuleHierarchyDTOs::add);
+        }
+        return constructActualModuleHierarchyDTO(module, childModuleHierarchyDTOs);
+    }
+
+    private Optional<ModuleHierarchyDTO> constructActualModuleHierarchyDTO(Module module, List<ModuleHierarchyDTO> childModuleHierarchyDTOs) {
+        return Optional.of(ModuleMapper.toModuleHierarchyDTO(module, childModuleHierarchyDTOs));
     }
 
     public ModuleDTO createModule(CreateModuleDTO createModuleDTO) {
@@ -51,5 +76,9 @@ public class ModuleService {
     public Module getModuleById(UUID id) {
         return moduleRepository.findById(id)
                 .orElseThrow(() -> new ModuleDoesNotExistException(id));
+    }
+
+    public List<Module> getAllRootModules() {
+        return moduleRepository.findModulesByParentModuleNull();
     }
 }
