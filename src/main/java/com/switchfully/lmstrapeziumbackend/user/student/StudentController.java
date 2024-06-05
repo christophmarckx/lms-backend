@@ -1,4 +1,4 @@
-package com.switchfully.lmstrapeziumbackend.user;
+package com.switchfully.lmstrapeziumbackend.user.student;
 
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/students")
@@ -28,8 +30,9 @@ public class StudentController {
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public StudentDTO getStudentById(Authentication authentication) {
+    public StudentDTO getStudentById(/*@PathVariable UUID studentId, */Authentication authentication) {
+        System.out.println("procced getStudentById");
         this.logger.info("GET /students: Get student by bearer token");
-        return studentService.getStudentByAuthentication(authentication);
+        return studentService.getStudentByAuthentication(authentication/*, studentId*/);
     }
 }
