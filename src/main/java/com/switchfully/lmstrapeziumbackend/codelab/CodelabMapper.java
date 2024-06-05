@@ -27,4 +27,8 @@ public class CodelabMapper {
     public static List<CodelabDTO> toDTO(Collection<Codelab> codelabs) {
         return codelabs.stream().map(CodelabMapper::toDTO).toList();
     }
+
+    public static List<CodelabDTO> toDTO(List<Codelab> codelabs) {
+        return codelabs.stream().map(CodelabMapper::toDTO).toList();
+    }
 }

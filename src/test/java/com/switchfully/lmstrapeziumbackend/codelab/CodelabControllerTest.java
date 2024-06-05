@@ -2,6 +2,11 @@ package com.switchfully.lmstrapeziumbackend.codelab;
 
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
+import com.switchfully.lmstrapeziumbackend.module.Module;
+import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
+import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
+import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import jakarta.persistence.EntityManager;
@@ -15,6 +20,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.Map;
 
 import static io.restassured.http.ContentType.JSON;
@@ -25,22 +31,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 class CodelabControllerTest {
     @LocalServerPort
-    private int port;
+    private int localPort;
 
     @PersistenceContext
     @Autowired
     EntityManager entityManager;
 
-    private final static String URI = "http://localhost/codelabs";
+    @Autowired
+    KeycloakService keycloakService;
 
+    @Autowired
+    KeycloakTestingUtility keycloakTestingUtility;
+
+    private final static String URI = "http://localhost/codelabs";
 
     @Test
     @DisplayName("Trying to create a Codelab with correct data should work")
     void givenAValidCodelabDTO_thenShouldReturnACourseDTO() {
+        //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
         //When
         CodelabDTO actualCreatedCodelab = RestAssured
                 .given()
-                .port(port)
+                .port(localPort)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(TestConstants.CREATE_CODELAB_DTO_CORRECT_DATA)
@@ -56,17 +70,24 @@ class CodelabControllerTest {
 
         assertThat(actualCreatedCodelab)
                 .usingRecursiveComparison()
+                .ignoringFields("module")
                 .isEqualTo(expected);
+
+        assertThat(actualCreatedCodelab).extracting("module")
+                .usingRecursiveComparison()
+                .isEqualTo(expected.getModule());
     }
 
     @Test
-    @DisplayName("Trying to update a course name with invalid data should not work")
-    void givenAFullyInvalidUpdateCourseDTO_thenWillReturnAListOfErrors() {
+    @DisplayName("Trying to update a codelab name with invalid data should not work")
+    void givenAFullyInvalidUpdateCodelabDTO_thenWillReturnAListOfErrors() {
         //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
         //When
         Response response = RestAssured
                 .given()
-                .port(port)
+                .port(localPort)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(TestConstants.CREATE_CODELAB_DTO_1_INCORRECT_DATA)
@@ -83,4 +104,32 @@ class CodelabControllerTest {
                 .containsExactlyInAnyOrderEntriesOf(TestConstants
                         .getExpectedMapForFullyInvalidCreateCodelabDTO());
     }
+
+    @Test
+    @DisplayName("Getting all codelabs should return a list of codelabDTO")
+    void givenAuthenticatedUserWhenGettingAllCodelabsThenReturnListOfCodelabDTO() {
+        //Given
+        String TOKEN_STUDENT = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
+        //When
+        List<CodelabDTO> codelabDTOActual = RestAssured
+                .given()
+                .port(localPort)
+                .header("Authorization", "Bearer " + TOKEN_STUDENT)
+                .when()
+                .get("/codelabs")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .jsonPath()
+                .getList(".", CodelabDTO.class);
+        //Then
+        List<Codelab> codelabs = entityManager.createQuery("SELECT c FROM Codelab c", Codelab.class).getResultList();
+        List<Module> codelabModules = codelabs.stream().map(Codelab::getModule).toList();
+        assertThat(codelabDTOActual).usingRecursiveFieldByFieldElementComparatorIgnoringFields("module").isEqualTo(codelabs);
+        assertThat(codelabDTOActual).extracting("module").usingRecursiveFieldByFieldElementComparator().isEqualTo(codelabModules);
+
+    }
+
+
 }

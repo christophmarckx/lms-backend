@@ -31,8 +31,8 @@ public class UserService {
                         .orElseThrow(UserNotFoundException::new));
     }
 
-    public User getUserById(UUID coachId) {
-        return this.userRepository.findById(coachId)
+    public User getUserById(UUID userId) {
+        return this.userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
     }
 

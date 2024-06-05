@@ -2,6 +2,7 @@ package com.switchfully.lmstrapeziumbackend.codelab;
 
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
+import com.switchfully.lmstrapeziumbackend.exception.CodelabNotFoundException;
 import com.switchfully.lmstrapeziumbackend.module.Module;
 import com.switchfully.lmstrapeziumbackend.module.ModuleService;
 import jakarta.transaction.Transactional;
@@ -30,5 +31,13 @@ public class CodelabService {
 
     public List<Codelab> getCodelabsByModuleId(UUID moduleId) {
         return codelabRepository.findCodelabsByModuleId(moduleId);
+    }
+  
+    public List<CodelabDTO> getAllCodelabs() {
+        return CodelabMapper.toDTO(codelabRepository.findAll());
+    }
+
+    public CodelabDTO getById(UUID id) {
+        return CodelabMapper.toDTO(codelabRepository.findById(id).orElseThrow(() -> new CodelabNotFoundException(id)));
     }
 }
