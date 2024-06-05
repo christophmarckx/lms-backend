@@ -11,6 +11,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,6 +123,31 @@ class CodelabControllerTest {
         //Then
         List<Codelab> codelabs = entityManager.createQuery("SELECT c FROM Codelab c", Codelab.class).getResultList();
         assertThat(codelabDTOActual).usingRecursiveFieldByFieldElementComparatorIgnoringFields("module").isEqualTo(codelabs);
+    }
+
+    @Test
+    @DisplayName("Updating the name of a course should work")
+    void givenAValidUpdateCodelabDTO_thenShouldReturnACodelabDTO() {
+
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+        //When
+        CodelabDTO codelabUpdated = RestAssured
+                .given()
+                .port(localPort)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
+                .accept(JSON)
+                .contentType(JSON)
+                .body(TestConstants.UPDATED_CODELAB_1)
+                .when()
+                .put("/codelabs/" + TestConstants.CODELAB_DTO_1.id())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(CodelabDTO.class);
+        //Then
+        Assertions.assertThat(codelabUpdated.name()).isEqualTo(TestConstants.UPDATED_CODELAB_1.name());
+        Assertions.assertThat(codelabUpdated.description()).isEqualTo(TestConstants.UPDATED_CODELAB_1.description());
     }
 
 

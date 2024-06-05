@@ -46,4 +46,17 @@ public class Codelab {
     public String getDescription() {
         return description;
     }
+
+    public void updateCodelabName(String name) {
+        this.name = name;
+    }
+
+    public void updateCodelabDescription(String description) {
+        this.description = description;
+    }
+
+    public void updateCodelabModule(Module module) {
+        this.module = module;
+    }
+
 }

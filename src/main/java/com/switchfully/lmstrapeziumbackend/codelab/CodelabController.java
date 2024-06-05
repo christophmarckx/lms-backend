@@ -2,6 +2,7 @@ package com.switchfully.lmstrapeziumbackend.codelab;
 
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.UpdateCodelabDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,10 @@ public class CodelabController {
     @GetMapping("/{id}")
     public CodelabDTO getById(@PathVariable UUID id){
         return codelabService.getById(id);
+    }
+
+    @PutMapping("/{id}")
+    public CodelabDTO updateById(@RequestBody UpdateCodelabDTO updateCodelabDTO, @PathVariable UUID id) {
+        return codelabService.updateCodelab(id, updateCodelabDTO);
     }
 }
