@@ -83,4 +83,26 @@ public class ClassgroupE2ETest {
         //Then
         Assertions.assertThat(mapReturned).containsExactlyInAnyOrderEntriesOf(TestConstants.getExpectedMapForFullyInvalidCreateClassgroupDTO());
     }
+    @Test
+    @DisplayName("Trying to create a Course with invalid data should not work")
+    void givenACreateCourseDTOContainingANonCoachId_thenWillReturnAnError() {
+        //Given
+        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("Best Classgroup", TestConstants.COURSE_DTO_1.id().toString(), List.of(TestConstants.TESTING_STUDENT_ID));
+        //When
+        String response = RestAssured
+                .given()
+                .port(port)
+                .accept(JSON)
+                .contentType(JSON)
+                .body(invalidCreateClassgroupDTO)
+                .when()
+                .post("/classgroups")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .extract()
+                .asString();
+        //Then
+        Assertions.assertThat(response).isEqualTo("You can only give Coaches to create a classgroup");
+    }
 }

@@ -47,7 +47,7 @@ public class ClassgroupService {
         Course courseToAddToClass = courseService.getCourseById(UUID.fromString(createClassgroupDTO.getCourseId()));
 
         List<UUID> coachIds = new ArrayList<>();
-        createClassgroupDTO.getCoaches().stream().forEach(userId -> {
+        createClassgroupDTO.getCoaches().forEach(userId -> {
             if (!coachIds.contains(userId)) {
                 coachIds.add(userId);
             }

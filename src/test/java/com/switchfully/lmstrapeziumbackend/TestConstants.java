@@ -76,7 +76,7 @@ public class TestConstants {
         Map<String, String> errorsMap = new HashMap<>();
         errorsMap.put("name", "The name of the classgroup must be between 2 and 255 characters");
         errorsMap.put("courseId", "The id of the course must be 36 characters long");
-        errorsMap.put("coachs", "Provide at least one coach to create the Classgroup");
+        errorsMap.put("coaches", "Provide at least one coach to create the Classgroup");
         mapExpected.put("message", "Following validation error(s) occurred on /classgroups");
         mapExpected.put("errors", errorsMap);
         return mapExpected;
