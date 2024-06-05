@@ -6,6 +6,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping(path = "/codelabs")
 public class CodelabController {
@@ -19,5 +22,15 @@ public class CodelabController {
     @ResponseStatus(HttpStatus.CREATED)
     public CodelabDTO createCodelab(@RequestBody @Valid CreateCodelabDTO codelabDTO) {
         return codelabService.createCodelab(codelabDTO);
+    }
+
+    @GetMapping
+    public List<CodelabDTO> getAll() {
+        return codelabService.getAllCodelabs();
+    }
+
+    @GetMapping("/{id}")
+    public CodelabDTO getById(@PathVariable UUID id){
+        return codelabService.getById(id);
     }
 }

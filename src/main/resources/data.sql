@@ -36,9 +36,9 @@ INSERT INTO lms.module (id, name, parent_id) VALUES
 
 -- Inserting data into course_module table
 INSERT INTO lms.course_module (course_id, module_id) VALUES
-     ('e0e8b080-df45-11ec-9d64-0242ac120002', 'e0e8b090-df45-11ec-9d64-0242ac120002'),
-     ('e0e8b080-df45-11ec-9d64-0242ac120002', 'e0e8b091-df45-11ec-9d64-0242ac120002'),
-     ('e0e8b080-df45-11ec-9d64-0242ac120002', 'e0e8b092-df45-11ec-9d64-0242ac120002');
+     ('f953c154-36f2-4b79-8992-b6f5d4dd24a9', 'e0e8b090-df45-11ec-9d64-0242ac120002'),
+     ('f953c154-36f2-4b79-8992-b6f5d4dd24a9', 'e0e8b091-df45-11ec-9d64-0242ac120002'),
+     ('f953c154-36f2-4b79-8992-b6f5d4dd24a9', 'e0e8b092-df45-11ec-9d64-0242ac120002');
 
 -- Inserting data into codelab table
 INSERT INTO lms.codelab (id, name, description, module_id) VALUES

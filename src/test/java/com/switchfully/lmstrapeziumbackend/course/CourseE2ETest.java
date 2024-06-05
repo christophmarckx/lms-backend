@@ -2,6 +2,7 @@ package com.switchfully.lmstrapeziumbackend.course;
 
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.CourseWithModulesDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
 import io.restassured.RestAssured;
@@ -124,5 +125,25 @@ public class CourseE2ETest {
                 .containsExactlyInAnyOrderEntriesOf(TestConstants
                         .getExpectedMapForFullyInvalidUpdateCourseDTO());
 
+    }
+
+    @Test
+    @DisplayName("get course by id (with modules and codelabs)")
+    void givenCourseId_thenShouldReturnACourseWithModulesDTO() {
+        //When
+        CourseWithModulesDTO courseWithModulesDTO = RestAssured
+                .given()
+                .port(port)
+                .accept(JSON)
+                .contentType(JSON)
+                .when()
+                .get("/courses/" + TestConstants.COURSE_DTO_1.id() + "/codelabs")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(CourseWithModulesDTO.class);
+        //Then
+        Assertions.assertThat(courseWithModulesDTO).isEqualTo(TestConstants.COURSE_WITH_MODULES_DTO_1);
     }
 }
