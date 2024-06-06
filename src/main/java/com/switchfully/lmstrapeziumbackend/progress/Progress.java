@@ -34,6 +34,10 @@ public class Progress {
         this.status = status;
     }
 
+    public void updateStatus(CodelabProgress status) {
+        this.status = status;
+    }
+
     public UUID getId() {
         return id;
     }
