@@ -38,9 +38,9 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("COACH", "STUDENT")
                         .requestMatchers(HttpMethod.GET, "/coaches").permitAll() //TODO Add Security
                         .requestMatchers("/modules/**").permitAll() //TODO Add Security
-                        .requestMatchers(HttpMethod.GET,"/codelabs/**").hasAnyAuthority("COACH", "STUDENT")
+                        .requestMatchers(HttpMethod.GET,"/codelabs/**").permitAll()//.hasAnyAuthority("COACH", "STUDENT")
                         .requestMatchers(HttpMethod.POST,"/codelabs/**").hasAuthority("COACH")
-                        .requestMatchers(HttpMethod.PUT,"/codelabs/**").hasAuthority("COACH")
+                        .requestMatchers(HttpMethod.PUT,"/codelabs/**").permitAll()//.hasAuthority("COACH")
                         .requestMatchers("/courses/**").permitAll() //TODO Add Security
                         .requestMatchers("/classgroups/**").permitAll() //TODO Add Security
                         .anyRequest().denyAll()
