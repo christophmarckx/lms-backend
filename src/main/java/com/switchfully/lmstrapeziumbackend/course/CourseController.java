@@ -1,9 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.course;
 
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseWithModulesDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +32,9 @@ public class CourseController {
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public List<CourseDTO> getAllCourses() {
+    public List<CourseSummaryDTO> getAllCourses() {
         this.logger.info("GET /courses: Getting all courses");
-        return courseService.getAllCourses();
+        return courseService.getAllSummaryCourses();
 
     }
 

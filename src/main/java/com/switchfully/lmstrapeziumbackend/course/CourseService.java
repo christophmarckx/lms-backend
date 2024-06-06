@@ -1,12 +1,8 @@
 package com.switchfully.lmstrapeziumbackend.course;
 
 import com.switchfully.lmstrapeziumbackend.codelab.Codelab;
-import com.switchfully.lmstrapeziumbackend.codelab.CodelabMapper;
 import com.switchfully.lmstrapeziumbackend.codelab.CodelabService;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseWithModulesDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.*;
 import com.switchfully.lmstrapeziumbackend.exception.CourseNotFoundException;
 import com.switchfully.lmstrapeziumbackend.module.Module;
 import com.switchfully.lmstrapeziumbackend.module.ModuleMapper;
@@ -52,8 +48,8 @@ public class CourseService {
         return CourseMapper.toDTO(this.getCourseById(courseId));
     }
 
-    public List<CourseDTO> getAllCourses() {
-            return CourseMapper.toDTO(courseRepository.findAll());
+    public List<CourseSummaryDTO> getAllSummaryCourses() {
+        return CourseMapper.toCourseSummaryDTO(courseRepository.findAll());
     }
 
     public CourseDTO updateCourse(UUID courseId, UpdateCourseDTO updateCourseDTO) {
