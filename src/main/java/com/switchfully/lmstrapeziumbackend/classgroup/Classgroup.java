@@ -54,4 +54,8 @@ public class Classgroup {
     public List<User> getUsers() {
         return users;
     }
+
+    public void addUser(User userToAdd) {
+        users.add(userToAdd);
+    }
 }

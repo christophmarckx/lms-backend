@@ -7,6 +7,7 @@ import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.User;
 import com.switchfully.lmstrapeziumbackend.user.UserRepository;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
+import com.switchfully.lmstrapeziumbackend.user.UserService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import org.springframework.security.core.Authentication;
@@ -23,11 +24,13 @@ public class StudentService {
     private final UserRepository userRepository;
     private final KeycloakService keycloakService;
     private final AuthenticationService authenticationService;
+    private final UserService userService;
 
-    public StudentService(UserRepository userRepository, KeycloakService keycloakService, AuthenticationService authenticationService) {
+    public StudentService(UserRepository userRepository, KeycloakService keycloakService, AuthenticationService authenticationService, UserService userService) {
         this.userRepository = userRepository;
         this.keycloakService = keycloakService;
         this.authenticationService = authenticationService;
+        this.userService = userService;
     }
 
     public StudentDTO createStudent(CreateStudentDTO createStudentDTO) {
@@ -53,5 +56,11 @@ public class StudentService {
         }
 
         return StudentMapper.toDTO(userOptional.get());
+    }
+
+    public StudentDTO addStudentToClassgroup(Classgroup classgroupToFollow, Authentication authentication) {
+        User student = userService.getUserById(getStudentByAuthentication(authentication).id());
+        student.addClassgroup(classgroupToFollow);
+        return StudentMapper.toDTO(userService.updateStudent(student));
     }
 }

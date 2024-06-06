@@ -59,9 +59,11 @@ public class User {
     }
 
     public void addClassgroup(Classgroup classgroup) {
-        if (classgroups.contains(classgroup)) {
-            throw new UserAlreadyExistException(this.email);
+        if (getRole() != UserRole.COACH && getClassgroups().size() == 1) {
+            classgroups.removeFirst();
+            classgroups.add(classgroup);
+        } else if (!classgroups.contains(classgroup)) {
+            classgroups.add(classgroup);
         }
-        classgroups.add(classgroup);
     }
 }

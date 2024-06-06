@@ -36,4 +36,8 @@ public class UserService {
         return this.userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
     }
+
+    public User updateStudent(User student) {
+        return this.userRepository.save(student);
+    }
 }

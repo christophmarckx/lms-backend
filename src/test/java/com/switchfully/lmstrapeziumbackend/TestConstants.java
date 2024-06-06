@@ -18,6 +18,13 @@ import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import java.util.*;
 
 public class TestConstants {
+    //****************** STUDENTS ******************//
+
+    public static final UUID TESTING_STUDENT_ID = UUID.fromString("d992d902-4953-4b9a-9a88-493d446c8ee0");
+    public static final StudentDTO TESTING_STUDENT_DTO = new StudentDTO(TESTING_STUDENT_ID, "testing@student.com", "Super Testing Student");
+    private static final User TESTING_STUDENT = new User(TESTING_STUDENT_ID, TESTING_STUDENT_DTO.email(), TESTING_STUDENT_DTO.displayName(), UserRole.STUDENT);
+    public static final UUID STUDENT_ID = UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002");
+    public static final StudentDTO STUDENT_DTO = new StudentDTO(UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002"), "john.doe@example.com", "John Doe");
 
     //****************** MODULES ******************//
     public static final CreateModuleDTO CREATE_MODULE_DTO_1 = new CreateModuleDTO("Intro to Programming", null);
@@ -72,9 +79,9 @@ public class TestConstants {
 
     //****************** CLASSGROUPS ******************//
 
-    public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("Java-2024-02", COURSE_DTO_1.id(), List.of(TESTING_COACH.getId()));
+    public static final CreateClassgroupDTO CREATE_CLASSGROUP_DTO_1 = new CreateClassgroupDTO("CS101 Group A", COURSE_DTO_1.id(), List.of(TESTING_COACH.getId()));
     public static final Classgroup CLASSGROUP_1 = new Classgroup(CREATE_CLASSGROUP_DTO_1.name(), COURSE_1, List.of(TESTING_COACH));
-    public static final ClassgroupDTO CLASSGROUP_DTO_1 = new ClassgroupDTO(UUID.fromString("ddc44eae-8f50-4914-9580-f03d1e68f48f"), CLASSGROUP_1.getName(), COURSE_SUMMARY_DTO_1);
+    public static final ClassgroupDTO CLASSGROUP_DTO_1 = new ClassgroupDTO(UUID.fromString("e0e8b082-df45-11ec-9d64-0242ac120002"), CLASSGROUP_1.getName(), COURSE_SUMMARY_DTO_1);
 
     public static Map<String, Object> getExpectedMapForFullyInvalidCreateClassgroupDTO() {
         Map<String, Object> mapExpected = new HashMap<>();
@@ -112,13 +119,4 @@ public class TestConstants {
         mapExpected.put("errors", errorsMap);
         return mapExpected;
     }
-
-    //****************** STUDENTS ******************//
-
-    public static final UUID TESTING_STUDENT_ID = UUID.fromString("d992d902-4953-4b9a-9a88-493d446c8ee0");
-    public static final StudentDTO TESTING_STUDENT_DTO = new StudentDTO(TESTING_STUDENT_ID, "testing@student.com", "Super Testing Student");
-    public static final UUID STUDENT_ID = UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002");
-    public static final StudentDTO STUDENT_DTO = new StudentDTO(UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002"), "john.doe@example.com", "John Doe");
-
-
 }
