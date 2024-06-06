@@ -4,6 +4,7 @@ import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.UpdateCodelabDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
@@ -43,11 +44,12 @@ public class TestConstants {
     public static final CourseSummaryDTO COURSE_SUMMARY_DTO_1 = new CourseSummaryDTO(UUID.fromString("f953c154-36f2-4b79-8992-b6f5d4dd24a9"), COURSE_1.getName(), COURSE_1.getDescription());
     public static final UpdateCourseDTO UPDATED_COURSE_1 = new UpdateCourseDTO("NEW UPDATED NAME", "", new ArrayList<>());
 
-    //****************** COURSES ******************//
+    //****************** CODELABS ******************//
     public static final CodelabDTO CODELAB_DTO_1 = new CodelabDTO(UUID.fromString("e0e8b096-df45-11ec-9d64-0242ac120002"), "Hello World Lab", "First Hello World Lab");
     public static final CodelabDTO CODELAB_DTO_2 = new CodelabDTO(UUID.fromString("e0e8b097-df45-11ec-9d64-0242ac120002"), "Sorting Algorithms Lab", "Lab about complex algorithm for sorting (Like bubble sort, the best)");
     public static final CodelabDTO CODELAB_DTO_3 = new CodelabDTO(UUID.fromString("e0e8b098-df45-11ec-9d64-0242ac120002"), "Binary Trees Lab", "You love tree ? You love binary ? You will love Binary Tree !");
     public static final UpdateCodelabDTO UPDATED_CODELAB_1 = new UpdateCodelabDTO("NEW UPDATED NAME", "", UUID.fromString("e0e8b090-df45-11ec-9d64-0242ac120002"));
+    public static final CodelabWithModuleDTO CODELAB_WITH_MODULE_DTO_1 = new CodelabWithModuleDTO(CODELAB_DTO_1.id(), CODELAB_DTO_1.name(), CODELAB_DTO_1.description(),MODULE_DTO_1);
 
     public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_2 = new ModuleWithCodelabsDTO(MODULE_DTO_2.id(), MODULE_DTO_2.name(), List.of(), List.of(CODELAB_DTO_2));
     public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_3 = new ModuleWithCodelabsDTO(MODULE_DTO_3.id(), MODULE_DTO_3.name(), List.of(), List.of(CODELAB_DTO_3));
@@ -94,7 +96,7 @@ public class TestConstants {
         return mapExpected;
     }
 
-    //****************** CODELABS ******************//
+    //****************** CODELABS 2.0 ******************//
     public static final String CODELAB_NAME = "Loops in Java";
     public static final String CODELAB_DESCRIPTION = "Loops go zoom go zoom go zoom";
     public static final UUID CODELAB_PARENT_MODULE_ID = UUID.fromString("e0e8b090-df45-11ec-9d64-0242ac120002");

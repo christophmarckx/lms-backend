@@ -2,8 +2,8 @@ package com.switchfully.lmstrapeziumbackend.codelab;
 
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
-import com.switchfully.lmstrapeziumbackend.module.Module;
-import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.CourseWithModulesDTO;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 class CodelabControllerTest {
     @LocalServerPort
-    private int localPort;
+    private int port;
 
     @PersistenceContext
     @Autowired
@@ -54,7 +54,7 @@ class CodelabControllerTest {
         //When
         CodelabDTO actualCreatedCodelab = RestAssured
                 .given()
-                .port(localPort)
+                .port(port)
                 .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
@@ -83,7 +83,7 @@ class CodelabControllerTest {
         //When
         Response response = RestAssured
                 .given()
-                .port(localPort)
+                .port(port)
                 .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
@@ -110,7 +110,7 @@ class CodelabControllerTest {
         //When
         List<CodelabDTO> codelabDTOActual = RestAssured
                 .given()
-                .port(localPort)
+                .port(port)
                 .header("Authorization", "Bearer " + TOKEN_STUDENT)
                 .when()
                 .get("/codelabs")
@@ -133,7 +133,7 @@ class CodelabControllerTest {
         //When
         CodelabDTO codelabUpdated = RestAssured
                 .given()
-                .port(localPort)
+                .port(port)
                 .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
@@ -150,5 +150,30 @@ class CodelabControllerTest {
         Assertions.assertThat(codelabUpdated.description()).isEqualTo(TestConstants.UPDATED_CODELAB_1.description());
     }
 
+
+
+    @Test
+    @DisplayName("Getting a codelab by Id should return correct codelab with module")
+    void givenCodelabId_thenShouldReturnACodelabWithModuleDTO() {
+        //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+
+        //When
+        CodelabWithModuleDTO codelabWithModuleDTO = RestAssured
+                .given()
+                .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
+                .accept(JSON)
+                .contentType(JSON)
+                .when()
+                .get("/codelabs/" + TestConstants.CODELAB_DTO_1.id())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(CodelabWithModuleDTO.class);
+        //Then
+        Assertions.assertThat(codelabWithModuleDTO).isEqualTo(TestConstants.CODELAB_WITH_MODULE_DTO_1);
+    }
 
 }

@@ -8,5 +8,5 @@ public record CodelabWithModuleDTO(
         UUID id,
         String name,
         String description,
-        ModuleDTO moduleDTO) {
+        ModuleDTO module) {
 }
