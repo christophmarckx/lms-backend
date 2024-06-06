@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,8 +54,8 @@ public class CourseController {
     }
 
     @GetMapping("{courseId}/codelabs")
-    public CourseWithModulesDTO getCourseWithModulesById(@PathVariable UUID courseId) {
+    public CourseWithModulesDTO getCourseWithModulesById(@PathVariable UUID courseId, Authentication authentication) {
         this.logger.info("GET /courses: Getting a course with modules by id");
-        return courseService.getCourseWithModulesById(courseId);
+        return courseService.getCourseWithModulesById(authentication, courseId);
     }
 }
