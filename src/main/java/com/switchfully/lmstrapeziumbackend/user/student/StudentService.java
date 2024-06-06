@@ -2,6 +2,12 @@ package com.switchfully.lmstrapeziumbackend.user.student;
 
 import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
 import com.switchfully.lmstrapeziumbackend.classgroup.ClassgroupService;
+import com.switchfully.lmstrapeziumbackend.course.CourseMapper;
+import com.switchfully.lmstrapeziumbackend.course.CourseService;
+import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.CourseSummaryDTO;
+import com.switchfully.lmstrapeziumbackend.exception.AccessForbiddenException;
+import com.switchfully.lmstrapeziumbackend.exception.IllegalUserRoleException;
 import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
 import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
@@ -34,7 +40,7 @@ public class StudentService {
         return StudentMapper.toDTO(this.userRepository.save(StudentMapper.toUser(userKeycloakId, createStudentDTO)));
     }
 
-    public List<StudentDTO> getStudentFollowingClass(Classgroup classgroup){
+    public List<StudentDTO> getStudentsFollowingClass(Classgroup classgroup){
         return this.userRepository
                 .findAllByClassgroupsAndRole(classgroup, UserRole.STUDENT)
                 .stream().map(StudentMapper::toDTO)
@@ -52,5 +58,27 @@ public class StudentService {
         }
 
         return StudentMapper.toDTO(userOptional.get());
+    }
+
+    public Optional<CourseSummaryDTO> getCourseFollowedByStudentId(Authentication authentication, UUID studentId) {
+        UserRole authenticatedUserRole = authenticationService.getAuthenticatedUserRole(authentication);
+
+        if (authenticatedUserRole.equals(UserRole.STUDENT)) {
+            UUID authenticatedUserId = authenticationService.getAuthenticatedUserId(authentication)
+                    .orElseThrow(UserNotFoundException::new);
+
+            if (!authenticatedUserId.equals(studentId)) {
+                throw new AccessForbiddenException();
+            }
+        }
+
+        User student = userRepository.findById(studentId)
+                .orElseThrow(UserNotFoundException::new);
+
+        if (student.getClassgroups().isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(CourseMapper.toCourseSummaryDTO(student.getClassgroups().getFirst().getCourse()));
     }
 }
