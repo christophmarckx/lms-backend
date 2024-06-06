@@ -2,7 +2,6 @@ package com.switchfully.lmstrapeziumbackend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +16,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig implements WebMvcConfigurer {
+
+    private final String COACH = "COACH";
+    private final String STUDENT = "STUDENT";
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -33,16 +35,20 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll() //Swagger-ui
-                        .requestMatchers(HttpMethod.POST, "/students/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/students/**").hasAuthority("STUDENT")
-                        .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("COACH", "STUDENT")
-                        .requestMatchers(HttpMethod.GET, "/coaches").permitAll() //TODO Add Security
-                        .requestMatchers("/modules/**").permitAll() //TODO Add Security
-                        .requestMatchers(HttpMethod.GET,"/codelabs/**").hasAnyAuthority("COACH", "STUDENT")
-                        .requestMatchers(HttpMethod.POST,"/codelabs/**").hasAuthority("COACH")
-                        .requestMatchers(HttpMethod.PUT,"/codelabs/**").hasAuthority("COACH")
-                        .requestMatchers("/courses/**").permitAll() //TODO Add Security
-                        .requestMatchers("/classgroups/**").permitAll() //TODO Add Security
+                        .requestMatchers(HttpMethod.POST, "/students").not().hasAnyAuthority(STUDENT, COACH)
+                        .requestMatchers(HttpMethod.GET, "/students/**").hasAuthority(STUDENT)
+                        .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority(COACH, STUDENT)
+                        .requestMatchers(HttpMethod.GET, "/coaches").hasAuthority(COACH)
+                        .requestMatchers(HttpMethod.POST, "/modules").hasAuthority(COACH)
+                        .requestMatchers(HttpMethod.GET, "/modules/**").hasAnyAuthority(COACH, STUDENT)
+                        .requestMatchers(HttpMethod.GET, "/codelabs/**").hasAnyAuthority(COACH, STUDENT)
+                        .requestMatchers(HttpMethod.POST, "/codelabs/**").hasAuthority(COACH)
+                        .requestMatchers(HttpMethod.PUT, "/codelabs/**").hasAuthority(COACH)
+                        .requestMatchers(HttpMethod.GET, "/courses/**").hasAnyAuthority(COACH, STUDENT)
+                        .requestMatchers(HttpMethod.POST, "/courses").hasAuthority(COACH)
+                        .requestMatchers(HttpMethod.PUT, "/courses/**").hasAuthority(COACH)
+                        .requestMatchers(HttpMethod.GET, "/classgroups/**").hasAnyAuthority(COACH, STUDENT)
+                        .requestMatchers(HttpMethod.POST, "/classgroups").hasAuthority(COACH)
                         .anyRequest().denyAll()
                 )
                 .oauth2ResourceServer(oauth ->

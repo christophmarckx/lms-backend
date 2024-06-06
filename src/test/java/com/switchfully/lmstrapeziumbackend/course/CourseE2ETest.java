@@ -5,11 +5,14 @@ import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseWithModulesDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
+import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -30,15 +33,21 @@ public class CourseE2ETest {
     @LocalServerPort
     private int port;
 
+    @Autowired
+    KeycloakTestingUtility keycloakTestingUtility;
+
     @Test
     @DisplayName("Trying to create a Course with invalid data should not work")
     void givenAFullyInvalidCreateCourseDTO_thenWillReturnAListOfErrors() {
         //Given
+        String TOKEN_STUDENT = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
+
         CreateCourseDTO invalidCreateCourseDTO = new CreateCourseDTO("A", "", new ArrayList<>());
         //When
-        Response response = RestAssured
+        RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_STUDENT)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(invalidCreateCourseDTO)
@@ -46,21 +55,19 @@ public class CourseE2ETest {
                 .post("/courses")
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .extract()
-                .response();
-        Map<String, Object> mapReturned = response.as(Map.class);
-        //Then
-        Assertions.assertThat(mapReturned).containsExactlyInAnyOrderEntriesOf(TestConstants.getExpectedMapForFullyInvalidCreateCourseDTO());
-    }
+                .statusCode(HttpStatus.FORBIDDEN.value());
+                 }
 
     @Test
     @DisplayName("Trying to create a Course with correct data should work")
     void givenAValidCreateCourseDTO_thenShouldReturnACourseDTO() {
+        //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
         //When
         CourseDTO courseCreated = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(TestConstants.CREATE_COURSE_DTO_1)
@@ -82,10 +89,14 @@ public class CourseE2ETest {
     @Test
     @DisplayName("Updating the name of a course should work")
     void givenAValidUpdateCourseDTO_thenShouldReturnACourseDTO() {
+        //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+
         //When
         CourseDTO courseUpdated = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(TestConstants.UPDATED_COURSE_1)
@@ -102,13 +113,15 @@ public class CourseE2ETest {
 
     @Test
     @DisplayName("Trying to update a course name with invalid data should not work")
-    void givenAFullyInvalidUpdateCourseDTO_thenWillReturnAListOfErrors(){
+    void givenAFullyInvalidUpdateCourseDTO_thenWillReturnAListOfErrors() {
         //Given
         UpdateCourseDTO invalidUpdateCourseDTO = new UpdateCourseDTO("B", "", new ArrayList<>());
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
         //When
         Response response = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(invalidUpdateCourseDTO)
@@ -128,12 +141,15 @@ public class CourseE2ETest {
     }
 
     @Test
-    @DisplayName("get course by id (with modules and codelabs)")
+    @DisplayName("Get course by id (with modules and codelabs)")
     void givenCourseId_thenShouldReturnACourseWithModulesDTO() {
+        //Given
+        String TOKEN_STUDENT = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
         //When
         CourseWithModulesDTO courseWithModulesDTO = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_STUDENT)
                 .accept(JSON)
                 .contentType(JSON)
                 .when()

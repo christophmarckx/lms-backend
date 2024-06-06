@@ -28,7 +28,8 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "MODULE_ID"))
     private List<Module> modules = new ArrayList<>();
 
-    public Course() {}
+    public Course() {
+    }
 
     public Course(String name, String description, List<Module> modules) {
         this.name = name;

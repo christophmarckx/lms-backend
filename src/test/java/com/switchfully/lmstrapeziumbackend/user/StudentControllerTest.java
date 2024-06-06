@@ -35,7 +35,7 @@ class StudentControllerTest {
     public static final String CREATE_STUDENT_PASSWORD = "password-created";
 
     @LocalServerPort
-    int localPort;
+    int port;
 
     @Autowired
     EntityManager entityManager;
@@ -55,7 +55,7 @@ class StudentControllerTest {
         StudentDTO returnedStudentDTO = RestAssured
                 .given()
                 .baseUri(URI)
-                .port(localPort)
+                .port(port)
                 .contentType(ContentType.JSON)
                 .body(createStudentDTO)
                 .when()
@@ -92,7 +92,7 @@ class StudentControllerTest {
                         .given()
                         .contentType(ContentType.JSON)
                         .when()
-                        .port(localPort)
+                        .port(port)
                         .header("Authorization", "Bearer " + token)
                         .get("/students")
                         .then()

@@ -28,7 +28,8 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Classgroup> classgroups = new ArrayList<>();
 
-    public User() {}
+    public User() {
+    }
 
     public User(UUID id, String email, String displayName, UserRole role) {
         this.id = id;

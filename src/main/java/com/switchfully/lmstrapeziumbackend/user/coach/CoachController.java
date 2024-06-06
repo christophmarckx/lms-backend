@@ -12,14 +12,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/coaches")
 public class CoachController {
-    private CoachService coachService;
+    private final CoachService coachService;
+
     public CoachController(CoachService coachService) {
         this.coachService = coachService;
     }
 
-    @GetMapping(produces= "application/json")
+    @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public List<CoachDTO> getAllCoaches(){
+    public List<CoachDTO> getAllCoaches() {
         return coachService.getAllCoaches();
     }
 }

@@ -7,16 +7,13 @@ import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
 import com.switchfully.lmstrapeziumbackend.exception.ClassgroupNotFoundException;
 import com.switchfully.lmstrapeziumbackend.exception.IllegalUserRoleException;
+import com.switchfully.lmstrapeziumbackend.user.User;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
+import com.switchfully.lmstrapeziumbackend.user.UserService;
 import com.switchfully.lmstrapeziumbackend.user.coach.CoachService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
-import com.switchfully.lmstrapeziumbackend.user.student.StudentService;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
-import com.switchfully.lmstrapeziumbackend.user.User;
-import com.switchfully.lmstrapeziumbackend.user.UserRepository;
-import com.switchfully.lmstrapeziumbackend.user.UserService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.switchfully.lmstrapeziumbackend.user.student.StudentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,11 +40,10 @@ public class ClassgroupService {
     }
 
     public ClassgroupDTO createClassgroup(CreateClassgroupDTO createClassgroupDTO) {
-
-        Course courseToAddToClass = courseService.getCourseById(UUID.fromString(createClassgroupDTO.getCourseId()));
+        Course courseToAddToClass = courseService.getCourseById(createClassgroupDTO.courseId());
 
         List<UUID> coachIds = new ArrayList<>();
-        createClassgroupDTO.getCoaches().forEach(userId -> {
+        createClassgroupDTO.coaches().forEach(userId -> {
             if (!coachIds.contains(userId)) {
                 coachIds.add(userId);
             }
@@ -56,7 +52,7 @@ public class ClassgroupService {
         List<User> coaches = checkIfUsersAreCoaches(coachIds);
 
         Classgroup classgroupCreated = classgroupRepository.save(ClassgroupMapper.toClassgroup(
-                createClassgroupDTO.getName(),
+                createClassgroupDTO.name(),
                 courseToAddToClass,
                 coaches
         ));
@@ -86,7 +82,6 @@ public class ClassgroupService {
                 .findById(classgroupId)
                 .orElseThrow(() -> new ClassgroupNotFoundException(classgroupId));
     }
-
 
     private List<Classgroup> getAllClassgroups() {
         return this.classgroupRepository.findAll();

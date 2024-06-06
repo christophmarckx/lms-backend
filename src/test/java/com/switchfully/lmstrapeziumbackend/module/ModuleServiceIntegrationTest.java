@@ -3,13 +3,10 @@ package com.switchfully.lmstrapeziumbackend.module;
 import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -24,10 +21,9 @@ public class ModuleServiceIntegrationTest {
     @Autowired
     ModuleService moduleService;
 
-
     @Test
     @DisplayName("Creating a module without a parent module given correct data will return a module DTO")
-    void createModule_whenNoParentModule_thenModuleWellCreated () {
+    void createModule_whenNoParentModule_thenModuleWellCreated() {
         CreateModuleDTO moduleToCreate = new CreateModuleDTO(
                 "Chimie",
                 null
@@ -41,7 +37,7 @@ public class ModuleServiceIntegrationTest {
 
     @Test
     @DisplayName("Creating a module with a parent module given correct data will return a module DTO")
-    void creatingModule_withParentModule_thenModuleCorrectlyCreated () {
+    void creatingModule_withParentModule_thenModuleCorrectlyCreated() {
         Module moduleToLink = entityManager.createQuery("select m from Module m ", Module.class).getResultList().getFirst();
         CreateModuleDTO moduleToCreate = new CreateModuleDTO(
                 "Chimie",

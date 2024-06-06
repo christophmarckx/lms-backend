@@ -19,12 +19,12 @@ public class CourseMapper {
         return new CourseDTO(course.getId(), course.getName(), course.getDescription(), ModuleMapper.toDTO(course.getModules()));
     }
 
-    public static CourseSummaryDTO toCourseSummaryDTO(Course course) {
-        return new CourseSummaryDTO(course.getId(), course.getName(), course.getDescription());
-    }
-
     public static List<CourseDTO> toDTO(List<Course> courses) {
         return courses.stream().map(CourseMapper::toDTO).toList();
+    }
+
+    public static CourseSummaryDTO toCourseSummaryDTO(Course course) {
+        return new CourseSummaryDTO(course.getId(), course.getName(), course.getDescription());
     }
 
     public static List<CourseSummaryDTO> toCourseSummaryDTO(List<Course> courses) {
@@ -32,6 +32,6 @@ public class CourseMapper {
     }
 
     public static CourseWithModulesDTO toCourseWithModulesDTO(Course course, List<ModuleWithCodelabsDTO> moduleWithCodelabsDTOs) {
-        return new CourseWithModulesDTO(course.getId(),course.getName(), moduleWithCodelabsDTOs);
+        return new CourseWithModulesDTO(course.getId(), course.getName(), moduleWithCodelabsDTOs);
     }
 }

@@ -9,14 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/students")
 public class StudentController {
 
     private final Logger logger = LoggerFactory.getLogger(StudentController.class);
-    private StudentService studentService;
+    private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;

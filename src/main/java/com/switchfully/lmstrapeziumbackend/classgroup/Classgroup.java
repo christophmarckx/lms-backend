@@ -30,8 +30,8 @@ public class Classgroup {
             inverseJoinColumns = @JoinColumn(name = "APP_USER_ID"))
     private List<User> users = new ArrayList<>();
 
-
-    public Classgroup() {}
+    public Classgroup() {
+    }
 
     public Classgroup(String name, Course course, List<User> users) {
         this.name = name;

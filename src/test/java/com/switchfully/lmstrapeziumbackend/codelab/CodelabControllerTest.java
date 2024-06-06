@@ -2,8 +2,6 @@ package com.switchfully.lmstrapeziumbackend.codelab;
 
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
-import com.switchfully.lmstrapeziumbackend.module.Module;
-import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
@@ -31,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 class CodelabControllerTest {
     @LocalServerPort
-    private int localPort;
+    private int port;
 
     @PersistenceContext
     @Autowired
@@ -53,7 +51,7 @@ class CodelabControllerTest {
         //When
         CodelabDTO actualCreatedCodelab = RestAssured
                 .given()
-                .port(localPort)
+                .port(port)
                 .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
@@ -82,7 +80,7 @@ class CodelabControllerTest {
         //When
         Response response = RestAssured
                 .given()
-                .port(localPort)
+                .port(port)
                 .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
@@ -109,7 +107,7 @@ class CodelabControllerTest {
         //When
         List<CodelabDTO> codelabDTOActual = RestAssured
                 .given()
-                .port(localPort)
+                .port(port)
                 .header("Authorization", "Bearer " + TOKEN_STUDENT)
                 .when()
                 .get("/codelabs")
@@ -123,6 +121,4 @@ class CodelabControllerTest {
         List<Codelab> codelabs = entityManager.createQuery("SELECT c FROM Codelab c", Codelab.class).getResultList();
         assertThat(codelabDTOActual).usingRecursiveFieldByFieldElementComparatorIgnoringFields("module").isEqualTo(codelabs);
     }
-
-
 }

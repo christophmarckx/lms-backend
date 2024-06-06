@@ -2,10 +2,10 @@ package com.switchfully.lmstrapeziumbackend.module;
 
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.course.Course;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
-import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
+import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -17,18 +17,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-
-import static io.restassured.http.ContentType.JSON;
 
 import java.util.List;
 import java.util.UUID;
 
+import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
@@ -37,7 +33,7 @@ class ModuleControllerTest {
     private static final String URI = "http://localhost";
 
     @LocalServerPort
-    int localPort;
+    int port;
 
     @PersistenceContext
     @Autowired
@@ -46,13 +42,19 @@ class ModuleControllerTest {
     @Autowired
     ModuleMapper moduleMapper;
 
+    @Autowired
+    KeycloakTestingUtility keycloakTestingUtility;
+
     @Test
     @DisplayName("Given connected user, getting all the modules will return a list of module DTO")
     void givenConnectedUser_whenGettingAllModules_thenReturnListOfModuleDTO() {
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+
         List<ModuleDTO> actualModuleDTOList = RestAssured
                 .given()
                 .baseUri(URI)
-                .port(localPort)
+                .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .when()
                 .get("/modules")
                 .then()
@@ -68,11 +70,14 @@ class ModuleControllerTest {
     @Test
     @Transactional
     @DisplayName("Given connected user, creating a module will return the module DTO")
-    void givenConnectedUser_whenCreatingModule_returnModuleDTO(){
+    void givenConnectedUser_whenCreatingModule_returnModuleDTO() {
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+
         ModuleDTO actualModuleDTO = RestAssured
                 .given()
                 .baseUri(URI)
-                .port(localPort)
+                .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(TestConstants.CREATE_MODULE_DTO_1)
@@ -80,7 +85,7 @@ class ModuleControllerTest {
                 .post("/modules")
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.OK.value())
+                .statusCode(HttpStatus.CREATED.value())
                 .extract()
                 .as(ModuleDTO.class);
 
@@ -96,12 +101,14 @@ class ModuleControllerTest {
     @Test
     @DisplayName("Getting courses relating to a module given module is in db will return list of courses")
     void givenAmoduleIsInTheDatabaseWhenProvidingAModuleIdThenAListOfCoursesIsReturned() {
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
 
         UUID moduleId = UUID.fromString("e0e8b090-df45-11ec-9d64-0242ac120002");
         //When
         ModuleWithCoursesDTO moduleWithCoursesDTOActual = RestAssured
                 .given()
-                .port(localPort)
+                .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .when()
                 .get("/modules/" + moduleId)
                 .then()
@@ -116,5 +123,4 @@ class ModuleControllerTest {
                 .usingRecursiveComparison()
                 .isEqualTo(coursesToCheck);
     }
-
 }

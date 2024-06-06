@@ -1,8 +1,10 @@
 package com.switchfully.lmstrapeziumbackend.module;
 
-
-import com.switchfully.lmstrapeziumbackend.exception.ModuleDoesNotExistException;
-import com.switchfully.lmstrapeziumbackend.module.dto.*;
+import com.switchfully.lmstrapeziumbackend.exception.ModuleNotFoundException;
+import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.ModuleHierarchyDTO;
+import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCoursesDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +44,7 @@ public class ModuleService {
     private Optional<ModuleHierarchyDTO> getModuleHierarchyDTOFromModule(Module module) {
         List<ModuleHierarchyDTO> childModuleHierarchyDTOs = new ArrayList<>();
 
-        for (Module childModule: module.getChildModules()) {
+        for (Module childModule : module.getChildModules()) {
             getModuleHierarchyDTOFromModule(childModule)
                     .ifPresent(childModuleHierarchyDTOs::add);
         }
@@ -55,9 +57,9 @@ public class ModuleService {
 
     public ModuleDTO createModule(CreateModuleDTO createModuleDTO) {
         Module parent = null;
-        if (createModuleDTO.parentModuleId() != null){
+        if (createModuleDTO.parentModuleId() != null) {
             parent = moduleRepository.findById(createModuleDTO.parentModuleId())
-                .orElseThrow(() -> new ModuleDoesNotExistException(createModuleDTO.parentModuleId()));
+                    .orElseThrow(() -> new ModuleNotFoundException(createModuleDTO.parentModuleId()));
         }
         return ModuleMapper.toDTO(moduleRepository.save(ModuleMapper.toModule(createModuleDTO, parent)));
     }
@@ -75,7 +77,7 @@ public class ModuleService {
 
     public Module getModuleById(UUID id) {
         return moduleRepository.findById(id)
-                .orElseThrow(() -> new ModuleDoesNotExistException(id));
+                .orElseThrow(() -> new ModuleNotFoundException(id));
     }
 
     public List<Module> getAllRootModules() {

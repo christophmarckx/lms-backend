@@ -32,7 +32,7 @@ public class CodelabService {
     public List<Codelab> getCodelabsByModuleId(UUID moduleId) {
         return codelabRepository.findCodelabsByModuleId(moduleId);
     }
-  
+
     public List<CodelabDTO> getAllCodelabs() {
         return CodelabMapper.toDTO(codelabRepository.findAll());
     }

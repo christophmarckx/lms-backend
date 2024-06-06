@@ -1,7 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.user.student;
 
 import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
-import com.switchfully.lmstrapeziumbackend.classgroup.ClassgroupService;
 import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
 import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
@@ -12,16 +11,18 @@ import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class StudentService {
-    private UserRepository userRepository;
-    private KeycloakService keycloakService;
-    private AuthenticationService authenticationService;
+    private final UserRepository userRepository;
+    private final KeycloakService keycloakService;
+    private final AuthenticationService authenticationService;
 
     public StudentService(UserRepository userRepository, KeycloakService keycloakService, AuthenticationService authenticationService) {
         this.userRepository = userRepository;
@@ -34,7 +35,7 @@ public class StudentService {
         return StudentMapper.toDTO(this.userRepository.save(StudentMapper.toUser(userKeycloakId, createStudentDTO)));
     }
 
-    public List<StudentDTO> getStudentFollowingClass(Classgroup classgroup){
+    public List<StudentDTO> getStudentFollowingClass(Classgroup classgroup) {
         return this.userRepository
                 .findAllByClassgroupsAndRole(classgroup, UserRole.STUDENT)
                 .stream().map(StudentMapper::toDTO)

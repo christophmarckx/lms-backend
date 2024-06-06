@@ -1,8 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.module;
 
-import com.switchfully.lmstrapeziumbackend.exception.ModuleDoesNotExistException;
+import com.switchfully.lmstrapeziumbackend.exception.ModuleNotFoundException;
 import com.switchfully.lmstrapeziumbackend.module.dto.CreateModuleDTO;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,6 @@ import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class ModuleUnitTest {
-
     @Mock
     ModuleRepository moduleRepo;
     @InjectMocks
@@ -25,11 +23,11 @@ public class ModuleUnitTest {
 
     @Test
     @DisplayName("Given create a module with a parent when parent is not in DB then error is thrown")
-    void givenCreateModuleDTO_whenParentNotInDB_thenErrorThrown(){
+    void givenCreateModuleDTO_whenParentNotInDB_thenErrorThrown() {
         CreateModuleDTO moduleToTest = new CreateModuleDTO("Chimie", UUID.randomUUID());
         Mockito.when(moduleRepo.findById(moduleToTest.parentModuleId())).thenReturn(Optional.empty());
 
-        Assertions.assertThatThrownBy(() -> moduleService.createModule(moduleToTest)).isInstanceOf(ModuleDoesNotExistException.class)
+        Assertions.assertThatThrownBy(() -> moduleService.createModule(moduleToTest)).isInstanceOf(ModuleNotFoundException.class)
                 .hasMessage("Module with id '" + moduleToTest.parentModuleId() + "' does not exist");
     }
 }

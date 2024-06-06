@@ -3,10 +3,9 @@ package com.switchfully.lmstrapeziumbackend.classgroup;
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
-import com.switchfully.lmstrapeziumbackend.course.CourseMapper;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
+import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
@@ -19,13 +18,12 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static io.restassured.http.ContentType.JSON;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -37,12 +35,19 @@ public class ClassgroupE2ETest {
     @Autowired
     private CourseService courseService;
 
+    @Autowired
+    KeycloakTestingUtility  keycloakTestingUtility;
+
     @Test
+    @DisplayName("Given a valid CreateClassgroupDTO, it should create the Classgroup and return a ClassgroupDTO")
     void givenAValidCreateClassgroupDTO_thenWillReturnAClassgroupDTO() {
+        //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
         //When
         ClassgroupDTO classgroupCreated = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(TestConstants.CREATE_CLASSGROUP_DTO_1)
@@ -60,15 +65,18 @@ public class ClassgroupE2ETest {
                 .ignoringFieldsMatchingRegexes(".*id")
                 .isEqualTo(TestConstants.CLASSGROUP_DTO_1);
     }
+
     @Test
     @DisplayName("Trying to create a Course with invalid data should not work")
     void givenAFullyInvalidCreateCourseDTO_thenWillReturnAListOfErrors() {
         //Given
-        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("A", "", List.of());
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("A", null, List.of());
         //When
         Response response = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(invalidCreateClassgroupDTO)
@@ -83,15 +91,18 @@ public class ClassgroupE2ETest {
         //Then
         Assertions.assertThat(mapReturned).containsExactlyInAnyOrderEntriesOf(TestConstants.getExpectedMapForFullyInvalidCreateClassgroupDTO());
     }
+
     @Test
-    @DisplayName("Trying to create a Course with invalid data should not work")
+    @DisplayName("Trying to create a Course with valid data but a student instead of a coach, then should not work")
     void givenACreateCourseDTOContainingANonCoachId_thenWillReturnAnError() {
         //Given
-        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("Best Classgroup", TestConstants.COURSE_DTO_1.id().toString(), List.of(TestConstants.TESTING_STUDENT_ID));
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+        CreateClassgroupDTO invalidCreateClassgroupDTO = new CreateClassgroupDTO("Best Classgroup", TestConstants.COURSE_DTO_1.id(), List.of(TestConstants.TESTING_STUDENT_ID));
         //When
         String response = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .body(invalidCreateClassgroupDTO)
