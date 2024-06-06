@@ -7,6 +7,7 @@ import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
 import com.switchfully.lmstrapeziumbackend.exception.ClassgroupNotFoundException;
 import com.switchfully.lmstrapeziumbackend.exception.IllegalUserRoleException;
+import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
 import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
 import com.switchfully.lmstrapeziumbackend.user.User;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
@@ -32,13 +33,15 @@ public class ClassgroupService {
     private final UserService userService;
     private final StudentService studentService;
     private final CoachService coachService;
+    private final AuthenticationService authenticationService;
 
-    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, UserService userService, CoachService coachService, StudentService studentService) {
+    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, UserService userService, CoachService coachService, StudentService studentService, AuthenticationService authenticationService) {
         this.classgroupRepository = classgroupRepository;
         this.courseService = courseService;
         this.userService = userService;
         this.studentService = studentService;
         this.coachService = coachService;
+        this.authenticationService = authenticationService;
     }
 
     public ClassgroupDTO createClassgroup(CreateClassgroupDTO createClassgroupDTO) {
@@ -107,7 +110,10 @@ public class ClassgroupService {
     }
 
     public void addStudentToClassGroup(UUID classgroupId, Authentication authentication) {
-        User studentToAdd = userService.getUserById(studentService.getStudentByAuthentication(authentication).id());
+        User studentToAdd = userService.getUserById(authenticationService
+                .getAuthenticatedUserId(authentication)
+                .orElseThrow(UserNotFoundException::new));
+
         Classgroup classgroupToModify = getById(classgroupId);
         classgroupToModify.addUser(studentToAdd);
         classgroupRepository.save(classgroupToModify);
