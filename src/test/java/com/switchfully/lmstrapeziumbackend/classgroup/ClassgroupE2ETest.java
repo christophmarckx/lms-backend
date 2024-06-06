@@ -4,10 +4,12 @@ import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
+import com.switchfully.lmstrapeziumbackend.user.User;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,9 +36,11 @@ public class ClassgroupE2ETest {
     private int port;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    EntityManager entityManager;
 
     @Autowired
-    KeycloakTestingUtility  keycloakTestingUtility;
+    KeycloakTestingUtility keycloakTestingUtility;
 
     @Test
     @DisplayName("Given a valid CreateClassgroupDTO, it should create the Classgroup and return a ClassgroupDTO")
@@ -115,5 +119,37 @@ public class ClassgroupE2ETest {
                 .asString();
         //Then
         Assertions.assertThat(response).isEqualTo("You can only give Coaches to create a classgroup");
+    }
+
+    //BAD test sucks a bit. We cannot integration test edge cases because we need authentication to access the service. plz help michael
+    @Test
+    @DisplayName("Adding a student to a classgroup if they are already on another classgroup will override their current re")
+    void givenStudentAlreadyRegistered_whenAddingStudentToOtherClassGroup_ThenClassgroupIsChanged() {
+        String TOKEN_STUDENT = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
+        //When
+        RestAssured
+                .given()
+                .port(port)
+                .header("Authorization", "Bearer " + TOKEN_STUDENT)
+                .accept(JSON)
+                .contentType(JSON)
+                .when()
+                .put("/classgroups/" + TestConstants.CLASSGROUP_DTO_1.id() + "/add-student")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value());
+
+        //Then
+        User userToCheck = entityManager.createQuery("SELECT u from User u where u.id = :id", User.class)
+                .setParameter("id", TestConstants.TESTING_STUDENT_DTO.id())
+                .getSingleResult();
+
+        Classgroup classGroupToVerifyStudentOf = entityManager.createQuery("SELECT cg from Classgroup cg WHERE cg.id = :id", Classgroup.class)
+                .setParameter("id", TestConstants.CLASSGROUP_DTO_1.id())
+                .getSingleResult();
+
+        Assertions.assertThat(classGroupToVerifyStudentOf.getUsers()).extracting("id").containsOnlyOnce(userToCheck.getId());
+        Assertions.assertThat(userToCheck.getClassgroups()).extracting("id").containsExactly(classGroupToVerifyStudentOf.getId());
+
     }
 }

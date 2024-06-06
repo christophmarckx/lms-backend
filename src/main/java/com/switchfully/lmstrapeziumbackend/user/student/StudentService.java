@@ -57,10 +57,4 @@ public class StudentService {
 
         return StudentMapper.toDTO(userOptional.get());
     }
-
-    public StudentDTO addStudentToClassgroup(Classgroup classgroupToFollow, Authentication authentication) {
-        User student = userService.getUserById(getStudentByAuthentication(authentication).id());
-        student.addClassgroup(classgroupToFollow);
-        return StudentMapper.toDTO(userService.updateStudent(student));
-    }
 }

@@ -24,6 +24,8 @@ public class TestConstants {
     public static final StudentDTO TESTING_STUDENT_DTO = new StudentDTO(TESTING_STUDENT_ID, "testing@student.com", "Super Testing Student");
     private static final User TESTING_STUDENT = new User(TESTING_STUDENT_ID, TESTING_STUDENT_DTO.email(), TESTING_STUDENT_DTO.displayName(), UserRole.STUDENT);
     public static final UUID STUDENT_ID = UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002");
+
+    public static final User STUDENT_JOHN_DOE = new User(UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002"), "john.doe@example.com", "John Doe", UserRole.STUDENT);
     public static final StudentDTO STUDENT_DTO = new StudentDTO(UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002"), "john.doe@example.com", "John Doe");
 
     //****************** MODULES ******************//

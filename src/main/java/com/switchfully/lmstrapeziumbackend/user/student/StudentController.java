@@ -38,12 +38,4 @@ public class StudentController {
         this.logger.info("GET /students: Get student by bearer token");
         return studentService.getStudentByAuthentication(authentication/*, studentId*/);
     }
-
-    @PutMapping(consumes = "application/json", produces = "application/json", path = "classgroups/{classgroupId}/follow")
-    @ResponseStatus(HttpStatus.OK)
-    public StudentDTO chooseClassgroup(@PathVariable UUID classgroupId, Authentication authentication) {
-        this.logger.info("PUT /students/{studentId}/{classgroupId}: Adding the student to a classgroup");
-        Classgroup classgroupToFollow = classgroupService.getById(classgroupId);
-        return studentService.addStudentToClassgroup(classgroupToFollow, authentication);
-    }
 }

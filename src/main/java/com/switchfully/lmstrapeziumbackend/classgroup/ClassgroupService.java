@@ -7,6 +7,7 @@ import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
 import com.switchfully.lmstrapeziumbackend.exception.ClassgroupNotFoundException;
 import com.switchfully.lmstrapeziumbackend.exception.IllegalUserRoleException;
+import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
 import com.switchfully.lmstrapeziumbackend.user.User;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.user.UserService;
@@ -14,6 +15,7 @@ import com.switchfully.lmstrapeziumbackend.user.coach.CoachService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.student.StudentService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,5 +104,12 @@ public class ClassgroupService {
                 .filter(classgroup -> classgroup.getUsers().contains(myUser))
                 .map(ClassgroupMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public void addStudentToClassGroup(UUID classgroupId, Authentication authentication) {
+        User studentToAdd = userService.getUserById(studentService.getStudentByAuthentication(authentication).id());
+        Classgroup classgroupToModify = getById(classgroupId);
+        classgroupToModify.addUser(studentToAdd);
+        classgroupRepository.save(classgroupToModify);
     }
 }

@@ -109,55 +109,6 @@ class StudentControllerTest {
                 .isEqualTo(TestConstants.TESTING_STUDENT_DTO);
     }
 
-    @Test
-    void givenALoggedInStudent_whenFollowingExistingClassgroup_thenShouldHaveTheCorrectClassgroup() {
-        String token = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
-
-        StudentDTO studentDTO =
-                RestAssured
-                        .given()
-                        .contentType(ContentType.JSON)
-                        .when()
-                        .port(port)
-                        .header("Authorization", "Bearer " + token)
-                        .put("/students/classgroups/" + TestConstants.CLASSGROUP_DTO_1.id().toString() + "/follow")
-                        .then()
-                        .assertThat()
-                        .statusCode(HttpStatus.OK.value())
-                        .extract()
-                        .as(StudentDTO.class);
-
-        User user = entityManager.createQuery("select u from User u join fetch u.classgroups where u.id =:id", User.class)
-                .setParameter("id", TestConstants.TESTING_STUDENT_DTO.id())
-                .getSingleResult();
-        Classgroup classgroup = entityManager.createQuery("select c from Classgroup c where c.id=:id", Classgroup.class).setParameter("id", TestConstants.CLASSGROUP_DTO_1.id()).getSingleResult();
-        System.out.println(user);
-        Assertions.assertThat(user.getClassgroups()).containsExactly(classgroup);
-    }
-
-    @Test
-    void givenALoggedInStudent_whenFollowingExistingClassgroupAndAlreadyHasClassgroup_thenShouldUpdateClassgroup() {
-        String token = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
-
-        StudentDTO studentDTO =
-                RestAssured
-                        .given()
-                        .contentType(ContentType.JSON)
-                        .when()
-                        .port(port)
-                        .header("Authorization", "Bearer " + token)
-                        .put("/students/classgroups/" + TestConstants.CLASSGROUP_DTO_1.id().toString() + "/follow")
-                        .then()
-                        .assertThat()
-                        .statusCode(HttpStatus.OK.value())
-                        .extract()
-                        .as(StudentDTO.class);
-
-        User user = entityManager.createQuery("select u from User u where u.id =:id", User.class).setParameter("id", TestConstants.TESTING_STUDENT_DTO.id()).getSingleResult();
-        Classgroup classgroup = entityManager.createQuery("select c from Classgroup c where c.id=:id", Classgroup.class).setParameter("id", TestConstants.CLASSGROUP_DTO_1.id()).getSingleResult();
-        Assertions.assertThat(user.getClassgroups()).containsExactly(classgroup);
-    }
-
     @AfterAll
     public void afterAllTests() {
         keycloakService.deleteUserFromKeycloak(userId);
