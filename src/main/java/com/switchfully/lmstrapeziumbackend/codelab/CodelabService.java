@@ -1,6 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.codelab;
 
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.UpdateCodelabDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
@@ -41,8 +42,8 @@ public class CodelabService {
         return CodelabMapper.toDTO(codelabRepository.findAll());
     }
 
-    public CodelabDTO getById(UUID id) {
-        return CodelabMapper.toDTO(codelabRepository.findById(id).orElseThrow(() -> new CodelabNotFoundException(id)));
+    public CodelabWithModuleDTO getById(UUID id) {
+        return CodelabMapper.toCodelabWithModuleDTO(codelabRepository.findById(id).orElseThrow(() -> new CodelabNotFoundException(id)));
     }
 
     public CodelabDTO updateCodelab(UUID codelabId, UpdateCodelabDTO updateCodelabDTO) {

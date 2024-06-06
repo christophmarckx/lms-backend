@@ -1,6 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.codelab;
 
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.UpdateCodelabDTO;
 import jakarta.validation.Valid;
@@ -31,7 +32,7 @@ public class CodelabController {
     }
 
     @GetMapping("/{id}")
-    public CodelabDTO getById(@PathVariable UUID id){
+    public CodelabWithModuleDTO getById(@PathVariable UUID id){
         return codelabService.getById(id);
     }
 
@@ -39,4 +40,6 @@ public class CodelabController {
     public CodelabDTO updateById(@RequestBody UpdateCodelabDTO updateCodelabDTO, @PathVariable UUID id) {
         return codelabService.updateCodelab(id, updateCodelabDTO);
     }
+
+
 }
