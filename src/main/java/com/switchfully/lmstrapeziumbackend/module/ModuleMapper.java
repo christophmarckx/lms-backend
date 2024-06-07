@@ -4,6 +4,7 @@ import com.switchfully.lmstrapeziumbackend.codelab.Codelab;
 import com.switchfully.lmstrapeziumbackend.codelab.CodelabMapper;
 import com.switchfully.lmstrapeziumbackend.course.CourseMapper;
 import com.switchfully.lmstrapeziumbackend.module.dto.*;
+import com.switchfully.lmstrapeziumbackend.progress.CodelabProgress;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -44,6 +45,10 @@ public class ModuleMapper {
 
     public static ModuleWithCodelabsDTO toModuleWithCodelabsDTO(Module module, List<ModuleWithCodelabsDTO> moduleWithCodelabsDTOs, List<Codelab> codelabs) {
         return new ModuleWithCodelabsDTO(module.getId(), module.getName(), moduleWithCodelabsDTOs, CodelabMapper.toDTO(codelabs));
+    }
+
+    public static ModuleWithCodelabsDTO toModuleWithCodelabsDTO(Module module, List<ModuleWithCodelabsDTO> moduleWithCodelabsDTOs, List<Codelab> codelabs, List<CodelabProgress> codelabProgresses) {
+        return new ModuleWithCodelabsDTO(module.getId(), module.getName(), moduleWithCodelabsDTOs, CodelabMapper.toDTO(codelabs, codelabProgresses));
     }
 
     public static ModuleHierarchyDTO toModuleHierarchyDTO(Module module, List<ModuleHierarchyDTO> childModuleHierarchyDTOs) {

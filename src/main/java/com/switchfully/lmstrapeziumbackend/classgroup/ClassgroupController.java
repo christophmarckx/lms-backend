@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.UUID;
 public class ClassgroupController {
     private final Logger logger = LoggerFactory.getLogger(ClassgroupController.class);
     private final ClassgroupService classgroupService;
-    
+
 
     @Autowired
     public ClassgroupController(ClassgroupService classgroupService) {
@@ -47,5 +48,12 @@ public class ClassgroupController {
             return this.classgroupService.getAllClassgroupsDTO();
         }
         return this.classgroupService.getClassgroupsForUserId(userId);
+    }
+
+    @PutMapping(path = "/{classgroupId}/add-student")
+    @ResponseStatus(HttpStatus.OK)
+    public void addStudentToClass(@PathVariable UUID classgroupId, Authentication authentication) {
+        this.logger.info("PUT /classgroups/{classgroupId}/add-student: adding a student to a classgroup");
+        classgroupService.addStudentToClassGroup(classgroupId, authentication);
     }
 }

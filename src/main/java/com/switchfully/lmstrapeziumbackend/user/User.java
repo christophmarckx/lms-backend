@@ -1,7 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
 import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
-import com.switchfully.lmstrapeziumbackend.exception.UserAlreadyExistException;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private List<Classgroup> classgroups = new ArrayList<>();
 
     public User() {
@@ -59,9 +58,22 @@ public class User {
     }
 
     public void addClassgroup(Classgroup classgroup) {
-        if (classgroups.contains(classgroup)) {
-            throw new UserAlreadyExistException(this.email);
+        if (getRole() != UserRole.COACH && getClassgroups().size() == 1) {
+            classgroups.removeFirst();
+            classgroups.add(classgroup);
+        } else if (!classgroups.contains(classgroup)) {
+            classgroups.add(classgroup);
         }
-        classgroups.add(classgroup);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", role=" + role +
+                ", classgroups=" + classgroups +
+                '}';
     }
 }

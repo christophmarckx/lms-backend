@@ -1,14 +1,12 @@
 package com.switchfully.lmstrapeziumbackend.course;
 
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseWithModulesDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.course.dto.*;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,9 +33,9 @@ public class CourseController {
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public List<CourseDTO> getAllCourses() {
+    public List<CourseSummaryDTO> getAllCourses() {
         this.logger.info("GET /courses: Getting all courses");
-        return courseService.getAllCourses();
+        return courseService.getAllSummaryCourses();
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json", path = "{courseId}")
@@ -56,8 +54,8 @@ public class CourseController {
 
     @GetMapping("{courseId}/codelabs")
     @ResponseStatus(HttpStatus.OK)
-    public CourseWithModulesDTO getCourseWithModulesById(@PathVariable UUID courseId) {
+    public CourseWithModulesDTO getCourseWithModulesById(@PathVariable UUID courseId, Authentication authentication) {
         this.logger.info("GET /courses: Getting a course with modules by id");
-        return courseService.getCourseWithModulesById(courseId);
+        return courseService.getCourseWithModulesById(authentication, courseId);
     }
 }

@@ -56,7 +56,7 @@ public class CourseE2ETest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.FORBIDDEN.value());
-                 }
+    }
 
     @Test
     @DisplayName("Trying to create a Course with correct data should work")
@@ -144,12 +144,13 @@ public class CourseE2ETest {
     @DisplayName("Get course by id (with modules and codelabs)")
     void givenCourseId_thenShouldReturnACourseWithModulesDTO() {
         //Given
-        String TOKEN_STUDENT = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+
         //When
         CourseWithModulesDTO courseWithModulesDTO = RestAssured
                 .given()
                 .port(port)
-                .header("Authorization", "Bearer " + TOKEN_STUDENT)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .when()
@@ -160,6 +161,7 @@ public class CourseE2ETest {
                 .extract()
                 .as(CourseWithModulesDTO.class);
         //Then
-        Assertions.assertThat(courseWithModulesDTO).isEqualTo(TestConstants.COURSE_WITH_MODULES_DTO_1);
+        Assertions.assertThat(courseWithModulesDTO)
+                .isEqualTo(TestConstants.COURSE_WITH_MODULES_DTO_1);
     }
 }

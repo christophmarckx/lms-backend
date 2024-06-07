@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public record CourseWithModulesDTO(UUID id,
                                    String name,
+                                   String description,
                                    List<ModuleWithCodelabsDTO> modules
 ) {
 }
