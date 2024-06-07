@@ -2,6 +2,7 @@ package com.switchfully.lmstrapeziumbackend.classgroup;
 
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.user.User;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Classgroup {
     @JoinColumn(name = "COURSE_ID")
     private Course course;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "CLASSGROUP_APP_USER",
             joinColumns = @JoinColumn(name = "CLASSGROUP_ID"),
@@ -54,4 +55,23 @@ public class Classgroup {
     public List<User> getUsers() {
         return users;
     }
+
+    public void addUser(User userToAdd) {
+        if (userToAdd.getRole() != UserRole.COACH && userToAdd.getClassgroups().size() == 1){
+            userToAdd.getClassgroups().getFirst().getUsers().remove(userToAdd); //send help
+            users.add(userToAdd);
+
+        } else if (!users.contains(userToAdd)) {
+            users.add(userToAdd);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Classgroup{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
 }
