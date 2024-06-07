@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ClassgroupController {
     private final Logger logger = LoggerFactory.getLogger(ClassgroupController.class);
     private final ClassgroupService classgroupService;
-    
+
 
     @Autowired
     public ClassgroupController(ClassgroupService classgroupService) {
@@ -52,7 +52,7 @@ public class ClassgroupController {
 
     @PutMapping(path = "/{classgroupId}/add-student")
     @ResponseStatus(HttpStatus.OK)
-    public void addStudentToClass(@PathVariable UUID classgroupId, Authentication authentication){
+    public void addStudentToClass(@PathVariable UUID classgroupId, Authentication authentication) {
         this.logger.info("PUT /classgroups/{classgroupId}/add-student: adding a student to a classgroup");
         classgroupService.addStudentToClassGroup(classgroupId, authentication);
     }

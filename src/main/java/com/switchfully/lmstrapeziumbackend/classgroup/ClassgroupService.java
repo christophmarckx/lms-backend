@@ -16,9 +16,6 @@ import com.switchfully.lmstrapeziumbackend.user.coach.CoachService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.student.StudentService;
-import com.switchfully.lmstrapeziumbackend.user.User;
-import com.switchfully.lmstrapeziumbackend.user.UserService;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

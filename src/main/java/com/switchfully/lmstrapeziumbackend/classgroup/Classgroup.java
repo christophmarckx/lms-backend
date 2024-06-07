@@ -57,7 +57,7 @@ public class Classgroup {
     }
 
     public void addUser(User userToAdd) {
-        if (userToAdd.getRole() != UserRole.COACH && userToAdd.getClassgroups().size() == 1){
+        if (userToAdd.getRole() != UserRole.COACH && userToAdd.getClassgroups().size() == 1) {
             userToAdd.getClassgroups().getFirst().getUsers().remove(userToAdd); //send help
             users.add(userToAdd);
 

@@ -54,7 +54,7 @@ public class TestConstants {
     public static final CodelabDTO CODELAB_DTO_2 = new CodelabDTO(UUID.fromString("e0e8b097-df45-11ec-9d64-0242ac120002"), "Sorting Algorithms Lab", "Lab about complex algorithm for sorting (Like bubble sort, the best)");
     public static final CodelabDTO CODELAB_DTO_3 = new CodelabDTO(UUID.fromString("e0e8b098-df45-11ec-9d64-0242ac120002"), "Binary Trees Lab", "You love tree ? You love binary ? You will love Binary Tree !");
     public static final UpdateCodelabDTO UPDATED_CODELAB_1 = new UpdateCodelabDTO("NEW UPDATED NAME", "", UUID.fromString("e0e8b090-df45-11ec-9d64-0242ac120002"));
-    public static final CodelabWithModuleDTO CODELAB_WITH_MODULE_DTO_1 = new CodelabWithModuleDTO(CODELAB_DTO_1.id(), CODELAB_DTO_1.name(), CODELAB_DTO_1.description(),MODULE_DTO_1);
+    public static final CodelabWithModuleDTO CODELAB_WITH_MODULE_DTO_1 = new CodelabWithModuleDTO(CODELAB_DTO_1.id(), CODELAB_DTO_1.name(), CODELAB_DTO_1.description(), MODULE_DTO_1);
 
     public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_2 = new ModuleWithCodelabsDTO(MODULE_DTO_2.id(), MODULE_DTO_2.name(), List.of(), List.of(CODELAB_DTO_2));
     public static final ModuleWithCodelabsDTO MODULE_WITH_CODELABS_DTO_3 = new ModuleWithCodelabsDTO(MODULE_DTO_3.id(), MODULE_DTO_3.name(), List.of(), List.of(CODELAB_DTO_3));

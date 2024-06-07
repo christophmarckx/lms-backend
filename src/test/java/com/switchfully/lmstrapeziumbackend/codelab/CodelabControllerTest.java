@@ -3,7 +3,6 @@ package com.switchfully.lmstrapeziumbackend.codelab;
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseWithModulesDTO;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
@@ -149,7 +148,6 @@ class CodelabControllerTest {
         Assertions.assertThat(codelabUpdated.name()).isEqualTo(TestConstants.UPDATED_CODELAB_1.name());
         Assertions.assertThat(codelabUpdated.description()).isEqualTo(TestConstants.UPDATED_CODELAB_1.description());
     }
-
 
 
     @Test

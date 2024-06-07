@@ -34,7 +34,7 @@ public class CodelabController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CodelabWithModuleDTO getById(@PathVariable UUID id){
+    public CodelabWithModuleDTO getById(@PathVariable UUID id) {
         return codelabService.getById(id);
     }
 

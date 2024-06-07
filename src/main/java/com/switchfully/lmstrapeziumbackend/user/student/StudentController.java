@@ -1,9 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.user.student;
 
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseSummaryDTO;
-import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
 import com.switchfully.lmstrapeziumbackend.classgroup.ClassgroupService;
+import com.switchfully.lmstrapeziumbackend.course.dto.CourseSummaryDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import jakarta.validation.Valid;
@@ -15,8 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.UUID;
-
 import java.util.UUID;
 
 @RestController

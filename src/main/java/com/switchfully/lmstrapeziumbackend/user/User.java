@@ -1,7 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
 import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
-import com.switchfully.lmstrapeziumbackend.exception.UserAlreadyExistException;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

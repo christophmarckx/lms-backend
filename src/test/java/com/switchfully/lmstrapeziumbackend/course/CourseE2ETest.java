@@ -56,7 +56,7 @@ public class CourseE2ETest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.FORBIDDEN.value());
-                 }
+    }
 
     @Test
     @DisplayName("Trying to create a Course with correct data should work")

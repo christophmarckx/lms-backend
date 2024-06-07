@@ -1,13 +1,9 @@
 package com.switchfully.lmstrapeziumbackend.user.student;
 
 import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
-import com.switchfully.lmstrapeziumbackend.classgroup.ClassgroupService;
 import com.switchfully.lmstrapeziumbackend.course.CourseMapper;
-import com.switchfully.lmstrapeziumbackend.course.CourseService;
-import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseSummaryDTO;
 import com.switchfully.lmstrapeziumbackend.exception.AccessForbiddenException;
-import com.switchfully.lmstrapeziumbackend.exception.IllegalUserRoleException;
 import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
 import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
