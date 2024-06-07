@@ -14,6 +14,9 @@ import com.switchfully.lmstrapeziumbackend.user.coach.CoachService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.student.StudentService;
+import com.switchfully.lmstrapeziumbackend.user.User;
+import com.switchfully.lmstrapeziumbackend.user.UserService;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,7 +75,7 @@ public class ClassgroupService {
 
     public ClassgroupWithMembersDTO getClassgroupWithMembersDTOById(UUID classgroupId) {
         Classgroup classgroup = this.getById(classgroupId);
-        List<StudentDTO> students = this.studentService.getStudentFollowingClass(classgroup);
+        List<StudentDTO> students = this.studentService.getStudentsFollowingClass(classgroup);
         List<CoachDTO> coaches = this.coachService.getCoachesFollowingClass(classgroup);
         return ClassgroupMapper.toDTO(classgroup, students, coaches);
     }
