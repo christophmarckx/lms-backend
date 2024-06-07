@@ -5,11 +5,14 @@ import com.switchfully.lmstrapeziumbackend.course.dto.CourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseWithModulesDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.CreateCourseDTO;
 import com.switchfully.lmstrapeziumbackend.course.dto.UpdateCourseDTO;
+import com.switchfully.lmstrapeziumbackend.user.UserRole;
+import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -27,8 +30,12 @@ import static io.restassured.http.ContentType.JSON;
 @AutoConfigureTestDatabase
 @ActiveProfiles("test")
 public class CourseE2ETest {
+
     @LocalServerPort
     private int port;
+
+    @Autowired
+    KeycloakTestingUtility keycloakTestingUtility;
 
     @Test
     @DisplayName("Trying to create a Course with invalid data should not work")
@@ -130,10 +137,14 @@ public class CourseE2ETest {
     @Test
     @DisplayName("get course by id (with modules and codelabs)")
     void givenCourseId_thenShouldReturnACourseWithModulesDTO() {
+
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+
         //When
         CourseWithModulesDTO courseWithModulesDTO = RestAssured
                 .given()
                 .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
                 .accept(JSON)
                 .contentType(JSON)
                 .when()
@@ -144,6 +155,7 @@ public class CourseE2ETest {
                 .extract()
                 .as(CourseWithModulesDTO.class);
         //Then
-        Assertions.assertThat(courseWithModulesDTO).isEqualTo(TestConstants.COURSE_WITH_MODULES_DTO_1);
+        Assertions.assertThat(courseWithModulesDTO)
+                .isEqualTo(TestConstants.COURSE_WITH_MODULES_DTO_1);
     }
 }
