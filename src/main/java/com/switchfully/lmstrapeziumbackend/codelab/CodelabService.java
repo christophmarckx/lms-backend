@@ -1,7 +1,11 @@
 package com.switchfully.lmstrapeziumbackend.codelab;
 
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.UpdateCodelabDTO;
+import com.switchfully.lmstrapeziumbackend.course.Course;
+import com.switchfully.lmstrapeziumbackend.course.CourseMapper;
 import com.switchfully.lmstrapeziumbackend.exception.CodelabNotFoundException;
 import com.switchfully.lmstrapeziumbackend.module.Module;
 import com.switchfully.lmstrapeziumbackend.module.ModuleService;
@@ -9,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -37,7 +42,25 @@ public class CodelabService {
         return CodelabMapper.toDTO(codelabRepository.findAll());
     }
 
-    public CodelabDTO getById(UUID id) {
-        return CodelabMapper.toDTO(codelabRepository.findById(id).orElseThrow(() -> new CodelabNotFoundException(id)));
+    public CodelabWithModuleDTO getById(UUID id) {
+        return CodelabMapper.toCodelabWithModuleDTO(codelabRepository.findById(id).orElseThrow(() -> new CodelabNotFoundException(id)));
+    }
+
+    public CodelabDTO updateCodelab(UUID codelabId, UpdateCodelabDTO updateCodelabDTO) {
+        Codelab codelabFound = getCodelabById(codelabId);
+        codelabFound.updateCodelabName(updateCodelabDTO.name());
+        codelabFound.updateCodelabDescription(updateCodelabDTO.description());
+        if (!codelabFound.getModule().getId().equals(updateCodelabDTO.moduleId())) {
+            codelabFound.updateCodelabModule(moduleService.getModuleById(updateCodelabDTO.moduleId()));
+        }
+        return CodelabMapper.toDTO(codelabFound);
+    }
+
+    public Codelab getCodelabById(UUID codelabId) {
+        Optional<Codelab> codelabOptional = codelabRepository.findById(codelabId);
+        if (codelabOptional.isEmpty()) {
+            throw new CodelabNotFoundException(codelabId);
+        }
+        return codelabOptional.get();
     }
 }

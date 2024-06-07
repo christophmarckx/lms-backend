@@ -1,8 +1,11 @@
 package com.switchfully.lmstrapeziumbackend.codelab;
 
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.UpdateCodelabDTO;
 import com.switchfully.lmstrapeziumbackend.module.Module;
+import com.switchfully.lmstrapeziumbackend.module.ModuleMapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,6 +24,13 @@ public class CodelabMapper {
                 savedCodelab.getName(),
                 savedCodelab.getDescription()
         );
+    }
+
+    public static CodelabWithModuleDTO toCodelabWithModuleDTO(Codelab savedCodelab) {
+        return new CodelabWithModuleDTO(savedCodelab.getId(),
+                savedCodelab.getName(),
+                savedCodelab.getDescription(),
+                ModuleMapper.toDTO(savedCodelab.getModule()));
     }
 
     public static List<CodelabDTO> toDTO(Collection<Codelab> codelabs) {
