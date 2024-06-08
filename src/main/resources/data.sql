@@ -12,8 +12,8 @@ VALUES ('e0e8b082-df45-11ec-9d64-0242ac120002', 'CS101 Group A', 'e0e8b080-df45-
 
 -- Inserting data into app_user table
 INSERT INTO lms.app_user (id, email_address, display_name, role)
-VALUES ('d992d902-4953-4b9a-9a88-493d446c8ee0', 'testing@student.com', 'Super Testing Student', 'STUDENT'),
-       ('5422bc6a-6d34-40ac-a419-8a291e195e5f', 'testing@coach.com', 'Super Testing Coach', 'COACH'),
+VALUES ('1efd5bca-ce77-4f16-8d31-6f30205dd4e5', 'testing@student.com', 'Super Testing Student', 'STUDENT'),
+       ('e0daecc3-2967-496c-a5d8-d25e727bdc74', 'testing@coach.com', 'Super Testing Coach', 'COACH'),
        ('e0e8b085-df45-11ec-9d64-0242ac120002', 'john.doe@example.com', 'John Doe', 'STUDENT'),
        ('e0e8b086-df45-11ec-9d64-0242ac120002', 'jane.smith@example.com', 'Jane Smith', 'STUDENT'),
        ('e0e8b087-df45-11ec-9d64-0242ac120002', 'admin@example.com', 'Admin User', 'COACH');
@@ -21,7 +21,7 @@ VALUES ('d992d902-4953-4b9a-9a88-493d446c8ee0', 'testing@student.com', 'Super Te
 INSERT INTO lms.classgroup_app_user (classgroup_id, app_user_id)
 VALUES ('e0e8b082-df45-11ec-9d64-0242ac120002', 'e0e8b085-df45-11ec-9d64-0242ac120002'),
        ('e0e8b083-df45-11ec-9d64-0242ac120002', 'e0e8b086-df45-11ec-9d64-0242ac120002'),
-       ('e0e8b083-df45-11ec-9d64-0242ac120002', 'd992d902-4953-4b9a-9a88-493d446c8ee0');
+       ('e0e8b083-df45-11ec-9d64-0242ac120002', '1efd5bca-ce77-4f16-8d31-6f30205dd4e5');
 
 --INSERT INTO classgroup_app_user (id, classgroup_id, app_user_id) VALUES
 --('4a4da83b-e173-43b1-af54-735fde7d6a5e', '5547a8d1-e468-46db-b9c0-e20e56f16f5c', '74b51b9a-f6d8-4e12-849d-bf926d974441'),

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class KeycloakTestingUtility {
-    @Value("${keycloak.auth-server-url}")
+    @Value("${AUTH_SERVER_URL}")
     private String keycloakServerUrl;
 
-    @Value("${keycloak.realm}")
+    @Value("${KEYCLOAK_REALM}")
     private String keycloakRealm;
 
-    @Value("${keycloak.resource}")
+    @Value("${KEYCLOAK_RESOURCE}")
     private String keycloakClientId;
 
-    @Value("${keycloak.credentials.secret}")
+    @Value("${KEYCLOAK_CREDENTIALS_SECRET}")
     private String keycloakClientSecret;
 
     private Keycloak getKeycloakInstance(String username, String password) {
