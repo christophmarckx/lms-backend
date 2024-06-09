@@ -16,7 +16,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "classgroups")
-@CrossOrigin(originPatterns = "http://localhost:4200") //If deployed -> edit
 public class ClassgroupController {
     private final Logger logger = LoggerFactory.getLogger(ClassgroupController.class);
     private final ClassgroupService classgroupService;
