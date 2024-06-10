@@ -4,6 +4,7 @@ import com.switchfully.lmstrapeziumbackend.classgroup.ClassgroupService;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseSummaryDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
+import com.switchfully.lmstrapeziumbackend.user.dto.StudentWithProgressDTO;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -49,5 +51,10 @@ public class StudentController {
             return ResponseEntity.of(optCourseDTO);
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("progress")
+    public List<StudentWithProgressDTO> getStudentsWithProgress() {
+        return studentService.getStudentsWithProgress();
     }
 }
