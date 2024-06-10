@@ -34,11 +34,11 @@ public class StudentController {
         return this.studentService.createStudent(createStudentDTO);
     }
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json", path = "{studentId}")
     @ResponseStatus(HttpStatus.OK)
-    public StudentDTO getStudentById(/*@PathVariable UUID studentId, */Authentication authentication) {
+    public StudentDTO getStudentById(@PathVariable UUID studentId, Authentication authentication) {
         this.logger.info("GET /students: Get student by bearer token");
-        return studentService.getStudentByAuthentication(authentication/*, studentId*/);
+        return studentService.getStudentByAuthentication(authentication, studentId);
     }
 
     @GetMapping("{studentId}/course")

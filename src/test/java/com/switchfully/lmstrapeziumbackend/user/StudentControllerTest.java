@@ -99,7 +99,7 @@ class StudentControllerTest {
                         .when()
                         .port(port)
                         .header("Authorization", "Bearer " + token)
-                        .get("/students")
+                        .get("/students/" + TestConstants.TESTING_STUDENT_ID)
                         .then()
                         .assertThat()
                         .statusCode(HttpStatus.OK.value())
@@ -110,6 +110,22 @@ class StudentControllerTest {
         Assertions.assertThat(studentDTO)
                 .usingRecursiveComparison()
                 .isEqualTo(TestConstants.TESTING_STUDENT_DTO);
+    }
+
+    @Test
+    void givenAExistingId_whenGetAStudentByIdWithWrongIdInPath_thenThrowError() {
+        String token = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
+
+        RestAssured
+            .given()
+            .contentType(ContentType.JSON)
+            .when()
+            .port(port)
+            .header("Authorization", "Bearer " + token)
+            .get("/students/" + UUID.randomUUID())
+            .then()
+            .assertThat()
+            .statusCode(HttpStatus.FORBIDDEN.value());
     }
 
     @Test
