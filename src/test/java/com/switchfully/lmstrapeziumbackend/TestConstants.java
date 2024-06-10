@@ -22,7 +22,7 @@ import java.util.*;
 public class TestConstants {
     //****************** STUDENTS ******************//
 
-    public static final UUID TESTING_STUDENT_ID = UUID.fromString("d992d902-4953-4b9a-9a88-493d446c8ee0");
+    public static final UUID TESTING_STUDENT_ID = UUID.fromString("1efd5bca-ce77-4f16-8d31-6f30205dd4e5");
     public static final StudentDTO TESTING_STUDENT_DTO = new StudentDTO(TESTING_STUDENT_ID, "testing@student.com", "Super Testing Student");
     private static final User TESTING_STUDENT = new User(TESTING_STUDENT_ID, TESTING_STUDENT_DTO.email(), TESTING_STUDENT_DTO.displayName(), UserRole.STUDENT);
     public static final UUID STUDENT_ID = UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002");

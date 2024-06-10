@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "courses")
-@CrossOrigin(originPatterns = "http://localhost:4200") //Edit if deployed
 public class CourseController {
     private final Logger logger = LoggerFactory.getLogger(CourseController.class);
     private final CourseService courseService;

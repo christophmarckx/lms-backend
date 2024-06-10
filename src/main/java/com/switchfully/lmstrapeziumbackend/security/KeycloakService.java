@@ -25,25 +25,25 @@ public class KeycloakService {
     public static final String ROLE_FOR_ANONYMOUS_USER_REGISTRATION = "STUDENT";
     public static final String NO_LOCATION_HEADER_MESSAGE = "No location on header after user creation on keycloak";
 
-    @Value("${keycloak.auth-server-url}")
+    @Value("${AUTH_SERVER_URL}")
     private String keycloakServerUrl;
 
-    @Value("${keycloak.realm}")
+    @Value("${KEYCLOAK_REALM}")
     private String keycloakRealm;
 
-    @Value("${keycloak.client-id}")
+    @Value("${KEYCLOAK_CLIENT_ID}")
     private String keycloakAdminClientId;
 
-    @Value("${keycloak.lms.client-uuid}")
+    @Value("${KEYCLOAK_CLIENT_UUID}")
     private String keycloakLMSClientId;
 
-    @Value("${keycloak.client-secret}")
+    @Value("${KEYCLOAK_CLIENT_SECRET}")
     private String keycloakClientSecret;
 
-    @Value("${keycloak.admin-username}")
+    @Value("${KEYCLOAK_ADMIN_USERNAME}")
     private String keycloakAdminUsername;
 
-    @Value("${keycloak.admin-password}")
+    @Value("${KEYCLOAK_ADMIN_PASSWORD}")
     private String keycloakAdminPassword;
 
     private Keycloak getKeycloakInstance() {
