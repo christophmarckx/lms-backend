@@ -20,8 +20,6 @@ public class ClassgroupController {
     private final Logger logger = LoggerFactory.getLogger(ClassgroupController.class);
     private final ClassgroupService classgroupService;
 
-
-    @Autowired
     public ClassgroupController(ClassgroupService classgroupService) {
         this.classgroupService = classgroupService;
     }
@@ -31,6 +29,12 @@ public class ClassgroupController {
     public ClassgroupDTO createClassgroup(@Valid @RequestBody CreateClassgroupDTO createClassgroupDTO) {
         this.logger.info("POST /classgroups: Creating a classgroup");
         return this.classgroupService.createClassgroup(createClassgroupDTO);
+    }
+
+    @GetMapping(produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ClassgroupDTO> getAllClassgroups() {
+        return this.classgroupService.getAllClassgroupsDTO();
     }
 
     @GetMapping(produces = "application/json", path = "{classgroupId}")
