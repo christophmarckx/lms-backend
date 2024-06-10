@@ -40,15 +40,6 @@ public class ClassgroupController {
         return this.classgroupService.getClassgroupWithMembersDTOById(classgroupId);
     }
 
-    @GetMapping(produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public List<ClassgroupDTO> getAllClassgroups(@RequestParam(required = false) UUID userId) {
-        if (userId == null) {
-            return this.classgroupService.getAllClassgroupsDTO();
-        }
-        return this.classgroupService.getClassgroupsForUserId(userId);
-    }
-
     @PutMapping(path = "/{classgroupId}/add-student")
     @ResponseStatus(HttpStatus.OK)
     public void addStudentToClass(@PathVariable UUID classgroupId, Authentication authentication) {

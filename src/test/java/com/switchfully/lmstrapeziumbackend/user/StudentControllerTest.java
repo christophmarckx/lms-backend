@@ -1,6 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
 import com.switchfully.lmstrapeziumbackend.TestConstants;
+import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
@@ -10,6 +11,7 @@ import io.restassured.http.ContentType;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.UUID;
+
+import static io.restassured.http.ContentType.JSON;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
@@ -105,6 +110,97 @@ class StudentControllerTest {
         Assertions.assertThat(studentDTO)
                 .usingRecursiveComparison()
                 .isEqualTo(TestConstants.TESTING_STUDENT_DTO);
+    }
+
+    @Test
+    @DisplayName("Getting the classgroups of a student with correct id and authentication should return a List of 0 or 1 ClassgroupDTO")
+    void givenCorrectStudentIdAndAuthentication_thenShouldReturnListOfClassgroupDTO() {
+        //Given
+        String TOKEN_STUDENT = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
+        //When
+        List<ClassgroupDTO> classgroupOfStudent = RestAssured
+                .given()
+                .port(port)
+                .header("Authorization", "Bearer " + TOKEN_STUDENT)
+                .accept(JSON)
+                .contentType(JSON)
+                .when()
+                .get("/users/" + TestConstants.TESTING_STUDENT_ID + "/classgroups")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .jsonPath()
+                .getList(".", ClassgroupDTO.class);
+        //Then
+        Assertions
+                .assertThat(classgroupOfStudent)
+                .size()
+                .isLessThanOrEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("Getting the classgroups of a student with wrong id and authentication should throw a 403 error")
+    void givenWrongStudentIdAndCorrectAuthentication_thenShouldReturnA403() {
+        //Given
+        String TOKEN_STUDENT = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
+        //When
+        RestAssured
+                .given()
+                .port(port)
+                .header("Authorization", "Bearer " + TOKEN_STUDENT)
+                .accept(JSON)
+                .contentType(JSON)
+                .when()
+                .get("/users/c3be0437-d6cf-4cdc-9c92-26f002f8c55e/classgroups")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.FORBIDDEN.value());
+    }
+
+    @Test
+    @DisplayName("Getting the classgroups of a coach with correct id and authentication should return a List of 0 or infinite ClassgroupDTO")
+    void givenCorrectCorrectIdAndAuthentication_thenShouldReturnListOfClassgroupDTO() {
+        //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+        //When
+        List<ClassgroupDTO> classgroupOfCoach = RestAssured
+                .given()
+                .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
+                .accept(JSON)
+                .contentType(JSON)
+                .when()
+                .get("/users/" + TestConstants.TESTING_COACH.getId() + "/classgroups")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .jsonPath()
+                .getList(".", ClassgroupDTO.class);
+        //Then
+        Assertions
+                .assertThat(classgroupOfCoach)
+                .contains(TestConstants.CLASSGROUP_DTO_1);
+    }
+
+    @Test
+    @DisplayName("Getting the classgroups of a coach with wrong id and authentication should throw a 403 error")
+    void givenWrongCoachIdAndCorrectAuthentication_thenShouldReturnA403() {
+        //Given
+        String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+        //When
+        RestAssured
+                .given()
+                .port(port)
+                .header("Authorization", "Bearer " + TOKEN_COACH)
+                .accept(JSON)
+                .contentType(JSON)
+                .when()
+                .get("/users/c3be0437-d6cf-4cdc-9c92-26f002f8c55e/classgroups")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.FORBIDDEN.value());
     }
 
     @AfterAll

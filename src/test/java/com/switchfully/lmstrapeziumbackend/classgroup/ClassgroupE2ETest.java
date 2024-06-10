@@ -149,6 +149,5 @@ public class ClassgroupE2ETest {
 
         Assertions.assertThat(classGroupToVerifyStudentOf.getUsers()).extracting("id").containsOnlyOnce(userToCheck.getId());
         Assertions.assertThat(userToCheck.getClassgroups()).extracting("id").containsExactly(classGroupToVerifyStudentOf.getId());
-
     }
 }

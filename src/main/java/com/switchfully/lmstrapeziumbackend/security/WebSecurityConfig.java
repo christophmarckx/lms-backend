@@ -38,6 +38,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.POST, "/students").not().hasAnyAuthority(STUDENT, COACH)
                         .requestMatchers(HttpMethod.GET, "/students/**").hasAuthority(STUDENT)
                         .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority(COACH, STUDENT)
+                        .requestMatchers(HttpMethod.GET, "/users/*/classgroups").hasAnyAuthority(COACH, STUDENT)
                         .requestMatchers(HttpMethod.GET, "/coaches").hasAuthority(COACH)
                         .requestMatchers(HttpMethod.POST, "/modules").hasAuthority(COACH)
                         .requestMatchers(HttpMethod.GET, "/modules/**").hasAnyAuthority(COACH, STUDENT)

@@ -83,7 +83,7 @@ public class TestConstants {
 
     //****************** COACHS ******************//
 
-    public static final User TESTING_COACH = new User(UUID.fromString("e0e8b087-df45-11ec-9d64-0242ac120002"), "admin@example.com", "Admin User", UserRole.COACH);
+    public static final User TESTING_COACH = new User(UUID.fromString("e0daecc3-2967-496c-a5d8-d25e727bdc74"), "testing@coach.com", "Super Testing Coach", UserRole.COACH);
 
     //****************** CLASSGROUPS ******************//
 
