@@ -117,15 +117,15 @@ class StudentControllerTest {
         String token = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
 
         RestAssured
-            .given()
-            .contentType(ContentType.JSON)
-            .when()
-            .port(port)
-            .header("Authorization", "Bearer " + token)
-            .get("/students/" + UUID.randomUUID())
-            .then()
-            .assertThat()
-            .statusCode(HttpStatus.FORBIDDEN.value());
+                .given()
+                .contentType(ContentType.JSON)
+                .when()
+                .port(port)
+                .header("Authorization", "Bearer " + token)
+                .get("/students/" + UUID.randomUUID())
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.FORBIDDEN.value());
     }
 
     @Test

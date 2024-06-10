@@ -3,8 +3,6 @@ package com.switchfully.lmstrapeziumbackend.user;
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.dto.AuthenticatedUserDTO;
-import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
-import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

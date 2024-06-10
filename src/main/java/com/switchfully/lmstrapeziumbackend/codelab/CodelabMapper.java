@@ -33,7 +33,7 @@ public class CodelabMapper {
                 savedCodelab.getName(),
                 savedCodelab.getDescription(),
                 codelabProgress
-                );
+        );
     }
 
     public static CodelabWithModuleDTO toCodelabWithModuleDTO(Codelab savedCodelab) {

@@ -1,6 +1,5 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
-import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.exception.AccessForbiddenException;
 import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
 import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
@@ -9,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
