@@ -1,8 +1,10 @@
 package com.switchfully.lmstrapeziumbackend.codelab;
 
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithCommentsDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
+import com.switchfully.lmstrapeziumbackend.comment.Comment;
 import com.switchfully.lmstrapeziumbackend.module.Module;
 import com.switchfully.lmstrapeziumbackend.module.ModuleMapper;
 import com.switchfully.lmstrapeziumbackend.progress.CodelabProgress;
@@ -51,5 +53,13 @@ public class CodelabMapper {
         return IntStream.range(0, codelabs.size())
                 .mapToObj(i -> toDTO(codelabs.get(i), codelabProgresses.get(i)))
                 .toList();
+    }
+
+    public static CodelabWithCommentsDTO toCodelabWithCommentsDTO(Codelab savedCodelab, List<Comment> comments) {
+        return new CodelabWithCommentsDTO(savedCodelab.getId(),
+                savedCodelab.getName(),
+                savedCodelab.getDescription(),
+                comments.stream().map(CommentMapper::toDTO).toList()
+        );
     }
 }

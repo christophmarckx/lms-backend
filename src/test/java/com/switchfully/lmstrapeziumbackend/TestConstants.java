@@ -3,10 +3,7 @@ package com.switchfully.lmstrapeziumbackend;
 import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.UpdateCodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.*;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.dto.*;
 import com.switchfully.lmstrapeziumbackend.module.Module;
@@ -127,4 +124,8 @@ public class TestConstants {
         mapExpected.put("errors", errorsMap);
         return mapExpected;
     }
+
+    public static final CreateCommentDTO CREATE_COMMENT_DTO = new CreateCommentDTO(
+      "Mon super commentaire"
+    );
 }
