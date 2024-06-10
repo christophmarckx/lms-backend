@@ -24,13 +24,6 @@ public class ClassgroupController {
         this.classgroupService = classgroupService;
     }
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ClassgroupDTO createClassgroup(@Valid @RequestBody CreateClassgroupDTO createClassgroupDTO) {
-        this.logger.info("POST /classgroups: Creating a classgroup");
-        return this.classgroupService.createClassgroup(createClassgroupDTO);
-    }
-
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public List<ClassgroupDTO> getAllClassgroups() {
@@ -42,6 +35,13 @@ public class ClassgroupController {
     public ClassgroupWithMembersDTO getClassgroup(@PathVariable UUID classgroupId) {
         this.logger.info("GET /classgroups Getting a classgroup by id");
         return this.classgroupService.getClassgroupWithMembersDTOById(classgroupId);
+    }
+
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClassgroupDTO createClassgroup(@Valid @RequestBody CreateClassgroupDTO createClassgroupDTO) {
+        this.logger.info("POST /classgroups: Creating a classgroup");
+        return this.classgroupService.createClassgroup(createClassgroupDTO);
     }
 
     @PutMapping(path = "/{classgroupId}/add-student")

@@ -28,12 +28,6 @@ public class StudentController {
         this.classgroupService = classgroupService;
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public StudentDTO createStudent(@RequestBody @Valid CreateStudentDTO createStudentDTO) {
-        return this.studentService.createStudent(createStudentDTO);
-    }
-
     @GetMapping(produces = "application/json", path = "{studentId}")
     @ResponseStatus(HttpStatus.OK)
     public StudentDTO getStudentById(@PathVariable UUID studentId, Authentication authentication) {
@@ -49,5 +43,11 @@ public class StudentController {
             return ResponseEntity.of(optCourseDTO);
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public StudentDTO createStudent(@RequestBody @Valid CreateStudentDTO createStudentDTO) {
+        return this.studentService.createStudent(createStudentDTO);
     }
 }

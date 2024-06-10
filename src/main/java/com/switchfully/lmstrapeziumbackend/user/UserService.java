@@ -1,6 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.user;
 
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
+import com.switchfully.lmstrapeziumbackend.exception.AccessForbiddenException;
 import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
 import com.switchfully.lmstrapeziumbackend.security.AuthenticationService;
 import com.switchfully.lmstrapeziumbackend.user.dto.AuthenticatedUserDTO;
@@ -25,9 +26,13 @@ public class UserService {
         this.authenticationService = authenticationService;
     }
 
-    public AuthenticatedUserDTO getAuthenticatedUser(Authentication authentication) {
+    public AuthenticatedUserDTO getAuthenticatedUser(UUID userId, Authentication authentication) {
         UUID authenticatedUserId = this.authenticationService.getAuthenticatedUserId(authentication)
                 .orElseThrow(UserNotFoundException::new);
+
+        if (!authenticatedUserId.equals(userId)) {
+            throw new AccessForbiddenException();
+        }
 
         return this.userMapper.toDTO(
                 this.userRepository.findById(authenticatedUserId)

@@ -22,10 +22,10 @@ public class UserController {
         this.classgroupService = classgroupService;
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json", path = "/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public AuthenticatedUserDTO getAuthenticatedUser(Authentication authentication) {
-        return this.userService.getAuthenticatedUser(authentication);
+    public AuthenticatedUserDTO getAuthenticatedUser(@PathVariable UUID userId, Authentication authentication) {
+        return this.userService.getAuthenticatedUser(userId, authentication);
     }
 
     @GetMapping(produces = "application/json", path = "/{userId}/classgroups")
