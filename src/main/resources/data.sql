@@ -15,6 +15,8 @@ INSERT INTO lms.app_user (id, email_address, display_name, role)
 VALUES ('1efd5bca-ce77-4f16-8d31-6f30205dd4e5', 'testing@student.com', 'Super Testing Student', 'STUDENT'),
        ('e0daecc3-2967-496c-a5d8-d25e727bdc74', 'testing@coach.com', 'Super Testing Coach', 'COACH'),
        ('e0e8b085-df45-11ec-9d64-0242ac120002', 'john.doe@example.com', 'John Doe', 'STUDENT'),
+       ('75e4bdbe-2350-4990-94e7-19c6709e0627', 'studenttest@lms.com', 'Just a random student', 'STUDENT'),
+       ('c99d23ac-888c-4954-be62-2d8b5a93d2f1', 'coachtest@lms.com', 'The Motherf*cking GOAT', 'COACH'),
        ('e0e8b086-df45-11ec-9d64-0242ac120002', 'jane.smith@example.com', 'Jane Smith', 'STUDENT');
 -- Inserting data into classgroup_app_user table
 INSERT INTO lms.classgroup_app_user (classgroup_id, app_user_id)
