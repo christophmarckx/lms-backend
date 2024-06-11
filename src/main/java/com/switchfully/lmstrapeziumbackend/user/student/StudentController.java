@@ -4,6 +4,7 @@ import com.switchfully.lmstrapeziumbackend.classgroup.ClassgroupService;
 import com.switchfully.lmstrapeziumbackend.course.dto.CourseSummaryDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
+import com.switchfully.lmstrapeziumbackend.user.dto.StudentWithProgressDTO;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,6 +38,7 @@ public class StudentController {
     }
 
     @GetMapping("{studentId}/course")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CourseSummaryDTO> getFollowedCourseByStudentId(@PathVariable UUID studentId, Authentication authentication) {
         this.logger.info("GET /students: Get course followed by a student");
         Optional<CourseSummaryDTO> optCourseDTO = studentService.getCourseFollowedByStudentId(authentication, studentId);
@@ -45,6 +48,12 @@ public class StudentController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("progress")
+    @ResponseStatus(HttpStatus.OK)
+    public List<StudentWithProgressDTO> getStudentsWithProgress() {
+        return studentService.getStudentsWithProgress();
+    }
+  
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public StudentDTO createStudent(@RequestBody @Valid CreateStudentDTO createStudentDTO) {

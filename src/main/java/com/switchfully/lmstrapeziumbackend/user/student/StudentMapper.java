@@ -4,6 +4,7 @@ import com.switchfully.lmstrapeziumbackend.user.User;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.user.dto.CreateStudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
+import com.switchfully.lmstrapeziumbackend.user.dto.StudentWithProgressDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -23,5 +24,9 @@ public class StudentMapper {
 
     public static User toUser(UUID userIdFromKeycloak, CreateStudentDTO createStudentDTO) {
         return new User(userIdFromKeycloak, createStudentDTO.email(), createStudentDTO.displayName(), UserRole.STUDENT);
+    }
+
+    public static StudentWithProgressDTO toStudentWithProgressDTO(User student, int actualProgression, int totalProgression) {
+        return new StudentWithProgressDTO(StudentMapper.toDTO(student),  actualProgression, totalProgression);
     }
 }
