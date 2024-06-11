@@ -17,6 +17,8 @@ import com.switchfully.lmstrapeziumbackend.user.coach.CoachService;
 import com.switchfully.lmstrapeziumbackend.user.dto.CoachDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 import com.switchfully.lmstrapeziumbackend.user.student.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,18 +31,17 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class ClassgroupService {
+
     private final ClassgroupRepository classgroupRepository;
     private final CourseService courseService;
     private final UserService userService;
-    private final StudentService studentService;
     private final CoachService coachService;
     private final AuthenticationService authenticationService;
 
-    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, UserService userService, CoachService coachService, StudentService studentService, AuthenticationService authenticationService) {
+    public ClassgroupService(ClassgroupRepository classgroupRepository, CourseService courseService, UserService userService, CoachService coachService, AuthenticationService authenticationService) {
         this.classgroupRepository = classgroupRepository;
         this.courseService = courseService;
         this.userService = userService;
-        this.studentService = studentService;
         this.coachService = coachService;
         this.authenticationService = authenticationService;
     }
@@ -78,7 +79,7 @@ public class ClassgroupService {
 
     public ClassgroupWithMembersDTO getClassgroupWithMembersDTOById(UUID classgroupId) {
         Classgroup classgroup = this.getById(classgroupId);
-        List<StudentDTO> students = this.studentService.getStudentsFollowingClass(classgroup);
+        List<StudentDTO> students = this.userService.getStudentsFollowingClass(classgroup);
         List<CoachDTO> coaches = this.coachService.getCoachesFollowingClass(classgroup);
         return ClassgroupMapper.toDTO(classgroup, students, coaches);
     }

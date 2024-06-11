@@ -59,13 +59,6 @@ public class StudentService {
         return StudentMapper.toDTO(this.userRepository.save(StudentMapper.toUser(userKeycloakId, createStudentDTO)));
     }
 
-    public List<StudentDTO> getStudentsFollowingClass(Classgroup classgroup) {
-        return this.userRepository
-                .findAllByClassgroupsAndRole(classgroup, UserRole.STUDENT)
-                .stream().map(StudentMapper::toDTO)
-                .toList();
-    }
-
     public StudentDTO getStudentByAuthentication(Authentication authentication, UUID studentId) {
 
         UUID authenticatedUserId = this.authenticationService.getAuthenticatedUserId(authentication)
