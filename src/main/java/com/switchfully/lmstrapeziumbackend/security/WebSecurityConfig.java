@@ -36,6 +36,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                                 "/swagger-ui.html"
                         ).permitAll() //Swagger-ui
                         .requestMatchers(HttpMethod.POST, "/students").not().hasAnyAuthority(STUDENT, COACH)
+                        .requestMatchers(HttpMethod.GET, "/students").hasAnyAuthority(STUDENT, COACH)
                         .requestMatchers(HttpMethod.GET, "/students/progress").hasAuthority(COACH)
                         .requestMatchers(HttpMethod.GET, "/students/*/course").hasAnyAuthority(STUDENT, COACH)
                         .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority(COACH, STUDENT)
