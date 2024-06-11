@@ -27,8 +27,9 @@ public class UserService {
     public AuthenticatedUserDTO getAuthenticatedUser(UUID userId, Authentication authentication) {
         UUID authenticatedUserId = this.authenticationService.getAuthenticatedUserId(authentication)
                 .orElseThrow(UserNotFoundException::new);
+        UserRole userRoleOfAuthenticated = authenticationService.getAuthenticatedUserRole(authentication);
 
-        if (!authenticatedUserId.equals(userId)) {
+        if (!authenticatedUserId.equals(userId) && userRoleOfAuthenticated != UserRole.COACH) {
             throw new AccessForbiddenException();
         }
 
