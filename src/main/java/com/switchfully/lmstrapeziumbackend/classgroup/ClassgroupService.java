@@ -122,7 +122,8 @@ public class ClassgroupService {
 
     public List<ClassgroupDTO> getAllClassgroupsForUserId(UUID userId, Authentication authentication) {
         UUID authenticatedUserId = this.authenticationService.getAuthenticatedUserId(authentication).orElseThrow(UserNotFoundException::new);
-        if (!authenticatedUserId.equals(userId)) {
+        UserRole userRoleOfAuthenticated = authenticationService.getAuthenticatedUserRole(authentication);
+        if (!authenticatedUserId.equals(userId) && userRoleOfAuthenticated != UserRole.COACH) {
             throw new AccessForbiddenException();
         }
         return getClassgroupsForUserId(userId);

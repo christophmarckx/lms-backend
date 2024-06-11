@@ -120,7 +120,6 @@ public class ClassgroupE2ETest {
         Assertions.assertThat(response).isEqualTo("You can only give Coaches to create a classgroup");
     }
 
-    //BAD test sucks a bit. We cannot integration test edge cases because we need authentication to access the service. plz help michael
     @Test
     @DisplayName("Adding a student to a classgroup if they are already on another classgroup will override their current re")
     void givenStudentAlreadyRegistered_whenAddingStudentToOtherClassGroup_ThenClassgroupIsChanged() {

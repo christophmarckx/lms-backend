@@ -201,10 +201,11 @@ class StudentControllerTest {
     }
 
     @Test
-    @DisplayName("Getting the classgroups of a coach with wrong id and authentication should throw a 403 error")
-    void givenWrongCoachIdAndCorrectAuthentication_thenShouldReturnA403() {
+    @DisplayName("Getting the classgroups of a user with different id and authentication if user is coach will return a list of classgroupDTO")
+    void givendifferentAuthAndId_ifUserIsCoach_thenShouldReturnListOfClassgroupDTO() {
         //Given
         String TOKEN_COACH = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
+        UUID USER_ID = UUID.fromString("1efd5bca-ce77-4f16-8d31-6f30205dd4e5");
         //When
         RestAssured
                 .given()
@@ -213,10 +214,10 @@ class StudentControllerTest {
                 .accept(JSON)
                 .contentType(JSON)
                 .when()
-                .get("/users/c3be0437-d6cf-4cdc-9c92-26f002f8c55e/classgroups")
+                .get(String.format("/users/%s/classgroups", USER_ID))
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.FORBIDDEN.value());
+                .statusCode(HttpStatus.OK.value());
     }
 
     @AfterAll

@@ -34,7 +34,7 @@ public class UserService {
         }
 
         return this.userMapper.toDTO(
-                this.userRepository.findById(authenticatedUserId)
+                this.userRepository.findById(userId)
                         .orElseThrow(UserNotFoundException::new));
     }
 

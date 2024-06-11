@@ -8,6 +8,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,18 +108,19 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Given different authentication and userId, when user is coach, then retrieving user by id will return authenticated userDTO")
     void givenAExistingId_whenGetACoachByIdWithWrongIdInPath_thenThrowError() {
         String token = keycloakTestingUtility.getTokenFromTestingUser(UserRole.COACH);
-
+        UUID USER_ID = UUID.fromString("1efd5bca-ce77-4f16-8d31-6f30205dd4e5");
         RestAssured
                 .given()
                 .contentType(ContentType.JSON)
                 .when()
                 .port(port)
                 .header("Authorization", "Bearer " + token)
-                .get("/users/" + UUID.randomUUID())
+                .get("/users/" + USER_ID)
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.FORBIDDEN.value());
+                .statusCode(HttpStatus.OK.value());
     }
 }
