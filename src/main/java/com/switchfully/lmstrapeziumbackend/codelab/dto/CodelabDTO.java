@@ -1,7 +1,6 @@
 package com.switchfully.lmstrapeziumbackend.codelab.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 import com.switchfully.lmstrapeziumbackend.progress.CodelabProgress;
 
 import java.util.UUID;

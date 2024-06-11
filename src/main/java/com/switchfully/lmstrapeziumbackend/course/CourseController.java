@@ -23,25 +23,11 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public CourseDTO createCourse(@Valid @RequestBody CreateCourseDTO createCourseDTO) {
-        this.logger.info("POST /courses: Creating a course");
-        return this.courseService.createCourse(createCourseDTO);
-    }
-
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public List<CourseSummaryDTO> getAllCourses() {
         this.logger.info("GET /courses: Getting all courses");
         return courseService.getAllSummaryCourses();
-    }
-
-    @PutMapping(consumes = "application/json", produces = "application/json", path = "{courseId}")
-    @ResponseStatus(HttpStatus.OK)
-    public CourseDTO updateCourse(@PathVariable UUID courseId, @Valid @RequestBody UpdateCourseDTO updateCourseDTO) {
-        this.logger.info("PUT /courses: Updating a course");
-        return courseService.updateCourse(courseId, updateCourseDTO);
     }
 
     @GetMapping(produces = "application/json", path = "{courseId}")
@@ -56,5 +42,19 @@ public class CourseController {
     public CourseWithModulesDTO getCourseWithModulesById(@PathVariable UUID courseId, Authentication authentication) {
         this.logger.info("GET /courses: Getting a course with modules by id");
         return courseService.getCourseWithModulesById(authentication, courseId);
+    }
+
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CourseDTO createCourse(@Valid @RequestBody CreateCourseDTO createCourseDTO) {
+        this.logger.info("POST /courses: Creating a course");
+        return this.courseService.createCourse(createCourseDTO);
+    }
+
+    @PutMapping(consumes = "application/json", produces = "application/json", path = "{courseId}")
+    @ResponseStatus(HttpStatus.OK)
+    public CourseDTO updateCourse(@PathVariable UUID courseId, @Valid @RequestBody UpdateCourseDTO updateCourseDTO) {
+        this.logger.info("PUT /courses: Updating a course");
+        return courseService.updateCourse(courseId, updateCourseDTO);
     }
 }

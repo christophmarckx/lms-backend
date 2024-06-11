@@ -6,7 +6,6 @@ import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +19,14 @@ public class ClassgroupController {
     private final Logger logger = LoggerFactory.getLogger(ClassgroupController.class);
     private final ClassgroupService classgroupService;
 
-
-    @Autowired
     public ClassgroupController(ClassgroupService classgroupService) {
         this.classgroupService = classgroupService;
     }
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ClassgroupDTO createClassgroup(@Valid @RequestBody CreateClassgroupDTO createClassgroupDTO) {
-        this.logger.info("POST /classgroups: Creating a classgroup");
-        return this.classgroupService.createClassgroup(createClassgroupDTO);
+    @GetMapping(produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ClassgroupDTO> getAllClassgroups() {
+        return this.classgroupService.getAllClassgroupsDTO();
     }
 
     @GetMapping(produces = "application/json", path = "{classgroupId}")
@@ -40,13 +36,11 @@ public class ClassgroupController {
         return this.classgroupService.getClassgroupWithMembersDTOById(classgroupId);
     }
 
-    @GetMapping(produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public List<ClassgroupDTO> getAllClassgroups(@RequestParam(required = false) UUID userId) {
-        if (userId == null) {
-            return this.classgroupService.getAllClassgroupsDTO();
-        }
-        return this.classgroupService.getClassgroupsForUserId(userId);
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClassgroupDTO createClassgroup(@Valid @RequestBody CreateClassgroupDTO createClassgroupDTO) {
+        this.logger.info("POST /classgroups: Creating a classgroup");
+        return this.classgroupService.createClassgroup(createClassgroupDTO);
     }
 
     @PutMapping(path = "/{classgroupId}/add-student")

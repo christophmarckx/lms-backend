@@ -19,12 +19,6 @@ public class CodelabController {
         this.codelabService = codelabService;
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public CodelabDTO createCodelab(@RequestBody @Valid CreateCodelabDTO codelabDTO) {
-        return codelabService.createCodelab(codelabDTO);
-    }
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CodelabDTO> getAll() {
@@ -35,6 +29,12 @@ public class CodelabController {
     @ResponseStatus(HttpStatus.OK)
     public CodelabWithModuleDTO getById(@PathVariable UUID id) {
         return codelabService.getById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CodelabDTO createCodelab(@RequestBody @Valid CreateCodelabDTO codelabDTO) {
+        return codelabService.createCodelab(codelabDTO);
     }
 
     @PutMapping("/{id}")

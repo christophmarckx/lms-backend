@@ -102,7 +102,7 @@ public class CourseService {
     private Optional<ModuleWithCodelabsDTO> getModuleWithCodelabsDTOFromModuleInsideACourse(Module module, Course course, boolean needCodelabsProgression, User student) {
         List<ModuleWithCodelabsDTO> childModuleWithCodelabsDTOs = new ArrayList<>();
 
-        for (Module childModule: module.getChildModules()) {
+        for (Module childModule : module.getChildModules()) {
             getModuleWithCodelabsDTOFromModuleInsideACourse(childModule, course, needCodelabsProgression, student)
                     .ifPresent(moduleWithCodelabsDTO -> {
                         if (moduleWithCodelabsDTO.id() == null) {

@@ -5,6 +5,7 @@ import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupWithMembersD
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.CourseService;
+import com.switchfully.lmstrapeziumbackend.exception.AccessForbiddenException;
 import com.switchfully.lmstrapeziumbackend.exception.ClassgroupNotFoundException;
 import com.switchfully.lmstrapeziumbackend.exception.IllegalUserRoleException;
 import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
@@ -99,7 +100,7 @@ public class ClassgroupService {
                 .collect(Collectors.toList());
     }
 
-    public List<ClassgroupDTO> getClassgroupsForUserId(UUID userId) {
+    private List<ClassgroupDTO> getClassgroupsForUserId(UUID userId) {
         User myUser = this.userService.getUserById(userId);
         List<Classgroup> classgroups = getAllClassgroups();
 
@@ -117,5 +118,14 @@ public class ClassgroupService {
         Classgroup classgroupToModify = getById(classgroupId);
         classgroupToModify.addUser(studentToAdd);
         classgroupRepository.save(classgroupToModify);
+    }
+
+    public List<ClassgroupDTO> getAllClassgroupsForUserId(UUID userId, Authentication authentication) {
+        UUID authenticatedUserId = this.authenticationService.getAuthenticatedUserId(authentication).orElseThrow(UserNotFoundException::new);
+        UserRole userRoleOfAuthenticated = authenticationService.getAuthenticatedUserRole(authentication);
+        if (!authenticatedUserId.equals(userId) && userRoleOfAuthenticated != UserRole.COACH) {
+            throw new AccessForbiddenException();
+        }
+        return getClassgroupsForUserId(userId);
     }
 }
