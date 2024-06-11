@@ -30,20 +30,15 @@ public class StudentController {
         this.classgroupService = classgroupService;
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public StudentDTO createStudent(@RequestBody @Valid CreateStudentDTO createStudentDTO) {
-        return this.studentService.createStudent(createStudentDTO);
-    }
-
-    @GetMapping(produces = "application/json")
+    @GetMapping(produces = "application/json", path = "{studentId}")
     @ResponseStatus(HttpStatus.OK)
-    public StudentDTO getStudentById(/*@PathVariable UUID studentId, */Authentication authentication) {
+    public StudentDTO getStudentById(@PathVariable UUID studentId, Authentication authentication) {
         this.logger.info("GET /students: Get student by bearer token");
-        return studentService.getStudentByAuthentication(authentication/*, studentId*/);
+        return studentService.getStudentByAuthentication(authentication, studentId);
     }
 
     @GetMapping("{studentId}/course")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CourseSummaryDTO> getFollowedCourseByStudentId(@PathVariable UUID studentId, Authentication authentication) {
         this.logger.info("GET /students: Get course followed by a student");
         Optional<CourseSummaryDTO> optCourseDTO = studentService.getCourseFollowedByStudentId(authentication, studentId);
@@ -54,7 +49,14 @@ public class StudentController {
     }
 
     @GetMapping("progress")
+    @ResponseStatus(HttpStatus.OK)
     public List<StudentWithProgressDTO> getStudentsWithProgress() {
         return studentService.getStudentsWithProgress();
+    }
+  
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public StudentDTO createStudent(@RequestBody @Valid CreateStudentDTO createStudentDTO) {
+        return this.studentService.createStudent(createStudentDTO);
     }
 }

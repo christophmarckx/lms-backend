@@ -3,10 +3,7 @@ package com.switchfully.lmstrapeziumbackend;
 import com.switchfully.lmstrapeziumbackend.classgroup.Classgroup;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.ClassgroupDTO;
 import com.switchfully.lmstrapeziumbackend.classgroup.dto.CreateClassgroupDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.UpdateCodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.*;
 import com.switchfully.lmstrapeziumbackend.course.Course;
 import com.switchfully.lmstrapeziumbackend.course.dto.*;
 import com.switchfully.lmstrapeziumbackend.module.Module;
@@ -15,6 +12,7 @@ import com.switchfully.lmstrapeziumbackend.module.dto.ModuleDTO;
 import com.switchfully.lmstrapeziumbackend.module.dto.ModuleWithCodelabsDTO;
 import com.switchfully.lmstrapeziumbackend.user.User;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
+import com.switchfully.lmstrapeziumbackend.user.dto.AuthenticatedUserDTO;
 import com.switchfully.lmstrapeziumbackend.user.dto.StudentDTO;
 
 import java.util.*;
@@ -29,6 +27,7 @@ public class TestConstants {
 
     public static final User STUDENT_JOHN_DOE = new User(UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002"), "john.doe@example.com", "John Doe", UserRole.STUDENT);
     public static final StudentDTO STUDENT_DTO = new StudentDTO(UUID.fromString("e0e8b085-df45-11ec-9d64-0242ac120002"), "john.doe@example.com", "John Doe");
+    public static final AuthenticatedUserDTO AUTHENTICATED_STUDENT_DTO = new AuthenticatedUserDTO(TESTING_STUDENT_ID, TESTING_STUDENT_DTO.email(), TESTING_STUDENT_DTO.displayName(), UserRole.STUDENT);
 
     //****************** MODULES ******************//
     public static final CreateModuleDTO CREATE_MODULE_DTO_1 = new CreateModuleDTO("Intro to Programming", null);
@@ -83,7 +82,8 @@ public class TestConstants {
 
     //****************** COACHS ******************//
 
-    public static final User TESTING_COACH = new User(UUID.fromString("e0e8b087-df45-11ec-9d64-0242ac120002"), "admin@example.com", "Admin User", UserRole.COACH);
+    public static final User TESTING_COACH = new User(UUID.fromString("e0daecc3-2967-496c-a5d8-d25e727bdc74"), "testing@coach.com", "Super Testing Coach", UserRole.COACH);
+    public static final AuthenticatedUserDTO AUTHENTICATED_COACH_DTO = new AuthenticatedUserDTO(TESTING_COACH.getId(), TESTING_COACH.getEmail(), TESTING_COACH.getDisplayName(), UserRole.COACH);
 
     //****************** CLASSGROUPS ******************//
 
@@ -127,4 +127,8 @@ public class TestConstants {
         mapExpected.put("errors", errorsMap);
         return mapExpected;
     }
+
+    public static final CreateCommentDTO CREATE_COMMENT_DTO = new CreateCommentDTO(
+      "Mon super commentaire"
+    );
 }

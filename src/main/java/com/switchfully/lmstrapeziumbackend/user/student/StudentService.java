@@ -56,10 +56,14 @@ public class StudentService {
                 .toList();
     }
 
-    public StudentDTO getStudentByAuthentication(Authentication authentication/*, UUID studentId*/) {
+    public StudentDTO getStudentByAuthentication(Authentication authentication, UUID studentId) {
 
         UUID authenticatedUserId = this.authenticationService.getAuthenticatedUserId(authentication)
                 .orElseThrow(UserNotFoundException::new);
+
+        if (!authenticatedUserId.equals(studentId)) {
+            throw new AccessForbiddenException();
+        }
 
         Optional<User> userOptional = userRepository.findById(authenticatedUserId);
         if (userOptional.isEmpty()) {

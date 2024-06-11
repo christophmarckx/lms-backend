@@ -3,6 +3,8 @@ package com.switchfully.lmstrapeziumbackend.codelab;
 import com.switchfully.lmstrapeziumbackend.TestConstants;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
 import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.CommentDTO;
+import com.switchfully.lmstrapeziumbackend.comment.Comment;
 import com.switchfully.lmstrapeziumbackend.security.KeycloakService;
 import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import com.switchfully.lmstrapeziumbackend.utility.KeycloakTestingUtility;
@@ -174,5 +176,34 @@ class CodelabControllerTest {
                 .as(CodelabWithModuleDTO.class);
         //Then
         Assertions.assertThat(codelabWithModuleDTO).isEqualTo(TestConstants.CODELAB_WITH_MODULE_DTO_1);
+    }
+
+    @Test
+    @DisplayName("Trying to create a comment with correct data on a codelab should work")
+    void givenAValidCreateCommentDTO_thenShouldReturnACommentDTO() {
+        //Given
+        String TOKEN_STUDENT = keycloakTestingUtility.getTokenFromTestingUser(UserRole.STUDENT);
+        //When
+        CommentDTO actualCreatedComment = RestAssured
+                .given()
+                .port(port)
+                .header("Authorization", "Bearer " + TOKEN_STUDENT)
+                .accept(JSON)
+                .contentType(JSON)
+                .body(TestConstants.CREATE_COMMENT_DTO)
+                .when()
+                .post(URI + "/" + TestConstants.CODELAB_DTO_1.id() + "/comments")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .as(CommentDTO.class);
+        //Then
+        Comment expected = entityManager.createQuery("select c from Comment c where c.id = :id", Comment.class).setParameter("id", actualCreatedComment.id()).getSingleResult();
+
+        assertThat(actualCreatedComment)
+                .usingRecursiveComparison()
+                .ignoringFields("codelab", "student", "codelabId")
+                .isEqualTo(expected);
     }
 }

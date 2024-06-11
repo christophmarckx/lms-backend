@@ -1,9 +1,7 @@
 package com.switchfully.lmstrapeziumbackend.codelab;
 
-import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.CodelabWithModuleDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.CreateCodelabDTO;
-import com.switchfully.lmstrapeziumbackend.codelab.dto.UpdateCodelabDTO;
+import com.switchfully.lmstrapeziumbackend.codelab.dto.*;
+import com.switchfully.lmstrapeziumbackend.comment.Comment;
 import com.switchfully.lmstrapeziumbackend.exception.AccessForbiddenException;
 import com.switchfully.lmstrapeziumbackend.exception.CodelabNotFoundException;
 import com.switchfully.lmstrapeziumbackend.exception.UserNotFoundException;
@@ -19,7 +17,10 @@ import com.switchfully.lmstrapeziumbackend.user.UserRole;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,15 +33,18 @@ public class CodelabService {
     private final ProgressRepository progressRepository;
     private final AuthenticationService authenticationService;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     public CodelabService(CodelabRepository codelabRepository, ModuleService moduleService,
                           ProgressRepository progressRepository, AuthenticationService authenticationService,
-                          UserRepository userRepository) {
+                          UserRepository userRepository,
+                          CommentRepository commentRepository) {
         this.codelabRepository = codelabRepository;
         this.moduleService = moduleService;
         this.progressRepository = progressRepository;
         this.authenticationService = authenticationService;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
     }
 
     public CodelabDTO createCodelab(CreateCodelabDTO codelabDTO) {
@@ -105,5 +109,20 @@ public class CodelabService {
             progressRepository.save(progress);
 
         return CodelabMapper.toDTO(codelab, codelabProgress);
+    }
+
+    public CommentDTO createCodelabComment(@PathVariable UUID codelabId, @RequestBody CreateCommentDTO codelabCommentDTO, Authentication authentication) {
+        Codelab codelab = this.getCodelabById(codelabId);
+        UUID userId = authenticationService.getAuthenticatedUserId(authentication).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
+        return CommentMapper.toDTO(this.commentRepository.save(CommentMapper.toComment(codelabCommentDTO, codelab, user)));
+    }
+
+    public CodelabWithCommentsDTO getCodelabWithCommentsById(UUID id) {
+        Codelab codelab = this.getCodelabById(id);
+        List<Comment> comments = this.commentRepository.findAllByCodelab(codelab);
+        List<CommentDTO> commentDTOS = new ArrayList<>();
+        return CodelabMapper.toCodelabWithCommentsDTO(codelab, comments);
     }
 }
