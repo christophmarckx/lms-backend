@@ -50,8 +50,8 @@ public class StudentController {
 
     @GetMapping("progress")
     @ResponseStatus(HttpStatus.OK)
-    public List<StudentWithProgressDTO> getStudentsWithProgress() {
-        return studentService.getStudentsWithProgress();
+    public List<StudentWithProgressDTO> getStudentsWithProgress(@RequestParam(required = false) UUID classgroupId) {
+        return studentService.getStudentsWithProgress(classgroupId);
     }
   
     @PostMapping
